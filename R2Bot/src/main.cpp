@@ -2,11 +2,11 @@
 #include "JobHandler.h"
 #include "JobQueue.h"
 #include "Sensor.h"
-#include <list>
+#include <vector>
 
-std::list<Sensor> sensors;
-std::list<Controller> controllers;
-std::list<JobHandler> jobHandlers;
+std::vector<Sensor> sensors;
+std::vector<Controller> controllers;
+std::vector<JobHandler> jobHandlers;
 JobQueue jobQueue;
 
 /** Initializes a Sensor object for each sensor */
