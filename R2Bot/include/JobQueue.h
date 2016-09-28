@@ -15,6 +15,7 @@ protected:
 	void receiveJobs();
 
 public:
+	JobQueue();
 	JobQueue(std::string host, int port);
 	~JobQueue();
 
