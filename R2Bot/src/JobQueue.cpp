@@ -1,5 +1,9 @@
 #include "JobQueue.h"
 
+JobQueue::JobQueue() : hostName(""), portNumber(0)
+{
+}
+
 JobQueue::JobQueue(std::string host, int port) : hostName(host), portNumber(port)
 {
 }
