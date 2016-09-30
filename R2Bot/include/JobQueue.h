@@ -3,6 +3,7 @@
 
 #include <string>
 #include <queue>
+#include <fstream>
 
 class JobQueue
 {
@@ -16,7 +17,7 @@ protected:
 
 public:
 	JobQueue();
-	JobQueue(std::string host, int port);
+	JobQueue(std::string jobsFile, std::string host, int port);
 	~JobQueue();
 
 	/** Places oldest job in str and returns true if there was a job to put */
