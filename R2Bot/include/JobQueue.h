@@ -20,6 +20,12 @@ public:
 	JobQueue(std::string jobsFile, std::string host, int port);
 	~JobQueue();
 
+	/** Adds a network interface on which to listen for jobs */
+	void setNetworkInterface(std::string host, int port);
+
+	/** Adds jobs to queue from given file */
+	void addJobsFile(std::string filename);
+
 	/** Places oldest job in str and returns true if there was a job to put */
 	bool getJob(std::string *str);
 };

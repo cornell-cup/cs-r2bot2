@@ -5,9 +5,6 @@
 #include <vector>
 #include <iostream>
 
-#define DEFAULT_HOST "localhost"
-#define DEFAULT_PORT 5555
-
 std::vector<Sensor> sensors;
 std::vector<Controller> controllers;
 std::vector<JobHandler> jobHandlers;
@@ -29,9 +26,7 @@ void initializeJobHandlers() {
 }
 
 /** Initializes the JobQueue object */
-void initializeJobQueue(std::string jobsFile, std::string host, int port) {
-	jobQueue = JobQueue(jobsFile, host, port);
-
+void initializeJobQueue() {
 	// "TODO: initializeJobQueue"
 }
 
@@ -41,18 +36,13 @@ JobHandler getHandlerByJob(std::string job) {
 }
 
 int main(int argc, char *argv[]) {
-	/** Initialize variables */
-	std::string host = DEFAULT_HOST;		// TODO: Changed through argv
-	int port = DEFAULT_PORT;				// TODO: Changed through argv
-
 	/** Handle arguments */
-	std::string jobsFile;
 	for (int i = 0; i < argc; i++) {
 		if (argv[i] == "--jobs-file") {
 			// Set initial jobs file for job_queue initialization
 			if (i + 1 < argc) {
 				i++;
-				jobsFile = argv[i];
+				jobQueue.addJobsFile(argv[i]);
 			}
 			else {
 				std::cout << "jobs-file flag requires an argument";
@@ -64,7 +54,7 @@ int main(int argc, char *argv[]) {
 	initializeSensors();
 	initializeControllers();
 	initializeJobHandlers();
-	initializeJobQueue(jobsFile, host, port);
+	initializeJobQueue();
 
 	/** Main execution loop */
 	while (1) {
