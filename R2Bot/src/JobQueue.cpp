@@ -1,5 +1,7 @@
 #include "JobQueue.h"
 
+// TODO: synchronize queue
+
 JobQueue::JobQueue() : hostName(""), portNumber(0)
 {
 }
@@ -29,10 +31,17 @@ void JobQueue::addJobsFile(std::string filename)
 		jobs.push(line);
 }
 
-bool JobQueue::getJob(std::string * str)
+std::string JobQueue::getJob()
 {
 	// TODO: getJob
-	return false;
+	if (jobs.empty())
+		return "";
+	
+	
+	std::string output = jobs.front;
+	jobs.pop();
+
+	return output;
 }
 
 void JobQueue::receiveJobs()

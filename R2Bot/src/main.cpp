@@ -38,7 +38,7 @@ JobHandler getHandlerByJob(std::string job) {
 int main(int argc, char *argv[]) {
 	/** Handle arguments */
 	for (int i = 0; i < argc; i++) {
-		if (argv[i] == "--jobs-file") {
+		if (std::string(argv[i]) == "--jobs-file") {
 			// Set initial jobs file for job_queue initialization
 			if (i + 1 < argc) {
 				i++;
@@ -58,8 +58,8 @@ int main(int argc, char *argv[]) {
 
 	/** Main execution loop */
 	while (1) {
-		std::string job;
-		if (jobQueue.getJob(&job)) {
+		std::string job = jobQueue.getJob();
+		if (job != "") {
 			JobHandler handler = getHandlerByJob(job);
 			handler.execute(job);
 		}

@@ -26,8 +26,8 @@ public:
 	/** Adds jobs to queue from given file */
 	void addJobsFile(std::string filename);
 
-	/** Places oldest job in str and returns true if there was a job to put */
-	bool getJob(std::string *str);
+	/** Returns oldest job or "" if there is none */
+	std::string getJob();
 };
 
 #endif
