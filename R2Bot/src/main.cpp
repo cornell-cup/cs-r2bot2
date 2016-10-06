@@ -31,24 +31,49 @@ void initializeJobQueue() {
 }
 
 /** Returns the JobHandler object suited to deal with the given job */
-JobHandler getHandlerByJob(std::string job) {
+JobHandler *getHandlerByJob(std::string job) {
 	// "TODO: initializeJobQueue"
+	return nullptr;
 }
 
 int main(int argc, char *argv[]) {
+	std::string host = "";
+	int port = -1;
+
 	/** Handle arguments */
 	for (int i = 0; i < argc; i++) {
-		if (std::string(argv[i]) == "--jobs-file") {
+		std::string arg = std::string(argv[i]);
+		if (arg == "--jobs-file") {
 			// Set initial jobs file for job_queue initialization
-			if (i + 1 < argc) {
-				i++;
+			if (++i < argc) {
 				jobQueue.addJobsFile(argv[i]);
 			}
 			else {
 				std::cout << "jobs-file flag requires an argument";
 			}
 		}
+		else if (arg == "--host") {
+			// Set network host for job_queue initialization
+			if (++i < argc)
+				host = arg;
+			else
+				std::cout << "host flag requires an argument";
+		}
+		else if (arg == "--port") {
+			// Set network port for job_queue initialization
+			if (++i < argc)
+				port = stoi(arg);
+			else
+				std::cout << "port flag requires an argument";
+		}
+		else {
+			// Unrecognized flag
+			std::cout << "Unrecognized flag " << arg;
+		}
 	}
+
+	if (host != "" && port >= 0)
+		jobQueue.setNetworkInterface(host, port);
 
 	/** Initialization */
 	initializeSensors();
@@ -60,8 +85,8 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		std::string job = jobQueue.getJob();
 		if (job != "") {
-			JobHandler handler = getHandlerByJob(job);
-			handler.execute(job);
+			JobHandler *handler = getHandlerByJob(job);
+			handler->execute(job);
 		}
 
 		// TODO: Complete this function

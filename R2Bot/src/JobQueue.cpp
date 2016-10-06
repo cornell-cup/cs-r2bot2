@@ -38,7 +38,7 @@ std::string JobQueue::getJob()
 		return "";
 	
 	
-	std::string output = jobs.front;
+	std::string output = jobs.front();
 	jobs.pop();
 
 	return output;
