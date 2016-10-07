@@ -3,6 +3,7 @@
 
 #include <string>
 #include <queue>
+#include <fstream>
 
 class JobQueue
 {
@@ -16,11 +17,17 @@ protected:
 
 public:
 	JobQueue();
-	JobQueue(std::string host, int port);
+	JobQueue(std::string jobsFile, std::string host, int port);
 	~JobQueue();
 
-	/** Places oldest job in str and returns true if there was a job to put */
-	bool getJob(std::string *str);
+	/** Adds a network interface on which to listen for jobs */
+	void setNetworkInterface(std::string host, int port);
+
+	/** Adds jobs to queue from given file */
+	void addJobsFile(std::string filename);
+
+	/** Returns oldest job or "" if there is none */
+	std::string getJob();
 };
 
 #endif
