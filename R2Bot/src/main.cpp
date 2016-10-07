@@ -4,6 +4,7 @@
 #include "Sensor.h"
 #include <vector>
 #include <iostream>
+#include "KinectSensor.h"
 
 std::vector<Sensor> sensors;
 std::vector<Controller> controllers;
@@ -39,6 +40,10 @@ JobHandler *getHandlerByJob(std::string job) {
 int main(int argc, char *argv[]) {
 	std::string host = "";
 	int port = -1;
+
+	Kinect_main();
+
+
 
 	/** Handle arguments */
 	for (int i = 0; i < argc; i++) {
