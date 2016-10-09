@@ -14,6 +14,7 @@ protected:
 
 public:
 	Sensor(std::string name);
+	Sensor();
 	virtual ~Sensor();
 
 	/** Return the name of the sensor. */

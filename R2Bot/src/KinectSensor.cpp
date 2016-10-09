@@ -1,5 +1,17 @@
-
 #include "KinectSensor.h"
+
+KinectSensor::KinectSensor(std::string sensorName)
+{
+	name = sensorName;
+	NuiCreateSensorByIndex(0, &sensor);
+	// Initialize Kinect Sensor
+	sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH);
+	sensor->NuiCameraElevationSetAngle(0);
+}
+
+KinectSensor::~KinectSensor()
+{
+}
 
 /// <summary>
 /// Save passed in image data to disk as a bitmap
@@ -78,38 +90,32 @@ std::wstring s2ws(const std::string& s)
 	return r;
 }
 
-
-void Kinect_main() {
-	INuiSensor *sensor;
-
-	NuiCreateSensorByIndex(0, &sensor);
-
-	// Initialize Kinect Sensor
-	sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH);
-
+void KinectSensor::getColorData() {
 	NUI_IMAGE_FRAME frame;
 	HANDLE colorEventHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
 	HANDLE colorStreamHandle(INVALID_HANDLE_VALUE);
-
-
+	//Opens up the image stream so that image frames can be obtained
 	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, NUI_IMAGE_DEPTH_MAXIMUM, NUI_IMAGE_STREAM_FRAME_LIMIT_MAXIMUM, colorEventHandle, &colorStreamHandle);
-	
-		HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 1000, &frame);
+	//Gets the next image frame
+	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 1000, &frame);
+	NUI_LOCKED_RECT nlr;
+	frame.pFrameTexture->LockRect(0, &nlr, NULL, 0);
+	if (nlr.Pitch == 0) {
+		std::cout << "No data received from the frame";
+	}
+	else {
+		SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws("C:\\Users\\CornellCup\\Desktop\\image.bmp").c_str());
+	}
+	frame.pFrameTexture->UnlockRect(0);
+	sensor->NuiImageStreamReleaseFrame(colorStreamHandle, &frame);
+}
 
-		NUI_LOCKED_RECT nlr;
-		frame.pFrameTexture->LockRect(0, &nlr, NULL, 0);
+void KinectSensor::getDepthData() {
 
-		if (nlr.Pitch == 0) {
-			std::cout << "No data received from the frame";
-		}
-		else {
-			SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws("C:\\Users\\Osc\\Desktop\\image.bmp").c_str());
+}
 
-		}
-
-		frame.pFrameTexture->UnlockRect(0);
-
-		sensor->NuiImageStreamReleaseFrame(colorStreamHandle, &frame);
-
-
+bool KinectSensor::getSensorData() {
+	getColorData();
+	getDepthData();
+	return true;
 }
