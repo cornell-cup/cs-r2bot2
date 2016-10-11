@@ -7,6 +7,14 @@ KinectSensor::KinectSensor(std::string sensorName)
 	// Initialize Kinect Sensor
 	sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH);
 	sensor->NuiCameraElevationSetAngle(0);
+	//Opens up the image stream so that image frames can be obtained
+	HANDLE colorEventHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
+	colorStreamHandle = HANDLE(INVALID_HANDLE_VALUE);
+	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, NUI_IMAGE_DEPTH_MAXIMUM, NUI_IMAGE_STREAM_FRAME_LIMIT_MAXIMUM, colorEventHandle, &colorStreamHandle);
+	//Opens up the depth image stream so that depth image frames can be obtained
+	HANDLE depthEventHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
+	depthStreamHandle = HANDLE(INVALID_HANDLE_VALUE);
+	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_DEPTH, NUI_IMAGE_RESOLUTION_640x480, 0, 2, depthEventHandle, &depthStreamHandle);
 }
 
 KinectSensor::~KinectSensor()
@@ -92,10 +100,6 @@ std::wstring s2ws(const std::string& s)
 
 void KinectSensor::getColorData() {
 	NUI_IMAGE_FRAME frame;
-	HANDLE colorEventHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
-	HANDLE colorStreamHandle(INVALID_HANDLE_VALUE);
-	//Opens up the image stream so that image frames can be obtained
-	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, NUI_IMAGE_DEPTH_MAXIMUM, NUI_IMAGE_STREAM_FRAME_LIMIT_MAXIMUM, colorEventHandle, &colorStreamHandle);
 	//Gets the next image frame
 	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 1000, &frame);
 	NUI_LOCKED_RECT nlr;
@@ -104,14 +108,47 @@ void KinectSensor::getColorData() {
 		std::cout << "No data received from the frame";
 	}
 	else {
-		SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws("C:\\Users\\CornellCup\\Desktop\\image.bmp").c_str());
+		SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws("C:\\Users\\CornellCup\\Desktop\\kinect_color_image_frame.bmp").c_str());
 	}
 	frame.pFrameTexture->UnlockRect(0);
 	sensor->NuiImageStreamReleaseFrame(colorStreamHandle, &frame);
 }
 
 void KinectSensor::getDepthData() {
-
+	NUI_IMAGE_FRAME frame;
+	//Gets the next depth image frame
+	HRESULT hr = sensor->NuiImageStreamGetNextFrame(depthStreamHandle, 1000, &frame);
+	BOOL nearMode;
+	INuiFrameTexture* pTexture;
+	// Get the image texture information of the depth image frame
+	hr = sensor->NuiImageFrameGetDepthImagePixelFrameTexture(depthStreamHandle, &frame, &nearMode, &pTexture);
+	NUI_LOCKED_RECT nlr;
+	frame.pFrameTexture->LockRect(0, &nlr, NULL, 0);
+	if (nlr.Pitch == 0) {
+		std::cout << "No data received from the frame";
+	}
+	else {
+		//Set the minimum and maximum reliable depth pixel indices to consider
+        int minDepth = (nearMode ? NUI_IMAGE_DEPTH_MINIMUM_NEAR_MODE : NUI_IMAGE_DEPTH_MINIMUM) >> NUI_IMAGE_PLAYER_INDEX_SHIFT;
+		int maxDepth = (nearMode ? NUI_IMAGE_DEPTH_MAXIMUM_NEAR_MODE : NUI_IMAGE_DEPTH_MAXIMUM) >> NUI_IMAGE_PLAYER_INDEX_SHIFT;
+		//Iterate through all NUI_DEPTH_IMAGE_PIXEL in the frame, where each NUI_DEPTH_IMAGE_PIXEL provides the player index
+		//and depth at that pixel
+		const NUI_DEPTH_IMAGE_PIXEL * currentPixel = reinterpret_cast<const NUI_DEPTH_IMAGE_PIXEL *>(nlr.pBits);
+		const NUI_DEPTH_IMAGE_PIXEL * endPixel = currentPixel + 154616;
+		int i = 0;
+		while (currentPixel < endPixel) {
+			if (currentPixel) {
+				if ((currentPixel->depth >= minDepth) && (currentPixel->depth <= maxDepth)) {
+					std::cout << "Pixel Index: " << currentPixel->playerIndex << " Pixel Depth: " << currentPixel->depth << "\n";
+				}
+				++currentPixel;
+				i = i + 1;
+			}
+		}
+	}
+	pTexture->UnlockRect(0);
+	pTexture->Release();
+	sensor->NuiImageStreamReleaseFrame(depthStreamHandle, &frame);
 }
 
 bool KinectSensor::getSensorData() {
