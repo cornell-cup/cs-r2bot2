@@ -1,5 +1,9 @@
 #include "Sensor.h"
 
+Sensor::Sensor()
+{
+}
+
 Sensor::Sensor(std::string sensorName) : name(sensorName)
 {
 }
