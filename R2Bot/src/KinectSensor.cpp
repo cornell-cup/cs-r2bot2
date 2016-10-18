@@ -135,14 +135,12 @@ void KinectSensor::getDepthData() {
 		//and depth at that pixel
 		const NUI_DEPTH_IMAGE_PIXEL * currentPixel = reinterpret_cast<const NUI_DEPTH_IMAGE_PIXEL *>(nlr.pBits);
 		const NUI_DEPTH_IMAGE_PIXEL * endPixel = currentPixel + 154616;
-		int i = 0;
 		while (currentPixel < endPixel) {
 			if (currentPixel) {
 				if ((currentPixel->depth >= minDepth) && (currentPixel->depth <= maxDepth)) {
 					std::cout << "Pixel Index: " << currentPixel->playerIndex << " Pixel Depth: " << currentPixel->depth << "\n";
 				}
 				++currentPixel;
-				i = i + 1;
 			}
 		}
 	}
