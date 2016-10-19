@@ -103,8 +103,13 @@ void Kinect_main() {
 			std::cout << "No data received from the frame";
 		}
 		else {
-			SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws("C:\\Users\\Osc\\Desktop\\image.bmp").c_str());
-
+			// Write image to image file
+			SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws(IMAGE_BMP_PATH).c_str());
+			// Write bytes to a file
+			FILE *file;
+			fopen_s(&file, IMAGE_BIN_PATH, "wb");
+			fwrite(nlr.pBits, 1, nlr.size, file);
+			fclose(file);
 		}
 
 		frame.pFrameTexture->UnlockRect(0);
