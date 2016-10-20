@@ -6,14 +6,14 @@
 #include <iostream>
 #include "KinectSensor.h"
 
-std::vector<Sensor> sensors;
+std::vector<Sensor*> sensors;
 std::vector<Controller> controllers;
 std::vector<JobHandler> jobHandlers;
 JobQueue jobQueue;
 
 /** Initializes a Sensor object for each sensor */
 void initializeSensors() {
-	// "TODO: initializeSensors"
+	sensors.push_back(new KinectSensor("Kinect Sensor"));
 }
 
 /** Initializes a Controller object for each controller */
@@ -37,13 +37,16 @@ JobHandler *getHandlerByJob(std::string job) {
 	return nullptr;
 }
 
+/** Gets all sensor data in current time step */
+void getSensorData() {
+	for (int i = 0; i < sensors.size(); i++) {
+		(*sensors[i]).getSensorData();
+	}
+}
+
 int main(int argc, char *argv[]) {
 	std::string host = "";
 	int port = -1;
-
-	Kinect_main();
-
-
 
 	/** Handle arguments */
 	for (int i = 0; i < argc; i++) {
@@ -93,7 +96,8 @@ int main(int argc, char *argv[]) {
 			JobHandler *handler = getHandlerByJob(job);
 			handler->execute(job);
 		}
-
+		getSensorData();
+		break;
 		// TODO: Complete this function
 	}
 }
