@@ -29,31 +29,12 @@ int UDPSocketServer::isListening() {
 	return listening;
 }
 
-void UDPSocketServer::server(std::queue<std::string> &stringCommands) {
-	std::thread(&UDPSocketServer::handle, this, stringCommands).detach();
+void UDPSocketServer::server(std::function<void(char *, unsigned int)> handler) {
+	std::thread(&UDPSocketServer::handle, this, handler).detach();
 	listening = 1;
 }
 
-void UDPSocketServer::handle(std::queue<std::string> &stringCommands) {
-	char * buffer = new char[DEFAULT_BUFFER_SIZE];
-	unsigned int buffer_len = DEFAULT_BUFFER_SIZE;
-	unsigned int len = 0;
-
-	memset(buffer, 0, buffer_len);
-	while (!closeMessage) {
-		printf("%s\n", (std::to_string(stringCommands.size())).c_str());
-		len = recv(socketId, buffer, buffer_len, NULL);
-		if (len > 0) {
-			printf(buffer);
-			stringCommands.push(buffer);
-			memset(buffer, 0, buffer_len);
-		}
-	}
-	closeMessage = 0;
-	delete buffer;
-}
-
-void UDPSocketServer::getData() {
+void UDPSocketServer::handle(std::function<void(char *, unsigned int)> handler) {
 	char * buffer = new char[DEFAULT_BUFFER_SIZE];
 	unsigned int buffer_len = DEFAULT_BUFFER_SIZE;
 	unsigned int len = 0;
@@ -62,10 +43,11 @@ void UDPSocketServer::getData() {
 	while (!closeMessage) {
 		len = recv(socketId, buffer, buffer_len, NULL);
 		if (len > 0) {
-			printf(buffer);
+			handler(buffer, len);
 			memset(buffer, 0, buffer_len);
 		}
 	}
+
 	closeMessage = 0;
 	delete buffer;
 }

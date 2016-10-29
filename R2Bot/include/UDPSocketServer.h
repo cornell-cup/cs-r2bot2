@@ -59,7 +59,7 @@ private:
 	*					will be available only within the call to the
 	*					handler, otherwise it may be deleted at any time.
 	*/
-	void handle(std::queue<std::string> &stringCommands);
+	void handle(std::function<void(char *, unsigned int)> handler);
 
 public:
 	/**
@@ -87,12 +87,10 @@ public:
 	*
 	* @param handler	The function to handle data
 	*/
-	void server(std::queue<std::string> &stringCommands);
+	void server(std::function<void(char *, unsigned int)> handler);
 
 	/**
 	* Close the server and stop listening.
 	*/
 	void close();
-
-	void getData();
 };

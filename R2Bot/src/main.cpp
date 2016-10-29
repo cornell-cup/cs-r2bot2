@@ -20,10 +20,12 @@ void initializeSensors() {
 	sensors.push_back(new KinectSensor("Kinect Sensor"));
 }
 
+/** Initializes the manual inputs handler by establishing the UDP socket connection to receive data */
 void initializeManualInputsHandler(std::string host, int port) {
 	WSADATA data;
 	WSAStartup(MAKEWORD(2, 2), &data);
 	manualInputsHandler = new ManualInputs(host, port);
+    (*manualInputsHandler).receiveManualInputs();
 }
 
 /** Initializes a Controller object for each controller */
@@ -54,13 +56,8 @@ void getSensorData() {
 	}
 }
 
-/** Gets the manual input in current time step */
-void getManualInputs() {
-	(*manualInputsHandler).receiveManualInputs();
-}
-
-void split(const std::string& s, char c,
-	std::vector<std::string>& v) {
+/** Utility function for splitting a string based on a delimitting character */
+void split(const std::string& s, char c, std::vector<std::string>& v) {
 	std::string::size_type i = 0;
 	std::string::size_type j = s.find(c);
 
@@ -68,28 +65,25 @@ void split(const std::string& s, char c,
 		v.push_back(s.substr(i, j - i));
 		i = ++j;
 		j = s.find(c, j);
-
 		if (j == std::string::npos)
 			v.push_back(s.substr(i, s.length()));
 	}
 }
 
+/** Pulls data from the manual inputs queue and performs the associated action */
 void processManualData() {
-	std::queue<std::string> taskQueue = (*manualInputsHandler).getCommands();
-	printf("Task Queue size: ");
-	std::cout << taskQueue.size() << "\n";
-	if ((taskQueue).size() > 0) {
-		std::string manualCommand = (*manualInputsHandler).getCommands().front();
-		if (manualCommand.find("XBOX") == 0) {
+	std::queue<std::string> *taskQueue = (*manualInputsHandler).getCommands();
+	if ((*taskQueue).size() > 0) {
+		std::string manualCommand = (*taskQueue).front();
+		(*taskQueue).pop();
+		if (manualCommand.find("XBOX Kinect") == 0) {
 			std::vector<std::string> v;
-			std::string s = manualCommand.substr(5, 100);
+			std::string s = manualCommand.substr(12, 100);
 			split(s, ' ', v);
 			for (int i = 0; i < v.size(); ++i) {
 				std::string tmp = v[i];
 				char number[1024];
 				strcpy_s(number, tmp.c_str());
-				printf(number);
-				printf("\n");
 			}
 			int first = std::stoi(v[0]);
 			int second = std::stoi(v[1]);
@@ -97,7 +91,7 @@ void processManualData() {
 				KinectSensor *currentSensor = dynamic_cast<KinectSensor*>((sensors[0]));
 				currentSensor->sensor->NuiCameraElevationSetAngle(27);
 			}
-			else if ((std::abs(first + 40) + std::abs(second + 40.0)) <= 10.0) {
+			else if ((std::abs(first + 80) + std::abs(second + 80.0)) <= 10.0) {
 				KinectSensor *currentSensor = dynamic_cast<KinectSensor*>((sensors[0]));
 				currentSensor->sensor->NuiCameraElevationSetAngle(-27);
 			}
@@ -146,11 +140,10 @@ int main(int argc, char *argv[]) {
 
 	/** Initialization */
 	initializeSensors();
-	initializeManualInputsHandler("192.168.4.30", 9020);
+	initializeManualInputsHandler("192.168.4.170", 9020);
 	initializeControllers();
 	initializeJobHandlers();
 	initializeJobQueue();
-	getManualInputs();
 
 	/** Main execution loop */
 	while (1) {
