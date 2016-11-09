@@ -10,8 +10,6 @@
 class KinectSensor : public Sensor
 {
 protected:
-	/** Object representing a Kinect sensor */
-	INuiSensor *sensor;
 	/** Data from the sensor */
 	void *data;
 	/** Obtains the next color image data frame */
@@ -30,6 +28,8 @@ protected:
 	fipMemoryIO *fipmio_jpg;	// fip Memory IO representing the jpg image in memory
 	fipImage *fipi;			// FreeImage to copy the bmp to
 public:
+	/** Object representing a Kinect sensor */
+	INuiSensor *sensor;
 	KinectSensor(std::string name);
 	virtual ~KinectSensor();
 	bool getSensorData();

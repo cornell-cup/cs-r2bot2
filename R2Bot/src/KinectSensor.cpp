@@ -121,6 +121,6 @@ void KinectSensor::getDepthData() {
 
 bool KinectSensor::getSensorData() {
 	getColorData();
-	//getDepthData();		// TODO: fix error on "frame.pFrameTexture->LockRect(0, &nlr, NULL, 0);"
+	getDepthData();
 	return true;
 }
