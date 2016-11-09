@@ -5,7 +5,6 @@
 // Initialize static variables
 int R2Server::_imageWidth;
 int R2Server::_imageHeight;
-int R2Server::_imageSize;
 KinectImageResource *R2Server::k = nullptr;
 
 R2Server::R2Server(const WEnvironment& env) : WApplication(env)
@@ -33,16 +32,15 @@ void R2Server::refreshKinectImage()
 WApplication *createApplication(const WEnvironment& env)
 {
 	if (R2Server::k == nullptr) {
-		R2Server::k = new KinectImageResource(R2Server::_imageSize);
+		R2Server::k = new KinectImageResource();
 		env.server()->addResource(R2Server::k, "/kinectImage");
 	}
 	return new R2Server(env);
 }
 
-int R2Server::run(int imageWidth, int imageHeight, int imageSize, int argc, char **argv)
+int R2Server::run(int imageWidth, int imageHeight, int argc, char **argv)
 {
 	R2Server::_imageWidth = imageWidth;
 	R2Server::_imageHeight = imageHeight;
-	R2Server::_imageSize = imageSize;
 	return WRun(argc, argv, &createApplication);
 }
