@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <WinSock2.h>
 #include <Windows.h>
 #include "XBoxController.h"
 #include <XInput.h>
@@ -8,7 +9,7 @@
 using std::cout;
 using std::endl;
 
-XBoxController::XBoxController(){
+XBoxController::XBoxController() {
 	deadzoneX = 0.15f;
 	deadzoneY = 0.15f;
 }
@@ -105,19 +106,31 @@ void XBoxController::setDeadzoneY(float dz) {
 	deadzoneY = dz;
 }
 
-void XBoxController::calcVoltage(float lStickX, float lStickY) {
-	leftVoltage = 0;
-	rightVoltage = 0;
+void XBoxController::calcSimpleMotorVoltage(float lStickX, float lStickY) {
+	leftMotorVoltage = 0;
+	rightMotorVoltage = 0;
 	if (lStickX > -0.15 && lStickX < 0.15 && (lStickY > 0.15 || lStickY < -0.15)) {
-		leftVoltage = lStickY * 80;
-		rightVoltage = lStickY * 80;
+		leftMotorVoltage = lStickY * 80;
+		rightMotorVoltage = lStickY * 80;
 	}
 	if (lStickY > -0.15 && lStickY < 0.15 && (lStickX > 0.15 || lStickX < -0.15)) {
-		leftVoltage = lStickX * 40;
-		rightVoltage = lStickX * -40;
+		leftMotorVoltage = lStickX * 40;
+		rightMotorVoltage = lStickX * -40;
 	}
-	
-	
+
+
+}
+
+void XBoxController::calcTankDriveMotorVoltage(float rStickX, float rStickY) {
+	float invX = -1.0 *  rStickX;
+	float v = (1 - abs(invX)) * (rStickY)+rStickY;
+	float w = (1 - abs(rStickY)) * (invX)+invX;
+	float r = (v + w) / 2;
+	float l = (v - w) / 2;
+	leftMotorVoltage = l * 80;
+	rightMotorVoltage = r * 80;
+
+
 }
 
 
