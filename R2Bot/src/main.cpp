@@ -3,13 +3,16 @@
 #include "Controller.h"
 #include "JobHandler.h"
 #include "JobQueue.h"
+#include "R2Server.h"
 #include "Sensor.h"
 #include <vector>
 #include <iostream>
 #include "KinectSensor.h"
+#include <thread>
+#include <unordered_map>
 #include <cmath>  
 
-std::vector<Sensor*> sensors;
+std::unordered_map<std::string, Sensor*> sensors;
 std::vector<Controller> controllers;
 std::vector<JobHandler> jobHandlers;
 JobQueue jobQueue;
@@ -17,7 +20,7 @@ ManualInputs *manualInputsHandler;
 
 /** Initializes a Sensor object for each sensor */
 void initializeSensors() {
-	sensors.push_back(new KinectSensor("Kinect Sensor"));
+	sensors["KinectSensor"] = new KinectSensor("Kinect Sensor");
 }
 
 /** Initializes the manual inputs handler by establishing the UDP socket connection to receive data */
@@ -51,8 +54,8 @@ JobHandler *getHandlerByJob(std::string job) {
 
 /** Gets all sensor data in current time step */
 void getSensorData() {
-	for (int i = 0; i < sensors.size(); i++) {
-		(*sensors[i]).getSensorData();
+	for (auto i : sensors) {
+		i.second->getSensorData();
 	}
 }
 
@@ -145,6 +148,16 @@ int main(int argc, char *argv[]) {
 	initializeJobHandlers();
 	initializeJobQueue();
 
+	/** Create web server for displying image stream */
+	char* server_args[] = {"R2Server", "--docroot", ".",
+		"--http-address", "0.0.0.0", "--http-port", "8080"};
+	KinectSensor *kSensor = static_cast<KinectSensor *>(sensors["KinectSensor"]);
+	std::thread serverThread(R2Server::run,
+		kSensor->imageWidth,
+		kSensor->imageHeight,
+		7, server_args);
+	std::cout << "\nStarted Server thread\n";
+
 	/** Main execution loop */
 	while (1) {
 		std::string job = jobQueue.getJob();
@@ -153,6 +166,14 @@ int main(int argc, char *argv[]) {
 			handler->execute(job);
 		}
 		getSensorData();
+		// Update server image. TODO: maybe move this?
+		if (R2Server::k != nullptr) {
+			kSensor->imageMutex->lock();
+			R2Server::k->setImage(kSensor->jpgImage,
+				kSensor->jpgSize);
+			kSensor->imageMutex->unlock();
+		}
+		//break;
 		processManualData();
 		// TODO: Complete this function
 	}

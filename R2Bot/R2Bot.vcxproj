@@ -25,6 +25,7 @@
     <ClCompile Include="src\KinectSensor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ManualInputs.cpp" />
+    <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPSocketServer.cpp" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <ClInclude Include="include\JobQueue.h" />
     <ClInclude Include="include\KinectSensor.h" />
     <ClInclude Include="include\ManualInputs.h" />
+    <ClInclude Include="include\R2Server.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\UDPSocketServer.h" />
   </ItemGroup>
@@ -93,11 +95,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)/include;$(ProjectDir)/lib/wt_3_3_6/include;$(ProjectDir)/lib/FreeImage/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;$(ProjectDir)/lib/FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)/lib/wt_3_3_6/lib/wtd.lib;$(ProjectDir)/lib/wt_3_3_6/lib/wthttpd.lib;$(ProjectDir)/lib/wt_3_3_6/lib/libboost_date_time-vc140-mt-gd-1_59.lib;$(ProjectDir)/lib/FreeImage/FreeImage.lib;$(ProjectDir)/lib/FreeImage/FreeImagePlus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,11 +108,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)/include;$(ProjectDir)/lib/wt_3_3_6/include;$(ProjectDir)/lib/FreeImage/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;$(ProjectDir)/lib/FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)/lib/wt_3_3_6/lib/wtd.lib;$(ProjectDir)/lib/wt_3_3_6/lib/wthttpd.lib;$(ProjectDir)/lib/wt_3_3_6/lib/libboost_date_time-vc140-mt-gd-1_59.lib;$(ProjectDir)/lib/FreeImage/FreeImage.lib;$(ProjectDir)/lib/FreeImage/FreeImagePlus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,12 +123,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)/include;$(ProjectDir)/lib/wt_3_3_6/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

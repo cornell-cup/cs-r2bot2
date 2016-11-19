@@ -1,8 +1,36 @@
 #include "KinectSensor.h"
 
+#define JPEG_QUALITY JPEG_DEFAULT
+
 KinectSensor::KinectSensor(std::string sensorName)
 {
 	name = sensorName;
+	imageWidth = 640;
+	imageHeight = 480;
+	imageSize = imageWidth * imageHeight * 4 + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+	imageMutex = new std::mutex();
+	bmpImage = new char[imageSize];
+	// Initialize image headers
+	BITMAPINFOHEADER *bih = reinterpret_cast<BITMAPINFOHEADER *>(bmpImage + sizeof(BITMAPFILEHEADER));
+	bih->biSize = sizeof(BITMAPINFOHEADER);				// Size of the header
+	bih->biBitCount = 32;								// Bit count
+	bih->biCompression = BI_RGB;						// Standard RGB, no compression
+	bih->biWidth = imageWidth;							// Width in pixels
+	bih->biHeight = -imageHeight;						// Height in pixels
+	bih->biPlanes = 1;									// Default
+	bih->biSizeImage = imageWidth * imageHeight * 4;	// Image size in bytes
+	BITMAPFILEHEADER *bfh = reinterpret_cast<BITMAPFILEHEADER *>(bmpImage);
+	bfh->bfType = 0x4D42;                                       // 'M''B', indicates bitmap
+	bfh->bfOffBits = bih->biSize + sizeof(BITMAPFILEHEADER);	// Offset to the start of pixel data
+	bfh->bfSize = bfh->bfOffBits + bih->biSizeImage;			// Size of image + headers
+	colorData = bmpImage + bfh->bfOffBits;
+	// End image header initialization
+	fipi = new fipImage();
+	fipmio_bmp = new fipMemoryIO(reinterpret_cast<BYTE *>(bmpImage), imageSize);
+	fipmio_jpg = new fipMemoryIO();
+	jpgSize = 0;
+	jpgImage = new char[jpgSize];
+
 	NuiCreateSensorByIndex(0, &sensor);
 	// Initialize Kinect Sensor
 	sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH);
@@ -21,83 +49,6 @@ KinectSensor::~KinectSensor()
 {
 }
 
-/// <summary>
-/// Save passed in image data to disk as a bitmap
-/// </summary>
-/// <param name="pBitmapBits">image data to save</param>
-/// <param name="lWidth">width (in pixels) of input image data</param>
-/// <param name="lHeight">height (in pixels) of input image data</param>
-/// <param name="wBitsPerPixel">bits per pixel of image data</param>
-/// <param name="lpszFilePath">full file path to output bitmap to</param>
-/// <returns>indicates success or failure</returns>
-HRESULT SaveBitmapToFile(BYTE* pBitmapBits, LONG lWidth, LONG lHeight, WORD wBitsPerPixel, LPCWSTR lpszFilePath)
-{
-	DWORD dwByteCount = lWidth * lHeight * (wBitsPerPixel / 8);
-
-	BITMAPINFOHEADER bmpInfoHeader = { 0 };
-
-	bmpInfoHeader.biSize = sizeof(BITMAPINFOHEADER);  // Size of the header
-	bmpInfoHeader.biBitCount = wBitsPerPixel;             // Bit count
-	bmpInfoHeader.biCompression = BI_RGB;                    // Standard RGB, no compression
-	bmpInfoHeader.biWidth = lWidth;                    // Width in pixels
-	bmpInfoHeader.biHeight = -lHeight;                  // Height in pixels, negative indicates it's stored right-side-up
-	bmpInfoHeader.biPlanes = 1;                         // Default
-	bmpInfoHeader.biSizeImage = dwByteCount;               // Image size in bytes
-
-	BITMAPFILEHEADER bfh = { 0 };
-
-	bfh.bfType = 0x4D42;                                           // 'M''B', indicates bitmap
-	bfh.bfOffBits = bmpInfoHeader.biSize + sizeof(BITMAPFILEHEADER);  // Offset to the start of pixel data
-	bfh.bfSize = bfh.bfOffBits + bmpInfoHeader.biSizeImage;        // Size of image + headers
-
-																   // Create the file on disk to write to
-	HANDLE hFile = CreateFileW(lpszFilePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	// Return if error opening file
-	if (NULL == hFile)
-	{
-		return E_ACCESSDENIED;
-	}
-
-	DWORD dwBytesWritten = 0;
-
-	// Write the bitmap file header
-	if (!WriteFile(hFile, &bfh, sizeof(bfh), &dwBytesWritten, NULL))
-	{
-		CloseHandle(hFile);
-		return E_FAIL;
-	}
-
-	// Write the bitmap info header
-	if (!WriteFile(hFile, &bmpInfoHeader, sizeof(bmpInfoHeader), &dwBytesWritten, NULL))
-	{
-		CloseHandle(hFile);
-		return E_FAIL;
-	}
-
-	// Write the RGB Data
-	if (!WriteFile(hFile, pBitmapBits, bmpInfoHeader.biSizeImage, &dwBytesWritten, NULL))
-	{
-		CloseHandle(hFile);
-		return E_FAIL;
-	}
-
-	// Close the file
-	CloseHandle(hFile);
-	return S_OK;
-}
-
-std::wstring s2ws(const std::string& s)
-{
-	int slength = (int)s.length() + 1;
-	int len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
-	wchar_t* buf = new wchar_t[len];
-	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
-	std::wstring r(buf);
-	delete[] buf;
-	return r;
-}
-
 void KinectSensor::getColorData() {
 	NUI_IMAGE_FRAME frame;
 	//Gets the next image frame
@@ -108,14 +59,26 @@ void KinectSensor::getColorData() {
 		std::cout << "No data received from the frame";
 	}
 	else {
-		/*
-		SaveBitmapToFile(nlr.pBits, 640, 480, 32, s2ws(IMAGE_BMP_PATH).c_str());
-		// Write bytes to a file
-		FILE *file;
-		fopen_s(&file, IMAGE_BIN_PATH, "wb");
-		fwrite(nlr.pBits, 1, nlr.size, file);
-		fclose(file);
-		*/
+		// Synchronized
+		imageMutex->lock();
+		memcpy(colorData, nlr.pBits, nlr.size);		// Store the color data for later retrieval
+
+		// Convert bmp to jpeg and save it to memory
+		fipmio_bmp->seek(0, 0);
+		fipi->loadFromMemory(*fipmio_bmp);
+		fipi->convertTo24Bits();
+		fipmio_jpg->seek(0,0);
+		fipmio_jpg->save(FIF_JPEG, *fipi, JPEG_QUALITY);
+		int size_in_bytes = fipmio_jpg->tell();
+		if (size_in_bytes > jpgSize) {		// Extend buffer if necessary
+			delete jpgImage;
+			jpgSize = size_in_bytes;
+			jpgImage = new char[jpgSize];
+		}
+		fipmio_jpg->seek(0, 0);
+		fipmio_jpg->read(jpgImage, 1, size_in_bytes);		// Copy image over to jpgImage
+
+		imageMutex->unlock();
 	}
 	frame.pFrameTexture->UnlockRect(0);
 	sensor->NuiImageStreamReleaseFrame(colorStreamHandle, &frame);
