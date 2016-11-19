@@ -7,14 +7,14 @@
 
 class XBoxController
 {
-public:	
+public:
 
 	float leftStickX;
 	float leftStickY;
 	float rightStickX;
 	float rightStickY;
-	float leftVoltage;
-	float rightVoltage;
+	float leftMotorVoltage;
+	float rightMotorVoltage;
 
 	// Constructors and Destructors
 	XBoxController();
@@ -32,7 +32,8 @@ public:
 	void setDeadzoneX(float);
 	void setDeadzoneY(float);
 	void setMaxVoltage(float);
-	void calcVoltage(float, float);
+	void calcSimpleMotorVoltage(float, float);
+	void calcTankDriveMotorVoltage(float, float);
 
 private:
 	int controllerId;
