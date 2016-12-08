@@ -10,13 +10,15 @@
 #include "KinectSensor.h"
 #include <thread>
 #include <unordered_map>
-#include <cmath>  
+#include <cmath>
+#include <chrono>
 
 std::unordered_map<std::string, Sensor*> sensors;
 std::vector<Controller> controllers;
 std::vector<JobHandler> jobHandlers;
 JobQueue jobQueue;
 ManualInputs *manualInputsHandler;
+int lastKinectTiltAngle = 0;
 
 /** Initializes a Sensor object for each sensor */
 void initializeSensors() {
@@ -75,28 +77,48 @@ void split(const std::string& s, char c, std::vector<std::string>& v) {
 
 /** Pulls data from the manual inputs queue and performs the associated action */
 void processManualData() {
-	std::queue<std::string> *taskQueue = (*manualInputsHandler).getCommands();
-	if ((*taskQueue).size() > 0) {
-		std::string manualCommand = (*taskQueue).front();
-		(*taskQueue).pop();
-		if (manualCommand.find("XBOX Kinect") == 0) {
-			std::vector<std::string> v;
-			std::string s = manualCommand.substr(12, 100);
-			split(s, ' ', v);
-			for (int i = 0; i < v.size(); ++i) {
-				std::string tmp = v[i];
-				char number[1024];
-				strcpy_s(number, tmp.c_str());
-			}
-			int first = std::stoi(v[0]);
-			int second = std::stoi(v[1]);
-			if ((std::abs(first - 80.0) + std::abs(second - 80.0)) <= 10.0) {
-				KinectSensor *currentSensor = dynamic_cast<KinectSensor*>((sensors[0]));
-				currentSensor->sensor->NuiCameraElevationSetAngle(27);
-			}
-			else if ((std::abs(first + 80) + std::abs(second + 80.0)) <= 10.0) {
-				KinectSensor *currentSensor = dynamic_cast<KinectSensor*>((sensors[0]));
-				currentSensor->sensor->NuiCameraElevationSetAngle(-27);
+	while (TRUE) {
+		std::queue<std::string> *taskQueue = (*manualInputsHandler).getCommands();
+		if ((*taskQueue).size() > 0) {
+			std::string manualCommand = (*taskQueue).front();
+			(*taskQueue).pop();
+			if (manualCommand.find("XBOX Kinect") == 0) {
+				std::vector<std::string> v;
+				std::string s = manualCommand.substr(12, 100);
+				split(s, ' ', v);
+				for (int i = 0; i < v.size(); ++i) {
+					std::string tmp = v[i];
+					char number[1024];
+					strcpy_s(number, tmp.c_str());
+				}
+				int first = std::stoi(v[0]);
+				int second = std::stoi(v[1]);
+				if ((std::abs(first - 80.0) + std::abs(second - 80.0)) <= 10.0) {
+					KinectSensor *currentSensor = dynamic_cast<KinectSensor*>(sensors["KinectSensor"]);
+					if (lastKinectTiltAngle == -27) {
+						currentSensor->sensor->NuiCameraElevationSetAngle(0);
+						lastKinectTiltAngle = 0;
+						std::this_thread::sleep_for(std::chrono::seconds(1));
+					}
+					else if (lastKinectTiltAngle == 0) {
+						currentSensor->sensor->NuiCameraElevationSetAngle(27);
+						lastKinectTiltAngle = 27;
+						std::this_thread::sleep_for(std::chrono::seconds(1));
+					}
+				}
+				else if ((std::abs(first + 80) + std::abs(second + 80.0)) <= 10.0) {
+					KinectSensor *currentSensor = dynamic_cast<KinectSensor*>(sensors["KinectSensor"]);
+					if (lastKinectTiltAngle == 27) {
+						currentSensor->sensor->NuiCameraElevationSetAngle(0);
+						lastKinectTiltAngle = 0;
+						std::this_thread::sleep_for(std::chrono::seconds(1));
+					}
+					else if (lastKinectTiltAngle == 0) {
+						currentSensor->sensor->NuiCameraElevationSetAngle(-27);
+						lastKinectTiltAngle = -27;
+						std::this_thread::sleep_for(std::chrono::seconds(1));
+					}
+				}
 			}
 		}
 	}
@@ -158,6 +180,10 @@ int main(int argc, char *argv[]) {
 		7, server_args);
 	std::cout << "\nStarted Server thread\n";
 
+	/** Create manual input thread */
+	std::thread manualInputThread(processManualData);
+	std::cout << "\nStarted Manual Input Thread\n";
+
 	/** Main execution loop */
 	while (1) {
 		std::string job = jobQueue.getJob();
@@ -174,7 +200,6 @@ int main(int argc, char *argv[]) {
 			kSensor->imageMutex->unlock();
 		}
 		//break;
-		processManualData();
 		// TODO: Complete this function
 	}
 }
