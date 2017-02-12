@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		else if (arg == "--host") {
-			// Set network host for job_queue initialization
+			 //Set network host for job_queue initialization
 			if (++i < argc)
 				host = arg;
 			else
@@ -199,7 +199,7 @@ int main(int argc, char *argv[]) {
 				kSensor->jpgSize);
 			kSensor->imageMutex->unlock();
 		}
-		//break;
-		// TODO: Complete this function
+		break;
+		 //TODO: Complete this function
 	}
 }

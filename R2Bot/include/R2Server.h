@@ -11,7 +11,7 @@
 #include <wt/WServer>
 #include <wt/WResource>
 #include <wt/Http/Response>
-#include <wt/WEnvironment>
+#include <wt/WEnvironment> 
 #include <chrono>
 
 using namespace Wt;
@@ -30,9 +30,9 @@ public:
 		_totalSize = 0;
 		_numBytes = 0;
 		_image = new char[_totalSize];
-	}
+	} 
 
-	~KinectImageResource() {
+	KinectImageResource() {
 		beingDeleted();
 	}
 
@@ -73,4 +73,4 @@ private:
 	WTimer *timer;
 
 	void refreshKinectImage();
-};
+}; 
