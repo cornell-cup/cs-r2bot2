@@ -32,7 +32,7 @@ void R2Server::refreshKinectImage()
 WApplication *createApplication(const WEnvironment& env)
 {
 	if (R2Server::k == nullptr) {
-		R2Server::k = new KinectImageResource();
+		R2Server::k = new KinectImageResource(0);
 		env.server()->addResource(R2Server::k, "/kinectImage");
 	}
 	return new R2Server(env);

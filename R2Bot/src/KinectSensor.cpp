@@ -30,7 +30,7 @@ KinectSensor::KinectSensor(std::string sensorName)
 	fipmio_jpg = new fipMemoryIO();
 	jpgSize = 0;
 	jpgImage = new char[jpgSize];
-
+	INuiSensor* sensor;
 	NuiCreateSensorByIndex(0, &sensor);
 	// Initialize Kinect Sensor
 	sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_COLOR | NUI_INITIALIZE_FLAG_USES_DEPTH);
