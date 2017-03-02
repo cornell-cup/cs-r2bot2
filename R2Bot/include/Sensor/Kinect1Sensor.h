@@ -1,4 +1,9 @@
-#pragma once
+#ifndef _R2BOT_KINECT1_SENSOR
+#define _R2BOT_KINECT1_SENSOR
+
+#include "Global.h"
+
+#ifdef USE_KINECT1
 
 #include <Windows.h>
 #include <NuiApi.h>
@@ -7,7 +12,7 @@
 #include <mutex>
 #include <FreeImagePlus.h>
 
-class KinectSensor : public Sensor
+class Kinect1Sensor : public Sensor
 {
 protected:
 	/** Data from the sensor */
@@ -30,8 +35,8 @@ protected:
 public:
 	/** Object representing a Kinect sensor */
 	INuiSensor *sensor;
-	KinectSensor(std::string name);
-	virtual ~KinectSensor();
+	Kinect1Sensor(std::string name);
+	virtual ~Kinect1Sensor();
 	bool getSensorData();
 
 	// The following fields are used for broadcasting the image
@@ -41,3 +46,6 @@ public:
 	int imageWidth;				// Image width in pixels
 	int imageHeight;			// Image height in pixels
 };
+
+#endif
+#endif

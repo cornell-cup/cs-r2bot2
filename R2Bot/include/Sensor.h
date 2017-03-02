@@ -1,7 +1,7 @@
-#ifndef _Sensor
-#define _Sensor
+#ifndef _R2BOT_SENSOR
+#define _R2BOT_SENSOR
 
-#include <string>
+#include "Global.h"
 
 class Sensor
 {
@@ -17,17 +17,14 @@ public:
 	Sensor();
 	virtual ~Sensor();
 
-	/** Return the name of the sensor. */
+	/** Return the name of the sensor */
 	std::string getName();
 
-	/** Return true if communication to the sensor is active. */
+	/** Return true if communication to the sensor is active */
 	virtual bool ping();
 
-	/** Return the last retrieved data from the sensor. */
-	virtual void *getCachedData();
-
-	/** Retrieve and store data from the sensor. Return true if successful. */
-	virtual bool getSensorData();
+	/** Add data from the sensor */
+	virtual void getData(smap<void*> sensorData);
 };
 
 #endif

@@ -18,6 +18,6 @@ bool Controller::ping()
 	return false;
 }
 
-void Controller::applyCommand(std::string command)
+void Controller::sendData(std::string data)
 {
 }

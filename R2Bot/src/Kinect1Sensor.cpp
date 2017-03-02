@@ -1,8 +1,10 @@
-#include "KinectSensor.h"
+#include "Sensor/Kinect1Sensor.h"
+
+#ifdef USE_KINECT1
 
 #define JPEG_QUALITY JPEG_DEFAULT
 INuiSensor* sensor;
-KinectSensor::KinectSensor(std::string sensorName)
+Kinect1Sensor::Kinect1Sensor(std::string sensorName)
 {
 	name = sensorName;
 	imageWidth = 640;
@@ -44,11 +46,11 @@ KinectSensor::KinectSensor(std::string sensorName)
 	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_DEPTH, NUI_IMAGE_RESOLUTION_640x480, 0, 2, depthEventHandle, &depthStreamHandle);
 }
 
-KinectSensor::~KinectSensor()
+Kinect1Sensor::~Kinect1Sensor()
 {
 }
 
-void KinectSensor::getColorData() {
+void Kinect1Sensor::getColorData() {
 	NUI_IMAGE_FRAME frame;
 	//Gets the next image frame
 	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 1000, &frame);
@@ -83,7 +85,7 @@ void KinectSensor::getColorData() {
 	sensor->NuiImageStreamReleaseFrame(colorStreamHandle, &frame);
 }
 
-void KinectSensor::getDepthData() {
+void Kinect1Sensor::getDepthData() {
 	NUI_IMAGE_FRAME frame;
 	//Gets the next depth image frame
 	HRESULT hr = sensor->NuiImageStreamGetNextFrame(depthStreamHandle, 1000, &frame);
@@ -118,8 +120,10 @@ void KinectSensor::getDepthData() {
 	sensor->NuiImageStreamReleaseFrame(depthStreamHandle, &frame);
 }
 
-bool KinectSensor::getSensorData() {
+bool Kinect1Sensor::getSensorData() {
 	getColorData();
 	getDepthData();
 	return true;
 }
+
+#endif

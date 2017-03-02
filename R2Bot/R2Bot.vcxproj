@@ -20,24 +20,32 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\JobQueue.cpp" />
-    <ClCompile Include="src\KinectSensor.cpp" />
+    <ClCompile Include="src\Kinect1Sensor.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ManualInputs.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
+    <ClCompile Include="src\UDPClientController.cpp" />
+    <ClCompile Include="src\UDPServerSensor.cpp" />
+    <ClCompile Include="src\UDPSocketClient.cpp" />
     <ClCompile Include="src\UDPSocketServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
+    <ClInclude Include="include\Controller\MotorController.h" />
+    <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Global.h" />
+    <ClInclude Include="include\Job.h" />
     <ClInclude Include="include\JobHandler.h" />
-    <ClInclude Include="include\JobQueue.h" />
-    <ClInclude Include="include\KinectSensor.h" />
-    <ClInclude Include="include\ManualInputs.h" />
     <ClInclude Include="include\R2Server.h" />
     <ClInclude Include="include\Sensor.h" />
-    <ClInclude Include="include\UDPSocketServer.h" />
+    <ClInclude Include="include\Sensor\Kinect1Sensor.h" />
+    <ClInclude Include="include\Sensor\ManualInputs.h" />
+    <ClInclude Include="include\Sensor\UDPServerSensor.h" />
+    <ClInclude Include="include\Util\UDPSocketClient.h" />
+    <ClInclude Include="include\Util\UDPSocketServer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
@@ -90,8 +98,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Freeimage\Wrapper\FreeImagePlus\dist\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\FreeImage;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\FreeImage;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,7 +122,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wt.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64;$(ProjectDir)lib\FreeImage\Dist\x64;$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -142,7 +152,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
