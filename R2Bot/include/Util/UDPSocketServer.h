@@ -1,17 +1,27 @@
-#pragma once
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#pragma comment(lib, "ws2_32.lib")
-#include <stdio.h>
+#ifndef _UDP_SOCKET_SERVER
+#define _UDP_SOCKET_SERVER
+
+#ifdef _WIN32
+#	define _WINSOCK_DEPRECATED_NO_WARNINGS
+#	include <WinSock2.h>
+#	include <WS2tcpip.h>
+#	include <Windows.h>
+#else
+#	include <unistd.h>
+#	include <arpa/inet.h>
+#	include <sys/socket.h>
+	typedef struct sockaddr_in SOCKADDR_IN;
+	typedef struct sockaddr SOCKADDR;
+#endif
+
 #include <string>
 #include <functional>
 #include <thread>
 #include <queue>
 #define DEFAULT_BUFFER_SIZE 4096
 #define SOCKET_READ_TIMEOUT_SEC 1
-#define INVALID_SOCKET -1
+#define INVALID_SOCKET (-1)
+#define SOCKET_ERROR (-1)
 
 /**
 * Asynchronous UDP socket server
@@ -94,3 +104,5 @@ public:
 	*/
 	void close();
 };
+
+#endif

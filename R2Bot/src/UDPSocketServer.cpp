@@ -1,4 +1,5 @@
 #include "Util/UDPSocketServer.h"
+#include <cstring>
 #include <queue>
 
 UDPSocketServer::UDPSocketServer(std::string inAddress, int inPort) :
@@ -21,8 +22,7 @@ UDPSocketServer::UDPSocketServer(std::string inAddress, int inPort) :
 }
 
 UDPSocketServer::~UDPSocketServer() {
-	shutdown(socketId, SD_SEND);
-	closesocket(socketId);
+	close();
 }
 
 int UDPSocketServer::isListening() {
@@ -39,12 +39,12 @@ void UDPSocketServer::handle(std::function<void(char *, unsigned int)> handler) 
 	unsigned int buffer_len = DEFAULT_BUFFER_SIZE;
 	unsigned int len = 0;
 
-	memset(buffer, 0, buffer_len);
+	std::memset(buffer, 0, buffer_len);
 	while (!closeMessage) {
-		len = recv(socketId, buffer, buffer_len, NULL);
+		len = recv(socketId, buffer, buffer_len, 0);
 		if (len > 0) {
 			handler(buffer, len);
-			memset(buffer, 0, buffer_len);
+			std::memset(buffer, 0, buffer_len);
 		}
 	}
 
@@ -53,5 +53,10 @@ void UDPSocketServer::handle(std::function<void(char *, unsigned int)> handler) 
 }
 
 void UDPSocketServer::close() {
+#ifdef _WIN32
+	closesocket(socketId);
+#else
+	::close(socketId);
+#endif
 	closeMessage = 1;
 }

@@ -36,16 +36,10 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\R2Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\UDPSocketServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Job.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Kinect1Sensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UDPServerSensor.cpp">
@@ -68,9 +62,6 @@
     <ClInclude Include="include\JobHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\R2Server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Sensor\ManualInputs.h">
-      <Filter>Header Files\Sensor</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Sensor\Kinect1Sensor.h">
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
     <ClInclude Include="include\Util\UDPSocketServer.h">

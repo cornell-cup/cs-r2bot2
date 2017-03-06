@@ -21,11 +21,7 @@ UDPSocketClient::UDPSocketClient(std::string inAddress, int inPort) :
 }
 
 UDPSocketClient::~UDPSocketClient() {
-	if (connected) {
-		closesocket(socketId);
-	}
-
-	connected = false;
+	close();
 }
 
 int UDPSocketClient::isConnected() {
@@ -35,13 +31,13 @@ int UDPSocketClient::isConnected() {
 int UDPSocketClient::read(char * outBuffer, unsigned int buffer_len) {
 	unsigned int len;
 
-	len = recv(socketId, outBuffer, buffer_len, NULL);
+	len = recv(socketId, outBuffer, buffer_len, 0);
 
 	return len;
 }
 
 int UDPSocketClient::write(const char * buffer, unsigned int len) {
-	if (send(socketId, buffer, len, NULL) < 0) {
+	if (send(socketId, buffer, len, 0) < 0) {
 		return 0;
 	}
 	// TODO Handle error codes and reconnection
@@ -51,7 +47,11 @@ int UDPSocketClient::write(const char * buffer, unsigned int len) {
 
 void UDPSocketClient::close() {
 	if (connected) {
+#ifdef _WIN32
 		closesocket(socketId);
+#else
+		::close(socketId);
+#endif
 	}
 
 	connected = false;
