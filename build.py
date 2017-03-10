@@ -2,7 +2,7 @@ import glob, os, platform, subprocess, sys
 from os import path
 
 CC = "g++"
-CFLAGS = ["-std=c++11", "-Wall"]
+CFLAGS = ["-pthread", "-std=c++11", "-Wall"]
 
 SRC_FOLDER = "{}/src"            # Source files
 INC_FOLDER = "{}/include"    # Header files
