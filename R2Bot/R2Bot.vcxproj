@@ -26,8 +26,6 @@
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
-    <ClCompile Include="src\UDPSocketClient.cpp" />
-    <ClCompile Include="src\UDPSocketServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h" />
@@ -40,8 +38,6 @@
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\Sensor\ManualInputs.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
-    <ClInclude Include="include\Util\UDPSocketClient.h" />
-    <ClInclude Include="include\Util\UDPSocketServer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
@@ -122,7 +118,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;C:\Program Files\FreeImage\Source\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)lib\FreeImage\FreeImage.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_thread-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_date_time-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_system-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_chrono-vc140-mt-gd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;$(ProjectDir)lib\FreeImage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +149,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

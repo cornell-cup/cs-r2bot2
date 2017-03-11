@@ -3,5 +3,6 @@
 
 #undef  USE_KINECT1
 #undef  USE_KINECT2
+#undef  USE_MOTORS
 
 #endif
