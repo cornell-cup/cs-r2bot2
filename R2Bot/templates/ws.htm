@@ -4,24 +4,28 @@
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-  <!-- <div id="list">
-        <p>
-            <iframe src="Text.txt" frameborder="0" height="100"
-                    width="95%"></iframe>
-        </p> -->
-        <input id="msg" type="text"></input>
-        <button id="send">
-            Send
-        </button><BR>
-    <div id="img"></div>
+    <!-- <div id="list">
+          <p>
+              <iframe src="Text.txt" frameborder="0" height="100"
+                      width="95%"></iframe>
+          </p> -->
+    <input id="msg" type="text"></input>
+    <button id="send">
+        Send
+    </button><BR>
+    <div id="imgs"><img src="" /></div>
     <div id="show" align="center"></div>
-        <script>
-          
-           
+    <script>
+
+
             var sock = new WebSocket("ws://localhost:18080/ws");
             sock.binaryType = "arraybuffer";
             sock.onopen = () => {
-                console.log('open')
+                console.log('open');
+
+                setInterval(function () {
+                    sock.send("");
+                }, 500);
             }
             sock.onerror = (e) => {
                 console.log('error', e)
@@ -35,47 +39,49 @@
                     drawImage(e.data);
                 }
             }
+         /*   sock.addEventListener('update', function () {
+                            }, false); */
+
              $("#msg").keypress(function (e) {
                       if (e.which == 13) {
                           sock.send($("#msg").val());
                           $("#msg").val("");
                       }
-                  });  
+                  });
             $("#send").click(() => {
                 sock.send($("#msg").val());
                 $("#msg").val("");
             });
             function drawImage(data) {
-
-
-                console.log(data);
-
-                var imageWidth = 73, imageHeight = 73; // hardcoded width & height. 
-                var byteArray = new Uint8Array(data);
-                console.log(byteArray);
-                for (var i = 0; i < data.length; i += 2) {
-                    byteArray[i / 2] = parseInt(data.substring(i, i + 2), /* base = */ 16);
-                }
-
-                // Make a Blob from the bytes
-                var blob = new Blob([byteArray], { type: 'image/png' });
-
-                // Use createObjectURL to make a URL for the blob
-                var image = new Image();
-                image.src = URL.createObjectURL(blob);
-                document.body.appendChild(image);                
-            }
-
-            $(document).ready(
-            function () {
-                setInterval(function () {
+                $(document).ready(
+                 function () {
+                    //setInterval(function () {
                     var randomnumber = Math.floor(Math.random() * 100);
-                    $('#show').text(
-                            'I am getting refreshed every 3 seconds..! Random Number ==> '
-                                    + randomnumber);
-                }, 3000);
-            });
+                     $('#show').text(
+                              'I am getting refreshed every 3 seconds..! Random Number ==> '
+                                     + randomnumber);
+                     var byteArray = new Uint8Array(data);
+                     console.log(byteArray);
+                     for (var i = 0; i < data.length; i += 2) {
+                         byteArray[i / 2] = parseInt(data.substring(i, i + 2), /* base = */ 16);
+                     }
 
+                        // Make a Blob from the bytes
+                     var blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+                        // Use createObjectURL to make a URL for the blob
+                     var image = new Image();
+                     image.src = URL.createObjectURL(blob);
+                     $('#imgs').children('img').attr({
+                         'src': image.src,
+                         'width': 800,
+                         'height': 600
+                     });
+                    // document.body.appendChild(image);
+                    //}, 500);
+                 });
+                 console.log(data);
+            }
         </script>
 
 

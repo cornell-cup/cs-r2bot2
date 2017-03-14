@@ -106,6 +106,9 @@ int main() {
 
 	//crow::mustache::set_base(".");
 
+	int index = 0;
+
+
 	CROW_ROUTE(app, "/ws")
 		.websocket()
 		.onopen([&](crow::websocket::connection& conn) {
@@ -122,15 +125,12 @@ int main() {
 		std::lock_guard<std::mutex> _(mtx);
 		for (auto u : users)
 			if (is_binary) {
-				u->send_binary("bee.png");
-
-				std::cout << data;
-				std::cout << "hello";
+				u->send_binary("hello");
 			}
 			else {
-				u->send_binary(readIn("bee.png"));
-				std::cout << "bee.png" << std::endl;
-				//std::cout << data;
+				std::string file = std::to_string(index) + ".JPG";
+				u->send_binary(readIn("images/"+ file));
+				index = (index + 1) % 8;
 			}
 	});
 
@@ -139,7 +139,7 @@ int main() {
 		std::wstring place = utf8_decode(str.substr(index));
 		std::string str1(utf8_encode(MimeTypeFromString(place)));
 		res.add_header("Content-Type", str1);
-		res.write(readIn(str));
+		res.write(readIn("templates/"+str));
 		res.end();
 	});
 
