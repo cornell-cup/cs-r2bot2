@@ -35,9 +35,38 @@
     <ClInclude Include="include\JobQueue.h" />
     <ClInclude Include="include\KinectSensor.h" />
     <ClInclude Include="include\ManualInputs.h" />
-    <ClInclude Include="include\R2Server.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\UDPSocketServer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\1.JPG" />
+    <Image Include="images\2.JPG" />
+    <Image Include="images\3.JPG" />
+    <Image Include="images\4.JPG" />
+    <Image Include="images\5.JPG" />
+    <Image Include="images\6.JPG" />
+    <Image Include="images\7.JPG" />
+    <Image Include="images\8.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\camera.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\database.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\HTMLPage.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\main.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\manual.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\ws.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
@@ -90,8 +119,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Freeimage\Wrapper\FreeImagePlus\dist\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\Lib\boost_1_63_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Lib\boost_1_63_0\lib64-msvc-14.0;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,12 +141,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wt.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64;$(ProjectDir)lib\FreeImage\Dist\x64;$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64;$(ProjectDir)lib\FreeImage\Dist\x64;$(ProjectDir)lib\Crow;$(ProjectDir)lib\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;C:\Program Files\FreeImage\Source\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)lib\FreeImage\Dist\x64\FreeImage.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64\FreeImagePlus.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wt.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wtd.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wthttp.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wthttpd.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_thread-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_date_time-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_system-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_chrono-vc140-mt-gd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;C:\Program Files\FreeImage\Source\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)lib\FreeImage\Dist\x64\FreeImage.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64\FreeImagePlus.lib;boost_system-vc140-mt-gd-1_63.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

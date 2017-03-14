@@ -59,14 +59,57 @@
     <ClInclude Include="include\KinectSensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\R2Server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\UDPSocketServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ManualInputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\1.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\2.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\3.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\4.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\5.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\6.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\7.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\8.JPG">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\camera.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\database.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\HTMLPage.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\main.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\manual.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\ws.htm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -21,6 +21,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+R2Bot/[Dd]ebug/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -255,5 +256,4 @@ paket-files/
 .vscode/
 
 # Libraries
-R2Bot/lib/wt_3_3_6/
 R2Bot/lib
