@@ -64,9 +64,6 @@
     <None Include="templates\manual.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="templates\ws.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>

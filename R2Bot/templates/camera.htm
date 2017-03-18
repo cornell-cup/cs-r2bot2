@@ -56,6 +56,56 @@
                         </ul>
                     </li>
                 </ul>
+                    <div id="imgs" style="display: flex; justify-content: center;"><img src="" /></div>
+                    <script>
+
+            var sock = new WebSocket("ws://localhost:18080/ws");
+            sock.binaryType = "arraybuffer";
+            sock.onopen = () => {
+                console.log('open');
+
+                setInterval(function () {
+                    sock.send(""); //change this string according to what page it is.
+                }, 500);
+            }
+            sock.onerror = (e) => {
+                console.log('error', e)
+            }
+            sock.onclose = () => {
+                console.log('close')
+            }
+
+            sock.onmessage = function (e) {
+                if (e.data) {
+                    drawImage(e.data);
+                }
+            }
+
+            function drawImage(data) {
+                $(document).ready(
+                 function () {
+                     var randomnumber = Math.floor(Math.random() * 100);
+                     var byteArray = new Uint8Array(data);
+                     console.log(byteArray);
+                     for (var i = 0; i < data.length; i += 2) {
+                         byteArray[i / 2] = parseInt(data.substring(i, i + 2), /* base = */ 16);
+                     }
+
+                        // Make a Blob from the bytes
+                     var blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+                        // Use createObjectURL to make a URL for the blob
+                     var image = new Image();
+                     image.src = URL.createObjectURL(blob);
+                     $('#imgs').children('img').attr({
+                         'src': image.src,
+                         'width': 800,
+                         'height': 600
+                     });
+                 });
+                 console.log(data);
+            }
+                    </script>
 
 </div>
         </div>

@@ -108,8 +108,5 @@
     <None Include="templates\manual.htm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="templates\ws.htm">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
