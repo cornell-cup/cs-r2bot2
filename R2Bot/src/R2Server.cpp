@@ -101,14 +101,19 @@ std::string utf8_encode(const std::wstring &wstr)
 
 void server() {
 
+
+
+	Mat frame;
 	VideoCapture cap(0);
 	if (cap.isOpened()) {
-		std::cout << "hi";
+		cap >> frame;
+//		imwrite("webcam.jpg", frame);
+		//std::cout << frame.data;
+		//int size = frame.total()*frame.elemSize();
+		//byte *bytes = new byte[size];
+		//std::memcpy(bytes, frame.data, size * sizeof(byte));
 	}
 	
-
-
-
 
 	crow::SimpleApp app;
 	//	app.get_middleware<Middleware>().setMessage("hello");
@@ -142,6 +147,8 @@ void server() {
 			else {
 				std::string file = std::to_string(index) + ".JPG";
 				u->send_binary(readIn("images/" + file));
+				std::cout << typeid(readIn("images/" + file)).name();
+				std::cout << typeid(frame.data).name();
 				index = (index + 1) % 8;
 			}
 	});

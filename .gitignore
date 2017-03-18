@@ -22,6 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 R2Bot/[Dd]ebug/
+R2Bot/R2Bot.vcxproj
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -259,3 +260,5 @@ paket-files/
 R2Bot/lib/**/*
 !R2Bot/lib/*.sh
 !R2Bot/lib/*.md
+
+
