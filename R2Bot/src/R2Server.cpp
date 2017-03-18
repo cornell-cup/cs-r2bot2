@@ -103,13 +103,17 @@ std::string utf8_encode(const std::wstring &wstr)
 
 std::string takePic() {	
 	Mat frame;
-		VideoCapture cap(0);
-		if (cap.isOpened()) {
-			//Sleep(500);
-			cap >> frame;
-			imwrite("images/Captured/webcam.bmp", frame);
-			cap.release();
-		}
+	VideoCapture cap(0);
+	if (cap.isOpened()) {
+		//Sleep(500);
+		cap >> frame;
+		resize(frame, frame, Size(300, 300));
+		//std::vector<int> compression_params;
+		//compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
+		//	compression_params.push_back(50);
+		imwrite("images/Captured/webcam.bmp", frame);
+		cap.release();
+	}
 		return "images/Captured/webcam.bmp";
 }
 
@@ -147,18 +151,8 @@ void server() {
 			}
 			else {
 				//std::string file = std::to_string(index) + ".JPG";
-				Mat frame;
-				VideoCapture cap(0);
-				if (cap.isOpened()) {
-					//Sleep(500);
-					cap >> frame;
-					//std::vector<int> compression_params;
-					//compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
-				//	compression_params.push_back(50);
-					imwrite("images/Captured/webcam.bmp",frame);
-					cap.release();
-				}
-				u->send_binary(readIn("images/Captured/webcam.bmp"));
+				
+				u->send_binary(readIn(takePic()));
 				//std::cout << typeid(readIn("images/" + file)).name();
 			//	std::cout << typeid(frame.data).name();
 				//index = (index + 1) % 8;
