@@ -12,9 +12,11 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/core.hpp>
 
 
 #pragma comment( lib, "urlmon" )
+//using namespace cv2;
 using namespace cv;
 
 std::vector< char > fileContents;
@@ -99,20 +101,19 @@ std::string utf8_encode(const std::wstring &wstr)
 	return strTo;
 }
 
-void server() {
-
-
-
+std::string takePic() {	
 	Mat frame;
-	VideoCapture cap(0);
-	if (cap.isOpened()) {
-		cap >> frame;
-//		imwrite("webcam.jpg", frame);
-		//std::cout << frame.data;
-		//int size = frame.total()*frame.elemSize();
-		//byte *bytes = new byte[size];
-		//std::memcpy(bytes, frame.data, size * sizeof(byte));
-	}
+		VideoCapture cap(0);
+		if (cap.isOpened()) {
+			//Sleep(500);
+			cap >> frame;
+			imwrite("images/Captured/webcam.bmp", frame);
+			cap.release();
+		}
+		return "images/Captured/webcam.bmp";
+}
+
+void server() {
 	
 
 	crow::SimpleApp app;
@@ -145,11 +146,22 @@ void server() {
 				u->send_binary("hello");
 			}
 			else {
-				std::string file = std::to_string(index) + ".JPG";
-				u->send_binary(readIn("images/" + file));
-				std::cout << typeid(readIn("images/" + file)).name();
-				std::cout << typeid(frame.data).name();
-				index = (index + 1) % 8;
+				//std::string file = std::to_string(index) + ".JPG";
+				Mat frame;
+				VideoCapture cap(0);
+				if (cap.isOpened()) {
+					//Sleep(500);
+					cap >> frame;
+					//std::vector<int> compression_params;
+					//compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
+				//	compression_params.push_back(50);
+					imwrite("images/Captured/webcam.bmp",frame);
+					cap.release();
+				}
+				u->send_binary(readIn("images/Captured/webcam.bmp"));
+				//std::cout << typeid(readIn("images/" + file)).name();
+			//	std::cout << typeid(frame.data).name();
+				//index = (index + 1) % 8;
 			}
 	});
 

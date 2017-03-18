@@ -66,7 +66,7 @@
 
                 setInterval(function () {
                     sock.send(""); //change this string according to what page it is.
-                }, 500);
+                }, 100);
             }
             sock.onerror = (e) => {
                 console.log('error', e)
