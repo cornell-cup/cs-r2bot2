@@ -107,6 +107,7 @@ std::string takePic() {
 	if (cap.isOpened()) {
 		//Sleep(500);
 		cap >> frame;
+		cvtColor(frame, frame, CV_BGR2GRAY);
 		resize(frame, frame, Size(300, 300));
 		//std::vector<int> compression_params;
 		//compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
@@ -145,7 +146,7 @@ void server() {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-		for (auto u : users)
+		for (auto u : users)          
 			if (is_binary) {
 				u->send_binary("hello");
 			}

@@ -92,14 +92,14 @@
                      }
 
                         // Make a Blob from the bytes
-                     var blob = new Blob([byteArray], { type: 'image/jpeg' });
+                     var blob = new Blob([byteArray], { type: 'image/jpg' });
 
                         // Use createObjectURL to make a URL for the blob
                      var image = new Image();
                      image.src = URL.createObjectURL(blob);
                      $('#imgs').children('img').attr({
                          'src': image.src,
-                         'width': 400,
+                         'width': 300,
                          'height': 300
                      });
                  });
