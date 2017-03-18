@@ -85,10 +85,19 @@
     <ClInclude Include="include\Sensor\UDPServerSensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\crow_all.h">
+    <ClInclude Include="include\R2Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\R2Server.h">
+    <ClInclude Include="lib\Crow\crow_all.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\opencv\build\include\opencv2\highgui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\opencv\build\include\opencv2\imgproc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\opencv\build\include\opencv2\opencv.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
