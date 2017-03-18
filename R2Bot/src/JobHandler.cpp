@@ -1,8 +1,6 @@
 #include "JobHandler.h"
 
-JobHandler::JobHandler(std::list<Sensor> sensorList,
-	std::list<Controller> controllerList) : sensors(sensorList),
-	controllers(controllerList)
+JobHandler::JobHandler()
 {
 }
 
@@ -10,14 +8,8 @@ JobHandler::~JobHandler()
 {
 }
 
-void JobHandler::pathPlan(Node startPos, Node endPos)
+smap<ptr<Job>> JobHandler::execute(smap<void*> data)
 {
-}
-
-void JobHandler::parseArgs(std::string job)
-{
-}
-
-void JobHandler::execute(std::string job)
-{
+	smap<ptr<Job>> newJobs;
+	return newJobs;
 }

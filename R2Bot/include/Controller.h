@@ -1,6 +1,8 @@
 #ifndef _Controller
 #define _Controller
 
+#include "Global.h"
+
 #include <string>
 
 class Controller
@@ -19,8 +21,8 @@ public:
 	/** Returns true if can communicate with controller */
 	virtual bool ping();
 
-	/** Sends the controller-specific command to the controller */
-	virtual void applyCommand(std::string command);
+	/** Sends the controller-specific data to the controller */
+	virtual void sendData(std::string data);
 };
 
 #endif
