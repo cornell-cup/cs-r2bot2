@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _SCL_SECURE_NO_WARNINGS
 
-#include "../lib/crow_all.h"
+#include "../lib/Crow/crow_all.h"
 #include "R2Server.h"
 #include <iostream>
 #include <fstream>
@@ -9,9 +9,13 @@
 #include <urlmon.h>
 #include <unordered_set>
 #include <mutex>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
 
 #pragma comment( lib, "urlmon" )
-
+using namespace cv;
 
 std::vector< char > fileContents;
 
@@ -96,6 +100,15 @@ std::string utf8_encode(const std::wstring &wstr)
 }
 
 void server() {
+
+	VideoCapture cap(0);
+	if (cap.isOpened()) {
+		std::cout << "hi";
+	}
+	
+
+
+
 
 	crow::SimpleApp app;
 	//	app.get_middleware<Middleware>().setMessage("hello");

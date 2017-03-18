@@ -120,8 +120,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Lib\boost_1_63_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Lib\boost_1_63_0\lib64-msvc-14.0;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Lib\boost_1_63_0;C:\lib\opencv;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\lib\opencv\build\x64\vc14\lib;C:\Lib\boost_1_63_0\lib64-msvc-14.0;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -141,12 +141,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\Crow;$(ProjectDir)lib\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\Crow;C:\lib\opencv\build\include\;$(ProjectDir)lib\FreeImage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;C:\Program Files\FreeImage\Source\FreeImage;boost_system-vc140-mt-gd-1_63.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;boost_system-vc140-mt-gd-1_63.lib;$(ProjectDir)lib\FreeImage\FreeImage.lib;$(ProjectDir)lib\FreeImage\Dist\x64\FreeImage.lib;$(ProjectDir)lib\Freeimage\Wrapper\FreeImagePlus\dist\x64\FreeImagePlus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;boost_system-vc140-mt-gd-1_63.lib;opencv_world320.lib;$(ProjectDir)lib\FreeImage\Dist\x64\FreeImage.lib;$(ProjectDir)lib\Freeimage\Wrapper\FreeImagePlus\dist\x64\FreeImagePlus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
