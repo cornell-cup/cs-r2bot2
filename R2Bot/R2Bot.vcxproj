@@ -19,26 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Controller.cpp" />
-    <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\JobQueue.cpp" />
-    <ClCompile Include="src\KinectSensor.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ManualInputs.cpp" />
-    <ClCompile Include="src\R2Server.cpp" />
-    <ClCompile Include="src\Sensor.cpp" />
-    <ClCompile Include="src\UDPSocketServer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\Controller.h" />
-    <ClInclude Include="include\JobHandler.h" />
-    <ClInclude Include="include\JobQueue.h" />
-    <ClInclude Include="include\KinectSensor.h" />
-    <ClInclude Include="include\ManualInputs.h" />
-    <ClInclude Include="include\Sensor.h" />
-    <ClInclude Include="include\UDPSocketServer.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="images\1.JPG" />
     <Image Include="images\2.JPG" />
     <Image Include="images\3.JPG" />
@@ -64,6 +44,29 @@
     <None Include="templates\manual.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\Controller.h" />
+    <ClInclude Include="include\Controller\MotorController.h" />
+    <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Global.h" />
+    <ClInclude Include="include\Job.h" />
+    <ClInclude Include="include\JobHandler.h" />
+    <ClInclude Include="include\R2Server.h" />
+    <ClInclude Include="include\Sensor.h" />
+    <ClInclude Include="include\Sensor\UDPServerSensor.h" />
+    <ClInclude Include="lib\crow_all.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\Job.cpp" />
+    <ClCompile Include="src\JobHandler.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\R2Server.cpp" />
+    <ClCompile Include="src\Sensor.cpp" />
+    <ClCompile Include="src\UDPClientController.cpp" />
+    <ClCompile Include="src\UDPServerSensor.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>

@@ -3,11 +3,11 @@
 
 #include "Global.h"
 #include "Controller.h"
-#include "Util/UDPSocketClient.h"
+//#include "Util/UDPSocketClient.h"
 
 class UDPClientController : public Controller {
 protected:
-	ptr<UDPSocketClient> client;
+	//ptr<UDPSocketClient> client;
 public:
 	UDPClientController(string host, int port);
 	~UDPClientController();

@@ -3,11 +3,10 @@
 
 #include "Global.h"
 #include "Sensor.h"
-#include "Util/UDPSocketServer.h"
 
 class UDPServerSensor : public Sensor {
 protected:
-	ptr<UDPSocketServer> server;
+	//ptr<UDPSocketServer> server;
 public:
 	UDPServerSensor(string host, int port);
 	~UDPServerSensor();
