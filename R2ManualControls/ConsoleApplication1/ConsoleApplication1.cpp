@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
 				//string send = "Left thumb stick: (" + xc.leftStickX + ", " + std::to_string(xc.leftStickY) +
 				")    Right thumb stick : (" + std::to_string(xc.rightStickX) + ", " + std::to_string(xc.rightStickY) + ")" + "\n";
 				xc.calcTankDriveMotorVoltage(xc.leftStickX, xc.leftStickY);
-				std::string a = "XBOX Kinect " + std::to_string(xc.leftMotorVoltage) + " " + std::to_string(xc.rightMotorVoltage);
+				std::string a = std::to_string(xc.leftMotorSpeed) + " " + std::to_string(xc.rightMotorSpeed);
 				//std::string send2 = "Left Voltage: (" + std::to_string(xc.leftVoltage) + ",    " + " Right Voltage: ( " + std::to_string(xc.rightVoltage) + "\n";
 				//std::string send = std::to_string(5);
 				//std::string send2 = std::to_string(6);

@@ -106,16 +106,16 @@ void XBoxController::setDeadzoneY(float dz) {
 	deadzoneY = dz;
 }
 
-void XBoxController::calcSimpleMotorVoltage(float lStickX, float lStickY) {
-	leftMotorVoltage = 0;
-	rightMotorVoltage = 0;
+void XBoxController::calcSimpleMotorSpeed(float lStickX, float lStickY) {
+	leftMotorSpeed = 0;
+	rightMotorSpeed = 0;
 	if (lStickX > -0.15 && lStickX < 0.15 && (lStickY > 0.15 || lStickY < -0.15)) {
-		leftMotorVoltage = lStickY * 80;
-		rightMotorVoltage = lStickY * 80;
+		leftMotorSpeed = lStickY * 80;
+		rightMotorSpeed = lStickY * 80;
 	}
 	if (lStickY > -0.15 && lStickY < 0.15 && (lStickX > 0.15 || lStickX < -0.15)) {
-		leftMotorVoltage = lStickX * 40;
-		rightMotorVoltage = lStickX * -40;
+		leftMotorSpeed = lStickX * 40;
+		rightMotorSpeed = lStickX * -40;
 	}
 
 
@@ -127,19 +127,19 @@ void XBoxController::calcTankDriveMotorVoltage(float rStickX, float rStickY) {
 	float w = (1 - abs(rStickY)) * (invX)+invX;
 	float r = (v + w) / 2;
 	float l = (v - w) / 2;
-	leftMotorVoltage = l * 80;
-	rightMotorVoltage = r * 80;
+	leftMotorSpeed = l * 80;
+	rightMotorSpeed = r * 80;
 
 
 }
 
 
-void XBoxController::setMaxVoltage(float voltage) {
+void XBoxController::setMaxSpeed(float voltage) {
 	if (abs(voltage) > 80.0) {
 		throw std::invalid_argument("received voltage magnitude over 80V");
 	}
 	else {
-		maxVoltage = voltage;
+		maxSpeed = voltage;
 	}
 }
 

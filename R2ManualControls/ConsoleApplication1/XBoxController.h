@@ -13,8 +13,8 @@ public:
 	float leftStickY;
 	float rightStickX;
 	float rightStickY;
-	float leftMotorVoltage;
-	float rightMotorVoltage;
+	float leftMotorSpeed;
+	float rightMotorSpeed;
 
 	// Constructors and Destructors
 	XBoxController();
@@ -31,8 +31,8 @@ public:
 	//Mutator Functions
 	void setDeadzoneX(float);
 	void setDeadzoneY(float);
-	void setMaxVoltage(float);
-	void calcSimpleMotorVoltage(float, float);
+	void setMaxSpeed(float);
+	void calcSimpleMotorSpeed(float, float);
 	void calcTankDriveMotorVoltage(float, float);
 
 private:
@@ -40,7 +40,7 @@ private:
 	XINPUT_STATE state;
 	float deadzoneX;
 	float deadzoneY;
-	float maxVoltage;
+	float maxSpeed;
 
 
 

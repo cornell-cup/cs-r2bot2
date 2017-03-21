@@ -50,6 +50,7 @@ struct Middleware
 	}
 };
 
+// Read in a file and return a string containing the byte array input
 std::string readIn(std::string fileName) {
 	{
 		std::ifstream file(fileName, std::ios::in | std::ios::binary | std::ios::ate);
@@ -101,6 +102,7 @@ std::string utf8_encode(const std::wstring &wstr)
 	return strTo;
 }
 
+<<<<<<< HEAD
 void createAlphaMat(Mat &mat)
 {
 	CV_Assert(mat.channels() == 4);
@@ -115,6 +117,8 @@ void createAlphaMat(Mat &mat)
 	}
 }
 
+=======
+//Take a picture using the webcam
 std::string takePic() {	
 	Mat frame;
 	VideoCapture cap(0);
@@ -131,14 +135,10 @@ std::string takePic() {
 
 void server() {
 	
-
 	crow::SimpleApp app;
-	//	app.get_middleware<Middleware>().setMessage("hello");
 
 	std::mutex mtx;;
 	std::unordered_set<crow::websocket::connection*> users;
-
-	//crow::mustache::set_base(".");
 
 	int index = 0;
 
@@ -162,12 +162,7 @@ void server() {
 				u->send_binary("hello");
 			}
 			else {
-				//std::string file = std::to_string(index) + ".JPG";
-				
 				u->send_binary(readIn(takePic()));
-				//std::cout << typeid(readIn("images/" + file)).name();
-			//	std::cout << typeid(frame.data).name();
-				//index = (index + 1) % 8;
 			}
 	});
 
