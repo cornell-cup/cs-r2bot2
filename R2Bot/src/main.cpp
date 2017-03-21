@@ -1,6 +1,3 @@
-#include "UDPSocketServer.h"
-#include "ManualInputs.h"
-
 #include "Global.h"
 #include "Controller.h"
 #include "Job.h"
@@ -58,7 +55,6 @@ smap<string> parseArguments(int argc, char ** argv) {
 	}
 	return args;
 }
-
 
 
 int main(int argc, char *argv[]) {
