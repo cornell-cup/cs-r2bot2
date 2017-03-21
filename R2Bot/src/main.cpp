@@ -1,5 +1,4 @@
 #include "Global.h"
-
 #include "Controller.h"
 #include "Job.h"
 #include "JobHandler.h"
@@ -12,7 +11,6 @@
 #include <unordered_map>
 #include <cmath>
 #include <chrono>
-
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string> args) {
@@ -57,6 +55,7 @@ smap<string> parseArguments(int argc, char ** argv) {
 	}
 	return args;
 }
+
 
 int main(int argc, char *argv[]) {
 	smap<string> args = parseArguments(argc, argv);

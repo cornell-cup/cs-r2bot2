@@ -46,6 +46,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ManualInputs.h" />
+    <ClInclude Include="UDPSocketServer.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
@@ -62,6 +64,8 @@
     <ClInclude Include="lib\opencv\build\include\opencv2\opencv.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ManualInputs.cpp" />
+    <ClCompile Include="UDPSocketServer.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
