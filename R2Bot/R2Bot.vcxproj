@@ -46,6 +46,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ManualInputs.h" />
+    <ClInclude Include="include\UDPSocketServer.h" />
     <ClInclude Include="ManualInputs.h" />
     <ClInclude Include="UDPSocketServer.h" />
     <ClInclude Include="include\Config.h" />
@@ -68,10 +70,12 @@
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ManualInputs.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
+    <ClCompile Include="src\UDPSocketServer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
