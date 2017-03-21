@@ -101,21 +101,32 @@ std::string utf8_encode(const std::wstring &wstr)
 	return strTo;
 }
 
+void createAlphaMat(Mat &mat)
+{
+	CV_Assert(mat.channels() == 4);
+	for (int i = 0; i < mat.rows; ++i) {
+		for (int j = 0; j < mat.cols; ++j) {
+			Vec4b& bgra = mat.at<Vec4b>(i, j);
+			bgra[0] = UCHAR_MAX; // Blue
+			bgra[1] = saturate_cast<uchar>((float(mat.cols - j)) / ((float)mat.cols) * UCHAR_MAX); // Green
+			bgra[2] = saturate_cast<uchar>((float(mat.rows - i)) / ((float)mat.rows) * UCHAR_MAX); // Red
+			bgra[3] = saturate_cast<uchar>(0.5 * (bgra[1] + bgra[2])); // Alpha
+		}
+	}
+}
+
 std::string takePic() {	
 	Mat frame;
 	VideoCapture cap(0);
 	if (cap.isOpened()) {
-		//Sleep(500);
 		cap >> frame;
-		cvtColor(frame, frame, CV_BGR2GRAY);
-		resize(frame, frame, Size(300, 300));
-		//std::vector<int> compression_params;
-		//compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
-		//	compression_params.push_back(50);
-		imwrite("images/Captured/webcam.bmp", frame);
-		cap.release();
+		if (!frame.empty()) {
+			resize(frame, frame, Size(300, 300));
+			cvSaveImage("images/Captured/webcam.jpg", &IplImage(frame));
+			cap.release();
+		}
 	}
-		return "images/Captured/webcam.bmp";
+		return "images/Captured/webcam.jpg";
 }
 
 void server() {
