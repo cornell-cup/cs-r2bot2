@@ -1,3 +1,5 @@
+#include "ManualInputs.h"
+#include "UDPSocketServer.h"
 #include "Global.h"
 #include "Controller.h"
 #include "Job.h"
@@ -11,6 +13,8 @@
 #include <unordered_map>
 #include <cmath>
 #include <chrono>
+
+ManualInputs *manualInputsHandler;
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string> args) {
@@ -56,6 +60,51 @@ smap<string> parseArguments(int argc, char ** argv) {
 	return args;
 }
 
+/** Initializes the manual inputs handler by establishing the UDP socket connection to receive data */
+void initializeManualInputsHandler(std::string host, int port) {
+	WSADATA data;
+	WSAStartup(MAKEWORD(2, 2), &data);
+	manualInputsHandler = new ManualInputs(host, port);
+	(*manualInputsHandler).receiveManualInputs();
+}
+
+/** Utility function for splitting a string based on a delimitting character */
+void split(const std::string& s, char c, std::vector<std::string>& v) {
+	std::string::size_type i = 0;
+	std::string::size_type j = s.find(c);
+
+	while (j != std::string::npos) {
+		v.push_back(s.substr(i, j - i));
+		i = ++j;
+		j = s.find(c, j);
+		if (j == std::string::npos)
+			v.push_back(s.substr(i, s.length()));
+	}
+}
+
+/** Pulls data from the manual inputs queue and performs the associated action */
+void processManualData() {
+	while (TRUE) {
+		std::queue<std::string> *taskQueue = (*manualInputsHandler).getCommands();
+		if ((*taskQueue).size() > 0) {
+			std::string manualCommand = (*taskQueue).front();
+			(*taskQueue).pop();
+			if (manualCommand.find("XBOX Kinect") == 0) {
+				std::vector<std::string> v;
+				std::string s = manualCommand.substr(12, 100);
+				split(s, ' ', v);
+				for (int i = 0; i < v.size(); ++i) {
+					std::string tmp = v[i];
+					char number[1024];
+					strcpy_s(number, tmp.c_str());
+				}
+				int first = std::stoi(v[0]);
+				int second = std::stoi(v[1]);
+				//Code
+			}
+		}
+	}
+}
 
 int main(int argc, char *argv[]) {
 	smap<string> args = parseArguments(argc, argv);
@@ -66,6 +115,8 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
 	smap<ptr<Job>> jobs = initializeJobs(args);
+	initializeManualInputsHandler("192.168.4.170", 9020);
+	std::thread manualInputThread(processManualData);
 
 	/** Main execution loop */
 	while (1) {
