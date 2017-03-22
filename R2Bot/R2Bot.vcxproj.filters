@@ -103,9 +103,6 @@
     <ClInclude Include="ManualInputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UDPSocketServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\UDPSocketServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
