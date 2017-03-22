@@ -16,49 +16,49 @@
 
 ManualInputs *manualInputsHandler;
 
-/** Initializes sensors */
-smap<ptr<Sensor>> initializeSensors(smap<string> args) {
-	smap<ptr<Sensor>> sensors;
-	return sensors;
-}
-
-/** Initializes controllers */
-smap<ptr<Controller>> initializeControllers(smap<string> args) {
-	smap<ptr<Controller>> controllers;
-	return controllers;
-}
-
-/** Initialize job handlers */
-smap<ptr<JobHandler>> initializeJobHandlers(smap<string> args) {
-	smap<ptr<JobHandler>> handlers;
-	return handlers;
-}
-
-/** Initialize a list of jobs */
-smap<ptr<Job>> initializeJobs(smap<string> args) {
-	smap<ptr<Job>> jobs;
-	return jobs;
-}
-
-/** Parse arguments as {--boolean | --key value} pairs */
-smap<string> parseArguments(int argc, char ** argv) {
-	smap<string> args;
-	string key;
-	for (int i = 0; i < argc; i++) {
-		string part(argv[i]);
-		if (part.substr(0, 2) == "--") {
-			if (key.length() > 0) { // Argument is present
-				args[key] = "";
-			}
-			key = part;
-		}
-		else if (key.length() > 0) { // Found a value for a key
-			args[key] = part;
-			key = "";
-		}
-	}
-	return args;
-}
+///** Initializes sensors */
+//smap<ptr<Sensor>> initializeSensors(smap<string> args) {
+//	smap<ptr<Sensor>> sensors;
+//	return sensors;
+//}
+//
+///** Initializes controllers */
+//smap<ptr<Controller>> initializeControllers(smap<string> args) {
+//	smap<ptr<Controller>> controllers;
+//	return controllers;
+//}
+//
+///** Initialize job handlers */
+//smap<ptr<JobHandler>> initializeJobHandlers(smap<string> args) {
+//	smap<ptr<JobHandler>> handlers;
+//	return handlers;
+//}
+//
+///** Initialize a list of jobs */
+//smap<ptr<Job>> initializeJobs(smap<string> args) {
+//	smap<ptr<Job>> jobs;
+//	return jobs;
+//}
+//
+///** Parse arguments as {--boolean | --key value} pairs */
+//smap<string> parseArguments(int argc, char ** argv) {
+//	smap<string> args;
+//	string key;
+//	for (int i = 0; i < argc; i++) {
+//		string part(argv[i]);
+//		if (part.substr(0, 2) == "--") {
+//			if (key.length() > 0) { // Argument is present
+//				args[key] = "";
+//			}
+//			key = part;
+//		}
+//		else if (key.length() > 0) { // Found a value for a key
+//			args[key] = part;
+//			key = "";
+//		}
+//	}
+//	return args;
+//}
 
 /** Initializes the manual inputs handler by establishing the UDP socket connection to receive data */
 void initializeManualInputsHandler(std::string host, int port) {
@@ -107,41 +107,41 @@ void processManualData() {
 }
 
 int main(int argc, char *argv[]) {
-	smap<string> args = parseArguments(argc, argv);
+	//smap<string> args = parseArguments(argc, argv);
 
-	server();
-	/** Initialization */
-	smap<ptr<Sensor>> sensors = initializeSensors(args);
-	smap<ptr<Controller>> controllers = initializeControllers(args);
-	smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
-	smap<ptr<Job>> jobs = initializeJobs(args);
-	initializeManualInputsHandler("192.168.4.170", 9020);
+	//server();
+	///** Initialization */
+	//smap<ptr<Sensor>> sensors = initializeSensors(args);
+	//smap<ptr<Controller>> controllers = initializeControllers(args);
+	//smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
+	//smap<ptr<Job>> jobs = initializeJobs(args);
+	//initializeManualInputsHandler("192.168.4.170", 9020);
 	std::thread manualInputThread(processManualData);
 
-	/** Main execution loop */
-	while (1) {
-		// Collect data from sensors
-		unordered_map<string, void*> data;
-		for (auto itr : sensors) {
-			ptr<Sensor> sensor = itr.second;
-			sensor->getData(data);
-		}
+	///** Main execution loop */
+	//while (1) {
+	//	// Collect data from sensors
+	//	unordered_map<string, void*> data;
+	//	for (auto itr : sensors) {
+	//		ptr<Sensor> sensor = itr.second;
+	//		sensor->getData(data);
+	//	}
 
-		// Execute jobs
-		smap<ptr<Job>> newJobs;
-		for (auto itr : jobs) {
-			ptr<Job> job = itr.second;
-			ptr<JobHandler> handler = handlers[job->getHandler()];
-			smap<ptr<Job>> addedJobs = handler->execute(data);
-			// Add new jobs
-			for (auto additr : addedJobs) {
-				newJobs[additr.first] = additr.second;
-			}
-		}
+	//	// Execute jobs
+	//	smap<ptr<Job>> newJobs;
+	//	for (auto itr : jobs) {
+	//		ptr<Job> job = itr.second;
+	//		ptr<JobHandler> handler = handlers[job->getHandler()];
+	//		smap<ptr<Job>> addedJobs = handler->execute(data);
+	//		// Add new jobs
+	//		for (auto additr : addedJobs) {
+	//			newJobs[additr.first] = additr.second;
+	//		}
+	//	}
 
-		// Add new jobs, overwriting existing ones
-		for (auto itr : newJobs) {
-			jobs[itr.first] = itr.second;
-		}
-	}
+	//	// Add new jobs, overwriting existing ones
+	//	for (auto itr : newJobs) {
+	//		jobs[itr.first] = itr.second;
+	//	}
+	//}
 }
