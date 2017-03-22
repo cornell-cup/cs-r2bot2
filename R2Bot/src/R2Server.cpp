@@ -102,19 +102,19 @@ std::string utf8_encode(const std::wstring &wstr)
 	return strTo;
 }
 
+VideoCapture cap(0);
+
 //Take a picture using the webcam
 std::string takePic() {	
 	Mat frame;
-	VideoCapture cap(0);
 	if (cap.isOpened()) {
 		cap >> frame;
 		if (!frame.empty()) {
 			resize(frame, frame, Size(300, 300));
 			cvSaveImage("images/Captured/webcam.jpg", &IplImage(frame));
-			cap.release();
 		}
 	}
-		return "images/Captured/webcam.jpg";
+	return "images/Captured/webcam.jpg";
 }
 
 void server() {
