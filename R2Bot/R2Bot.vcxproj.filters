@@ -88,9 +88,6 @@
     <ClInclude Include="include\R2Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Crow\crow_all.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lib\opencv\build\include\opencv2\highgui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -103,10 +100,16 @@
     <ClInclude Include="ManualInputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UDPSocketServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\UDPSocketServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ManualInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Crow\crow_all.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
