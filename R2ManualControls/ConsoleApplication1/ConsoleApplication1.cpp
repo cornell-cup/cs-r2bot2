@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 	bool wasConnected = true;
 	initWSA();
 
-	UDPSocketClient conn("192.168.4.170", 9020);
+	UDPSocketClient conn("10.211.55.3", 9020);
 	if (conn.isConnected()) {
 		std::chrono::time_point<std::chrono::system_clock> start, end;
 
@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
 				//string send = "Left thumb stick: (" + xc.leftStickX + ", " + std::to_string(xc.leftStickY) +
 				")    Right thumb stick : (" + std::to_string(xc.rightStickX) + ", " + std::to_string(xc.rightStickY) + ")" + "\n";
 				xc.calcTankDriveMotorVoltage(xc.leftStickX, xc.leftStickY);
-				std::string a = std::to_string(xc.leftMotorSpeed) + " " + std::to_string(xc.rightMotorSpeed);
+				std::string a = "XBOX" + std::to_string(xc.leftMotorSpeed) + " " + std::to_string(xc.rightMotorSpeed);
 				//std::string send2 = "Left Voltage: (" + std::to_string(xc.leftVoltage) + ",    " + " Right Voltage: ( " + std::to_string(xc.rightVoltage) + "\n";
 				//std::string send = std::to_string(5);
 				//std::string send2 = std::to_string(6);

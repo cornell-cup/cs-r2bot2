@@ -1,5 +1,6 @@
 #include "ManualInputs.h"
 #include "UDPSocketServer.h"
+#include "R2Protocol.hpp"
 #include "Global.h"
 #include "Controller.h"
 #include "Job.h"
@@ -89,60 +90,78 @@ void processManualData() {
 		if ((*taskQueue).size() > 0) {
 			std::string manualCommand = (*taskQueue).front();
 			(*taskQueue).pop();
-			if (manualCommand.find("XBOX Kinect") == 0) {
+			if (manualCommand.find("XBOX") == 0) {
 				std::vector<std::string> v;
-				std::string s = manualCommand.substr(12, 100);
+				std::string s = manualCommand.substr(4, 100);
 				split(s, ' ', v);
 				for (int i = 0; i < v.size(); ++i) {
 					std::string tmp = v[i];
 					char number[1024];
 					strcpy_s(number, tmp.c_str());
 				}
-				int first = std::stoi(v[0]);
-				int second = std::stoi(v[1]);
-				//Code
+				int left = std::stoi(v[0]);
+				int right = std::stoi(v[1]);
+				std::cout << "Left motor speed: " << left << "\n";
+				std::cout << "Right motor speed: " << right << "\n";
+				std::vector<uint8_t> data;
+				uint8_t commandsL[]= "SL"; 
+				data.push_back(commandsL[0]);
+				data.push_back(commandsL[1]);
+				data.push_back((uint8_t)commandsL);
+				data.push_back(left);
+				uint8_t commandsR[] = "R";
+				data.push_back(commandsR[0]);
+				data.push_back(right);
+				std::vector<uint8_t> output;
+				R2Protocol::Packet packet = {
+					"NUC", //Source of information is NUC
+					"MOTORS", //Trying to send information to motors
+					"MTs", //Made up transaction id
+					data, //vector containing the data we want to transmit
+					"", //checksum, left blank, will be calculated in encode method
+				};
+				R2Protocol::encode(packet, output);
 			}
 		}
 	}
 }
 
 int main(int argc, char *argv[]) {
-	//smap<string> args = parseArguments(argc, argv);
+	smap<string> args = parseArguments(argc, argv);
 
-	////server();
-	///** Initialization */
-	//smap<ptr<Sensor>> sensors = initializeSensors(args);
-	//smap<ptr<Controller>> controllers = initializeControllers(args);
-	//smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
-	//smap<ptr<Job>> jobs = initializeJobs(args);
-	initializeManualInputsHandler("192.168.4.170", 9020);
-	std::cout << "Opening XBox thread";
+	server();
+	/** Initialization */
+	smap<ptr<Sensor>> sensors = initializeSensors(args);
+	smap<ptr<Controller>> controllers = initializeControllers(args);
+	smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
+	smap<ptr<Job>> jobs = initializeJobs(args);
+	initializeManualInputsHandler("10.211.55.3", 9020);
 	processManualData();
 
-	///** Main execution loop */
-	//while (1) {
-	//	// Collect data from sensors
-	//	unordered_map<string, void*> data;
-	//	for (auto itr : sensors) {
-	//		ptr<Sensor> sensor = itr.second;
-	//		sensor->getData(data);
-	//	}
+	/** Main execution loop */
+	while (1) {
+		// Collect data from sensors
+		unordered_map<string, void*> data;
+		for (auto itr : sensors) {
+			ptr<Sensor> sensor = itr.second;
+			sensor->getData(data);
+		}
 
-	//	// Execute jobs
-	//	smap<ptr<Job>> newJobs;
-	//	for (auto itr : jobs) {
-	//		ptr<Job> job = itr.second;
-	//		ptr<JobHandler> handler = handlers[job->getHandler()];
-	//		smap<ptr<Job>> addedJobs = handler->execute(data);
-	//		// Add new jobs
-	//		for (auto additr : addedJobs) {
-	//			newJobs[additr.first] = additr.second;
-	//		}
-	//	}
+		// Execute jobs
+		smap<ptr<Job>> newJobs;
+		for (auto itr : jobs) {
+			ptr<Job> job = itr.second;
+			ptr<JobHandler> handler = handlers[job->getHandler()];
+			smap<ptr<Job>> addedJobs = handler->execute(data);
+			// Add new jobs
+			for (auto additr : addedJobs) {
+				newJobs[additr.first] = additr.second;
+			}
+		}
 
-	//	// Add new jobs, overwriting existing ones
-	//	for (auto itr : newJobs) {
-	//		jobs[itr.first] = itr.second;
-	//	}
-	//}
+		// Add new jobs, overwriting existing ones
+		for (auto itr : newJobs) {
+			jobs[itr.first] = itr.second;
+		}
+	}
 }
