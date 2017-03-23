@@ -110,12 +110,12 @@ void XBoxController::calcSimpleMotorSpeed(float lStickX, float lStickY) {
 	leftMotorSpeed = 0;
 	rightMotorSpeed = 0;
 	if (lStickX > -0.15 && lStickX < 0.15 && (lStickY > 0.15 || lStickY < -0.15)) {
-		leftMotorSpeed = lStickY * 80;
-		rightMotorSpeed = lStickY * 80;
+		leftMotorSpeed = lStickY * 447;
+		rightMotorSpeed = lStickY * -447;
 	}
 	if (lStickY > -0.15 && lStickY < 0.15 && (lStickX > 0.15 || lStickX < -0.15)) {
-		leftMotorSpeed = lStickX * 40;
-		rightMotorSpeed = lStickX * -40;
+		leftMotorSpeed = lStickX * 447;
+		rightMotorSpeed = lStickX * -447;
 	}
 
 
