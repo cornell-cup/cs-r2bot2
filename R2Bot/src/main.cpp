@@ -129,41 +129,41 @@ void processManualData() {
 }
 
 int main(int argc, char *argv[]) {
-	//smap<string> args = parseArguments(argc, argv);
+	smap<string> args = parseArguments(argc, argv);
 
-	//server();
-	///** Initialization */
-	//smap<ptr<Sensor>> sensors = initializeSensors(args);
-	//smap<ptr<Controller>> controllers = initializeControllers(args);
-	//smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
-	//smap<ptr<Job>> jobs = initializeJobs(args);
-	initializeManualInputsHandler("10.211.55.3", 9020);
-	processManualData();
+	server();
+	/** Initialization */
+	smap<ptr<Sensor>> sensors = initializeSensors(args);
+	smap<ptr<Controller>> controllers = initializeControllers(args);
+	smap<ptr<JobHandler>> handlers = initializeJobHandlers(args);
+	smap<ptr<Job>> jobs = initializeJobs(args);
+	//initializeManualInputsHandler("10.211.55.3", 9020);
+	//processManualData();
 
-	///** Main execution loop */
-	//while (1) {
-	//	// Collect data from sensors
-	//	unordered_map<string, void*> data;
-	//	for (auto itr : sensors) {
-	//		ptr<Sensor> sensor = itr.second;
-	//		sensor->getData(data);
-	//	}
+	/** Main execution loop */
+	while (1) {
+		// Collect data from sensors
+		unordered_map<string, void*> data;
+		for (auto itr : sensors) {
+			ptr<Sensor> sensor = itr.second;
+			sensor->getData(data);
+		}
 
-	//	// Execute jobs
-	//	smap<ptr<Job>> newJobs;
-	//	for (auto itr : jobs) {
-	//		ptr<Job> job = itr.second;
-	//		ptr<JobHandler> handler = handlers[job->getHandler()];
-	//		smap<ptr<Job>> addedJobs = handler->execute(data);
-	//		// Add new jobs
-	//		for (auto additr : addedJobs) {
-	//			newJobs[additr.first] = additr.second;
-	//		}
-	//	}
+		// Execute jobs
+		smap<ptr<Job>> newJobs;
+		for (auto itr : jobs) {
+			ptr<Job> job = itr.second;
+			ptr<JobHandler> handler = handlers[job->getHandler()];
+			smap<ptr<Job>> addedJobs = handler->execute(data);
+			// Add new jobs
+			for (auto additr : addedJobs) {
+				newJobs[additr.first] = additr.second;
+			}
+		}
 
-	//	// Add new jobs, overwriting existing ones
-	//	for (auto itr : newJobs) {
-	//		jobs[itr.first] = itr.second;
-	//	}
-	//}
+		// Add new jobs, overwriting existing ones
+		for (auto itr : newJobs) {
+			jobs[itr.first] = itr.second;
+		}
+	}
 }

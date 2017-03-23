@@ -20,6 +20,7 @@
 using namespace cv;
 
 std::vector< char > fileContents;
+std::string manualInput;
 
 struct Middleware
 {
@@ -147,6 +148,33 @@ void server() {
 			}
 			else {
 				u->send_binary(readIn(takePic()));
+			}
+	});
+
+	CROW_ROUTE(app, "/wsm")
+		.websocket()
+		.onopen([&](crow::websocket::connection& conn) {
+		CROW_LOG_INFO << "new websocket connection";
+		std::lock_guard<std::mutex> _(mtx);
+		users.insert(&conn);
+	})
+		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
+		CROW_LOG_INFO << "websocket connection closed: " << reason;
+		std::lock_guard<std::mutex> _(mtx);
+		users.erase(&conn);
+	})
+		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
+		std::lock_guard<std::mutex> _(mtx);
+
+		manualInput = data;
+		std::cout << manualInput;
+
+		for (auto u : users)
+			if (is_binary) {
+				u->send_binary("data recieved");
+			}
+			else {
+				u->send_binary( "data recieved");
 			}
 	});
 
