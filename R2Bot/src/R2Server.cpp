@@ -165,7 +165,7 @@ void server() {
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
 
-
+		manualInput = data;
 
 		for (auto u : users)
 			if (is_binary) {
