@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 					std::cout << "Controller is connected" << endl;
 				}
 				//string send = "Left thumb stick: (" + xc.leftStickX + ", " + std::to_string(xc.leftStickY) +
-				")    Right thumb stick : (" + std::to_string(xc.rightStickX) + ", " + std::to_string(xc.rightStickY) + ")" + "\n";
+				//")    Right thumb stick : (" + std::to_string(xc.rightStickX) + ", " + std::to_string(xc.rightStickY) + ")" + "\n";
 				xc.calcTankDriveMotorVoltage(xc.leftStickX, xc.leftStickY);
 				std::string a = "XBOX" + std::to_string(xc.leftMotorSpeed) + " " + std::to_string(xc.rightMotorSpeed);
 				//std::string send2 = "Left Voltage: (" + std::to_string(xc.leftVoltage) + ",    " + " Right Voltage: ( " + std::to_string(xc.rightVoltage) + "\n";
