@@ -47,13 +47,13 @@
     <None Include="templates\database.htm">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="templates\HTMLPage.htm">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="templates\main.htm">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="templates\manual.htm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="templates\js\joystick.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -88,6 +88,9 @@
     <ClInclude Include="include\R2Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Crow\crow_all.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="lib\opencv\build\include\opencv2\highgui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,9 +110,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ManualInputs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Crow\crow_all.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
