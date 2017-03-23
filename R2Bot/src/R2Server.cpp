@@ -20,6 +20,7 @@
 using namespace cv;
 
 std::vector< char > fileContents;
+std::string manualInput;
 
 struct Middleware
 {
@@ -150,7 +151,7 @@ void server() {
 			}
 	});
 
-	CROW_ROUTE(app, "/ws")
+	CROW_ROUTE(app, "/wsm")
 		.websocket()
 		.onopen([&](crow::websocket::connection& conn) {
 		CROW_LOG_INFO << "new websocket connection";
