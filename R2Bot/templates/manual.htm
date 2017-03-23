@@ -7,10 +7,13 @@
     <title>Manual Input</title>
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link href="css/style.css" rel="stylesheet">
+    
 </head>
 <body>
     <div class="container-fluid">
@@ -20,13 +23,13 @@
                     Manual Input
                 </h3>
                 <ul class="nav nav-tabs">
-                    <li >
+                    <li>
                         <a href="main.htm">Home</a>
                     </li>
                     <li class="active">
                         <a href="manual.htm">Manual Input</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="#">Camera</a>
                     </li>
                     <li>
@@ -55,29 +58,21 @@
                         </ul>
                     </li>
                 </ul>
-        
+
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h3 class="text-left">
                             Locomotion
                         </h3>
-                        <button type="button" class="btn btn-default">
-                            Left
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Up
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Right
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Down
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Stop
-                        </button>
+                        <div id="container">
+                            <canvas id="canvas" width="700" height="700">
+                                This text is displayed if your browser does not support HTML5 Canvas.
+                            </canvas>
+                        </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <h3>
                             Head Rotation
                         </h3>
@@ -95,8 +90,6 @@
             </div>
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="joystick.js"></script>
 </body>
 </html>

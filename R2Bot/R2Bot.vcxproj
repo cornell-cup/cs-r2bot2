@@ -35,9 +35,7 @@
     <None Include="templates\database.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="templates\HTMLPage.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
+    <None Include="templates\js\joystick.js" />
     <None Include="templates\main.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>

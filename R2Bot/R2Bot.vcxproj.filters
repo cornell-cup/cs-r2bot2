@@ -47,13 +47,13 @@
     <None Include="templates\database.htm">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="templates\HTMLPage.htm">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="templates\main.htm">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="templates\manual.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\js\joystick.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
