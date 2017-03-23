@@ -150,6 +150,32 @@ void server() {
 			}
 	});
 
+	CROW_ROUTE(app, "/ws")
+		.websocket()
+		.onopen([&](crow::websocket::connection& conn) {
+		CROW_LOG_INFO << "new websocket connection";
+		std::lock_guard<std::mutex> _(mtx);
+		users.insert(&conn);
+	})
+		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
+		CROW_LOG_INFO << "websocket connection closed: " << reason;
+		std::lock_guard<std::mutex> _(mtx);
+		users.erase(&conn);
+	})
+		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
+		std::lock_guard<std::mutex> _(mtx);
+
+
+
+		for (auto u : users)
+			if (is_binary) {
+				u->send_binary("data recieved");
+			}
+			else {
+				u->send_binary( "data recieved");
+			}
+	});
+
 	CROW_ROUTE(app, "/<string>") ([](const crow::request& req, crow::response& res, std::string str) {
 		int index = str.rfind('.');
 		std::wstring place = utf8_decode(str.substr(index));
