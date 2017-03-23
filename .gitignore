@@ -24,6 +24,7 @@ bld/
 R2Bot/[Dd]ebug/
 **.vcxproj
 **.vcxproj.filters
+**.filters
 R2Bot/images/
 
 # Visual Studio 2015 cache/options directory
