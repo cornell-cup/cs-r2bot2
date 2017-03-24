@@ -100,10 +100,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\cs-communication-utilities\Utilities;$(ProjectDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)lib\crow;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\cs-communication-utilities\Utilities;$(ProjectDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)lib\crow;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
