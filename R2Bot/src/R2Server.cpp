@@ -167,7 +167,6 @@ void server() {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
-		std::cout << manualInput;
 
 		for (auto u : users)
 			if (is_binary) {
