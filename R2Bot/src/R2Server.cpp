@@ -171,9 +171,11 @@ void server() {
 		for (auto u : users)
 			if (is_binary) {
 				u->send_binary("data recieved");
+				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary( "data recieved");
+				u->send_binary("data recieved");
+				std::cout << data << std::endl;
 			}
 	});
 

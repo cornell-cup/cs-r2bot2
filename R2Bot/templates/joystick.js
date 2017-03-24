@@ -8,6 +8,8 @@ var w = canvas.width;
 var h = canvas.height;
 var textX = Math.floor(w * .07);
 var textY = Math.floor(h * .1);
+var dataCoordX = 0;
+var dataCoordY = 0;
 
 function getOffset(el) {
   el = el.getBoundingClientRect();
@@ -83,14 +85,18 @@ function init() {
 canvas.addEventListener("mousedown", function(e) {
   md = true;
   drawInner(e.clientX-canx, e.clientY-cany, smallrad);
-  circle(cx,cy,rad-diff);
+  circle(cx, cy, rad - diff);
+  dataCoordX = e.clientX - cx - canx;
+  dataCoordY = cy - e.clientY + cany;
   ctx.strokeText("("+ (e.clientX-cx-canx) + ", " + (cy-e.clientY+cany) + ")", textX, textY);
 });
 
 canvas.addEventListener("mousemove", function(e) {
   if (md) {
   	drawInner(e.clientX-canx, e.clientY-cany, smallrad);
-    circle(cx,cy,rad-diff);
+  	circle(cx, cy, rad - diff);
+  	dataCoordX = e.clientX - cx - canx;
+  	dataCoordY = cy - e.clientY + cany;
     ctx.strokeText("("+ (e.clientX-cx-canx) + ", " + (cy-e.clientY+cany) + ")", textX, textY);
   }
 });
@@ -98,7 +104,9 @@ canvas.addEventListener("mousemove", function(e) {
 canvas.addEventListener("mouseup", function(e) {
   md = false;
   drawInner(cx,cy,smallrad);
-  circle(cx,cy,rad-diff);
+  circle(cx, cy, rad - diff);
+  dataCoordX = 0;
+  dataCoordY = 0;
   ctx.strokeText("("+ 0 + ", " + 0 + ")", textX, textY);
 });
 
@@ -121,7 +129,9 @@ canvas.addEventListener("touchstart", function(e) {
   e.preventDefault();
   getTouchPos(e);
   drawInner(touchX-canx, touchY-cany, smallrad);
-  circle(cx,cy,rad-diff);
+  circle(cx, cy, rad - diff);
+  dataCoordX = touchX - cx - canx;
+  dataCoordY = cy - touchY + cany;
   ctx.strokeText("("+ (touchX-cx-canx) + ", " + (cy-touchY+cany) + ")", textX, textY);
 });
 
@@ -129,14 +139,18 @@ canvas.addEventListener("touchmove", function(e) {
   e.preventDefault();
   getTouchPos(e);
   drawInner(touchX-canx, touchY-cany, smallrad);
-  circle(cx,cy,rad-diff);
+  circle(cx, cy, rad - diff);
+  dataCoordX = touchX - cx - canx;
+  dataCoordY = cy - touchY + cany;
   ctx.strokeText("("+ (touchX-cx-canx) + ", " + (cy-touchY+cany) + ")", textX, textY);
 });
 
 canvas.addEventListener("touchend", function(e) {
   e.preventDefault();
   drawInner(cx,cy,smallrad);
-  circle(cx,cy,rad-diff);
+  circle(cx, cy, rad - diff);
+  dataCoordX = 0;
+  dataCoordY = 0;
   ctx.strokeText("("+ 0 + ", " + 0 + ")", textX, textY);
 });
 

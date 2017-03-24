@@ -93,5 +93,29 @@
         </div>
     </div>
     <script src="joystick.js"></script>
+    <script>
+        var sock = new WebSocket("ws://localhost:18080/wsm");
+        sock.binaryType = "arraybuffer";
+        sock.onopen = () => {
+            console.log('open');
+
+            setInterval(function () {
+                sock.send([dataCoordX, dataCoordY]); //change this string according to what page it is.
+            }, 300);
+        }
+        sock.onerror = (e) => {
+            console.log('error', e)
+        }
+        sock.onclose = () => {
+            console.log('close')
+        }
+
+        sock.onmessage = function (e) {
+            if (e.data) {
+                drawImage(e.data);
+            }
+        }
+
+    </script>
 </body>
 </html>
