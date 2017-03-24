@@ -8,8 +8,6 @@ JobHandler::~JobHandler()
 {
 }
 
-smap<ptr<Job>> JobHandler::execute(smap<void*> data)
+void JobHandler::execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs)
 {
-	smap<ptr<Job>> newJobs;
-	return newJobs;
 }

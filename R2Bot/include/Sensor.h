@@ -3,6 +3,8 @@
 
 #include "Global.h"
 
+#include "SensorData.h"
+
 class Sensor
 {
 protected:
@@ -24,7 +26,7 @@ public:
 	virtual bool ping();
 
 	/** Add data from the sensor */
-	virtual void getData(smap<void*> sensorData);
+	virtual void getData(smap<ptr<SensorData>>& sensorData);
 };
 
 #endif

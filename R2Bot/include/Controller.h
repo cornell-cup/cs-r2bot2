@@ -1,5 +1,5 @@
-#ifndef _Controller
-#define _Controller
+#ifndef _R2BOT_CONTROLLER
+#define _R2BOT_CONTROLLER
 
 #include "Global.h"
 
@@ -13,7 +13,7 @@ protected:
 
 public:
 	Controller(std::string controllerName);
-	~Controller();
+	virtual ~Controller();
 
 	/** Returns the name of the controller */
 	std::string getName();

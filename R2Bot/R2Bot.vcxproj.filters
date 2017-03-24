@@ -19,8 +19,11 @@
     <Filter Include="Header Files\Controller">
       <UniqueIdentifier>{a902b0cc-9dcd-4cdc-bd9a-a786338e7318}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Util">
-      <UniqueIdentifier>{809477b3-9c94-4092-8c10-737f90eb5d5a}</UniqueIdentifier>
+    <Filter Include="Header Files\SensorData">
+      <UniqueIdentifier>{cbe5e291-1826-4b62-b6b9-e4c60304b545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JobHandler">
+      <UniqueIdentifier>{264ac9bb-6386-4350-abf5-e8b631ba33a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,19 +39,28 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UDPSocketServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Job.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UDPServerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UDPSocketClient.cpp">
+    <ClCompile Include="src\UDPClientController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UDPClientController.cpp">
+    <ClCompile Include="src\SensorData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForwardSensorData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManualInputsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForwardHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GamepadSensorData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,12 +83,6 @@
     <ClInclude Include="include\Job.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Sensor\ManualInputs.h">
-      <Filter>Header Files\Sensor</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Util\UDPSocketServer.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="include\Sensor\UDPServerSensor.h">
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
@@ -86,8 +92,20 @@
     <ClInclude Include="include\Controller\UDPClientController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="include\Util\UDPSocketClient.h">
-      <Filter>Header Files\Util</Filter>
+    <ClInclude Include="include\SensorData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SensorData\ForwardSensorData.h">
+      <Filter>Header Files\SensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\ManualInputsHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\ForwardHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SensorData\GamepadSensorData.h">
+      <Filter>Header Files\SensorData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

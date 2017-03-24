@@ -20,12 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\ForwardHandler.cpp" />
+    <ClCompile Include="src\ForwardSensorData.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
+    <ClCompile Include="src\SensorData.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
+    <ClCompile Include="src\GamepadSensorData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h" />
@@ -35,8 +40,12 @@
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
     <ClInclude Include="include\JobHandler.h" />
+    <ClInclude Include="include\JobHandler\ForwardHandler.h" />
+    <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
     <ClInclude Include="include\Sensor.h" />
-    <ClInclude Include="include\Sensor\ManualInputs.h" />
+    <ClInclude Include="include\SensorData.h" />
+    <ClInclude Include="include\SensorData\ForwardSensorData.h" />
+    <ClInclude Include="include\SensorData\GamepadSensorData.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -91,10 +100,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\FreeImage;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\cs-communication-utilities\Utilities;$(ProjectDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\FreeImage;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)lib\crow;$(ProjectDir)lib\cs-communication-utilities\Utilities;$(ProjectDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,7 +127,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;C:\Program Files\FreeImage\Source\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;$(ProjectDir)lib\FreeImage\FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,7 +158,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

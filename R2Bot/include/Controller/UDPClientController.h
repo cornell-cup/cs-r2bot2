@@ -3,7 +3,7 @@
 
 #include "Global.h"
 #include "Controller.h"
-#include "Util/UDPSocketClient.h"
+#include "UDPSocketClient.h"
 
 class UDPClientController : public Controller {
 protected:
@@ -16,6 +16,5 @@ public:
 
 	void sendData(std::string data);
 };
-
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _JobHendler
-#define _JobHendler
+#ifndef _R2BOT_JOB_HANDLER
+#define _R2BOT_JOB_HANDLER
 
 #include "Global.h"
 
@@ -17,7 +17,7 @@ public:
 	virtual ~JobHandler();
 
 	/** Runs the job handler's actions */
-	virtual smap<ptr<Job>> execute(smap<void*> data);
+	virtual void execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif

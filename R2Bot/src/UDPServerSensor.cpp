@@ -1,11 +1,24 @@
 #include "Sensor/UDPServerSensor.h"
+#include "SensorData/ForwardSensorData.h"
 
-UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(new UDPSocketServer(host, port)) {
-	/*
-	server->server([](char * buffer, unsigned int buffer_len) {
+UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(std::make_shared<UDPSocketServer>(host, port)),
+		dataMutex(), dataReceived(), dataToForward() {
+	server->server([this](char * buffer, unsigned int buffer_len) {
+		// Decode the incoming data
+		R2Protocol::Packet params;
+		std::vector<unsigned char> input(buffer, buffer + buffer_len);
+		R2Protocol::decode(input, params);
 
+		std::lock_guard<std::mutex> lock(dataMutex);
+		if (params.destination == DEVICE_NAME) {
+			// Data is sent here
+			dataReceived[DEVICE_NAME] = SensorData::DecodeSensorData(DEVICE_NAME, params.data);
+		}
+		else {
+			// Data should be forwarded
+			dataToForward[params.destination] = params;
+		}
 	});
-	*/
 }
 
 UDPServerSensor::~UDPServerSensor() {
@@ -13,9 +26,26 @@ UDPServerSensor::~UDPServerSensor() {
 }
 
 bool UDPServerSensor::ping() {
-	return server->isListening();
+	return server->isListening() == 1;
 }
 
-void UDPServerSensor::getData(smap<void*> sensorData) {
-	//sensorData[getName()] = 
+void UDPServerSensor::getData(smap<ptr<SensorData>>& sensorData) {
+	for (auto itr = dataReceived.begin(); itr != dataReceived.end(); itr++) {
+		// Copy data to the sensor data
+		sensorData[itr->first] = itr->second;
+	}
+	// Clear the local data
+	dataReceived.clear();
+
+	// Copy forwarded data
+	auto forward = sensorData.find("forward");
+	if (forward == sensorData.end()) {
+		sensorData["forward"] = std::make_shared<ForwardSensorData>(dataToForward);
+	}
+	else {
+		auto data = std::dynamic_pointer_cast<ForwardSensorData>(forward->second);
+		data->forwardData.insert(dataToForward.begin(), dataToForward.end());
+	}
+	// Clear the local data
+	dataToForward.clear();
 }

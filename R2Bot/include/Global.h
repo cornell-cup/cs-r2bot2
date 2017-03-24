@@ -17,4 +17,24 @@ template<typename T> using ptr = shared_ptr<T>;
 /** String => Class Pointer Map */
 template<typename T> using smap = unordered_map<string, T>;
 
+/** Parse arguments as {--boolean | --key value} pairs */
+inline smap<string> parseArguments(int argc, char ** argv) {
+	smap<string> args;
+	string key;
+	for (int i = 0; i < argc; i++) {
+		string part(argv[i]);
+		if (part.substr(0, 2) == "--") {
+			if (key.length() > 0) { // Argument is present
+				args[key] = "";
+			}
+			key = part;
+		}
+		else if (key.length() > 0) { // Found a value for a key
+			args[key] = part;
+			key = "";
+		}
+	}
+	return args;
+}
+
 #endif
