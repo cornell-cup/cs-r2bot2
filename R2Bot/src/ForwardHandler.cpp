@@ -8,7 +8,7 @@ ForwardHandler::ForwardHandler(smap<ptr<Controller>>& routes): routes(routes) {
 ForwardHandler::~ForwardHandler() {
 }
 
-void ForwardHandler::execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
+void ForwardHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
 	// Send forwarded inputs
 	auto forward = data.find("forward");
 	auto packets = std::dynamic_pointer_cast<ForwardSensorData>(forward->second);

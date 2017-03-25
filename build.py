@@ -4,10 +4,15 @@ from os import path
 CC = "g++"
 CFLAGS = ["-pthread", "-std=c++11", "-Wall"]
 
-SRC_FOLDER = "{}/src"            # Source files
-INC_FOLDER = "{}/include"    # Header files
-OBJ_FOLDER = "{}/obj"            # Object code
-BIN_FOLDER = "{}/bin"            # Compiled executable libraries and binaries
+SRC_FOLDER = "{}/src"           # Source files
+INC_FOLDER = "{}/include"       # Header files
+OBJ_FOLDER = "{}/obj"           # Object code
+BIN_FOLDER = "{}/bin"           # Compiled executable libraries and binaries
+LIB_INC_FOLDER = [
+    "-I", "lib/crow",
+    "-I", "lib/cs-communication-utilities/Utilities",
+    "-I", "lib/cs-r2-protocol/src"
+]
 
 BINARY_NAME = "{}." + ("exe" if platform.system() is "Windows" else "x")
 
@@ -41,7 +46,7 @@ if __name__ == "__main__":
     for s in sources:
         o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
         objects.append(o)
-        args = [CC] + CFLAGS + ["-c"] + ["-I", INC_FOLDER] + [s] + ["-o", o]
+        args = [CC] + CFLAGS + ["-c"] + ["-I", INC_FOLDER] + LIB_INC_FOLDER + [s] + ["-o", o]
         print("Executing {}".format(args))
         subprocess.check_output(args)
 

@@ -21,6 +21,10 @@ template<typename T> using ptr = shared_ptr<T>;
 /** String => Class Pointer Map */
 template<typename T> using smap = unordered_map<string, T>;
 
+#ifndef _WIN32
+#	define Sleep(x) usleep(x*1000)
+#endif
+
 /** Parse arguments as {--boolean | --key value} pairs */
 inline smap<string> parseArguments(int argc, char ** argv) {
 	smap<string> args;

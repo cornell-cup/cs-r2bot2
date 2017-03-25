@@ -22,11 +22,14 @@ public:
 	/** Register this job handler for running jobs */
 	static void RegisterJobHandler(string handlerName, JobHandlerParser parser);
 
+	/** Get a job handler by command */
+	static ptr<JobHandler> GetJobHandler(string command);
+
 	JobHandler();
 	virtual ~JobHandler();
 
 	/** Runs the job handler's actions */
-	virtual void execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif

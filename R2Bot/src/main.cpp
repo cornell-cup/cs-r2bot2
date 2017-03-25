@@ -41,16 +41,6 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	return controllers;
 }
 
-/** Initialize job handlers */
-smap<ptr<JobHandler>> initializeJobHandlers(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
-	smap<ptr<JobHandler>> handlers;
-	handlers["forward"] = std::make_shared<ForwardHandler>(smap<ptr<Controller>>({
-		{ "motor", controllers["udp pi"] },
-		{ "pi", controllers["udp pi"] }
-	}));
-	return handlers;
-}
-
 /** Initialize a list of jobs */
 deque<Job> initializeJobs(smap<string>& args) {
 	deque<Job> jobs;
@@ -73,7 +63,14 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Sensor>> sensors = initializeSensors(args);
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
+	ptr<JobHandler> currentJob(0);
 	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
+
+	// Data forwarding handler
+	smap<ptr<Controller>> routes;
+	routes["motor"] = controllers["udp pi"];
+	routes["pi"] = controllers["udp pi"];
+	ForwardHandler forwardHandler(routes);
 
 	/** Main execution loop */
 	while (1) {
@@ -91,15 +88,28 @@ int main(int argc, char *argv[]) {
 			sensor->getData(data);
 		}
 
-		// Execute jobs
+		// Execute current jobs
 #ifdef DEBUG_PRINTS
-		printf("Jobs\n");
+		printf("Current jobs\n");
 #endif
+		if (!currentJob) {
+			// Get the next job in the queue
+			if (jobQueue.size() > 0) {
+				Job nextJob = jobQueue.front();
+				jobQueue.pop_front();
+				currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
+			}
+		}
+
+		// Run the current job
 		smap<string> outputs;
-		for (auto itr : jobs) {
-			ptr<Job> job = itr.second;
-			ptr<JobHandler> handler = handlers[job->getHandler()];
-			handler->execute(jobs, data, outputs);
+		if (currentJob) {
+			currentJob->execute(jobQueue, data, outputs);
+		}
+
+		// Run background jobs
+		for (auto itr : bgJobs) {
+			itr.execute(jobQueue, data, outputs);
 		}
 
 		// Send output data to controllers
@@ -123,10 +133,7 @@ int main(int argc, char *argv[]) {
 #ifdef DEBUG_PRINTS
 		printf("Forward\n");
 #endif
-		auto forward = handlers.find("forward");
-		if (forward != handlers.end()) {
-			forward->second->execute(jobs, data, outputs);
-		}
+		forwardHandler.execute(jobQueue, data, outputs);
 
 		// Sleep
 		Sleep(10);

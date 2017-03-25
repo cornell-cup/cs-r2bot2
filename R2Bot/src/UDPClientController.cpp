@@ -12,6 +12,6 @@ bool UDPClientController::ping() {
 
 void UDPClientController::sendData(std::string data) {
 	if (client->isConnected()) {
-		client->write(data.data(), data.length());
+		client->write(data.data(), (unsigned int) data.length());
 	}
 }

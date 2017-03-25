@@ -14,7 +14,7 @@ public:
 	ForwardHandler(smap<ptr<Controller>>& routes);
 	virtual ~ForwardHandler();
 
-	virtual void execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif

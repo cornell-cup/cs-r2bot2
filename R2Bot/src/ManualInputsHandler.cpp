@@ -14,6 +14,6 @@ void ManualInputsHandler::execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& d
 	if (gamepad != data.end()) {
 		auto gamepaddata = std::dynamic_pointer_cast<GamepadSensorData>(gamepad->second);
 		outputs["motor"] = std::to_string(gamepaddata->x) + " " + std::to_string(gamepaddata->y);
-		printf("%s\n", outputs["motor"]);
+		printf("%s\n", outputs["motor"].c_str());
 	}
 }

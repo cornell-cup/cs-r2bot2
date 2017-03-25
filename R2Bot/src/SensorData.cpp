@@ -11,11 +11,11 @@ void SensorData::RegisterSensorData(string dataName, SensorDataEncoder encoderFu
 
 ptr<SensorData> SensorData::DecodeSensorData(string dataType, vector<uint8_t> data) {
 	auto decoder = SensorData::DataDecoders.find(dataType);
-	if (decoder == SensorData::DataDecoders.end()) {
-		return 0;
+	if (decoder != SensorData::DataDecoders.end()) {
+		return (*decoder).second(data);
 	}
 	else {
-		return (*decoder).second(data);
+		return std::make_shared<SensorData>();
 	}
 }
 
