@@ -31,9 +31,9 @@ void ManualInputsHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data,
 		// Implement radius deadzone and scale to max speed (200)
 		radius = std::fmax(0.f, radius - 0.2f) / 0.8f * 200.f;
 		// Implement tank drive by rotating angle by 45 degrees clockwise
-		angle = angle - M_PI / 4.f;
-		int l = radius * std::cos(angle);
-		int r = radius * std::sin(angle);
+		angle = angle - (float) M_PI / 4.f;
+		int l = (int) (radius * std::cos(angle));
+		int r = (int) (radius * std::sin(angle));
 		// Pack values into 12 bytes
 		outputs["motor"] = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
 		printf("%s\n", outputs["motor"].c_str());

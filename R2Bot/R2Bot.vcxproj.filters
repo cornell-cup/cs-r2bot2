@@ -110,5 +110,8 @@
     <ClInclude Include="include\SensorData\GamepadSensorData.h">
       <Filter>Header Files\SensorData</Filter>
     </ClInclude>
+    <ClInclude Include="include\JobHandler\R2Server.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

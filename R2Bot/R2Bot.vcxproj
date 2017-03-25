@@ -43,6 +43,7 @@
     <ClInclude Include="include\JobHandler.h" />
     <ClInclude Include="include\JobHandler\ForwardHandler.h" />
     <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
+    <ClInclude Include="include\JobHandler\R2Server.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\SensorData.h" />
     <ClInclude Include="include\SensorData\ForwardSensorData.h" />
