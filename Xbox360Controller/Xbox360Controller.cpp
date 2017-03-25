@@ -62,8 +62,8 @@ int main(int argc, char** argv) {
 		}
 
 		// Get normalized X and Y values to [-1, 1]
-		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 15);
-		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 15);
+		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 13);
+		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 13);
 
 		// Send these values over UDP
 		sprintf_s(buffer, 64, "%f %f", normLX, normLY);

@@ -34,8 +34,24 @@ void ManualInputsHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data,
 		angle = angle - M_PI / 4.f;
 		int l = radius * std::cos(angle);
 		int r = radius * std::sin(angle);
-		// Pack values into 12 bytes
-		outputs["motor"] = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
-		printf("%s\n", outputs["motor"].c_str());
+		string payload = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
+
+		// Pack values into the protocol
+		outputs["motor"] = payload;
+		/*
+		R2Protocol::Packet params;
+		params.source = DEVICE_NAME;
+		params.destination = "MOTOR";
+		params.id = "0";
+		params.data = std::vector<uint8_t>(payload.begin(), payload.end());
+		vector<uint8_t> output;
+		R2Protocol::encode(params, output);
+		outputs["motor"] = string(output.begin(), output.end());
+		printf("%s\n", payload.c_str());
+		for (int i = 0; i < outputs["motor"].size(); i++) {
+			printf("%02x", (unsigned char) outputs["motor"][i]);
+		}
+		printf("\n");
+		*/
 	}
 }

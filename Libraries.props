@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
