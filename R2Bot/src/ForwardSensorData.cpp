@@ -1,5 +1,8 @@
 #include "SensorData/ForwardSensorData.h"
 
+bool ForwardSensorData::registered = SensorData::RegisterSensorData("forward", [](ptr<SensorData> command) { return vector<uint8_t>(); },
+	[](vector<uint8_t> data) { return (ptr<SensorData>) std::make_shared<SensorData>(); });
+
 ForwardSensorData::ForwardSensorData(): SensorData(), forwardData() {
 }
 

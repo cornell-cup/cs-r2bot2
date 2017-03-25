@@ -44,6 +44,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 /** Initialize a list of jobs */
 deque<Job> initializeJobs(smap<string>& args) {
 	deque<Job> jobs;
+	jobs.push_back(Job("manual-inputs"));
 	return jobs;
 }
 
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Sensor>> sensors = initializeSensors(args);
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
-	ptr<JobHandler> currentJob(0);
+	ptr<JobHandler> currentJob;
 	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
 
 	// Data forwarding handler
@@ -89,9 +90,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Execute current jobs
-#ifdef DEBUG_PRINTS
-		printf("Current jobs\n");
-#endif
 		if (!currentJob) {
 			// Get the next job in the queue
 			if (jobQueue.size() > 0) {
@@ -104,6 +102,9 @@ int main(int argc, char *argv[]) {
 		// Run the current job
 		smap<string> outputs;
 		if (currentJob) {
+#ifdef DEBUG_PRINTS
+			printf("Current job\n");
+#endif
 			currentJob->execute(jobQueue, data, outputs);
 		}
 

@@ -5,12 +5,15 @@
 #include "JobHandler.h"
 
 class ManualInputsHandler : public JobHandler {
+private:
+	/** Register this job handler */
+	static bool registered;
 protected:
 public:
 	ManualInputsHandler();
 	virtual ~ManualInputsHandler();
 
-	virtual void execute(smap<ptr<Job>>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif

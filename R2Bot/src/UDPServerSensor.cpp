@@ -30,9 +30,10 @@ bool UDPServerSensor::ping() {
 }
 
 void UDPServerSensor::getData(smap<ptr<SensorData>>& sensorData) {
-	for (auto itr = dataReceived.begin(); itr != dataReceived.end(); itr++) {
+	std::lock_guard<std::mutex> lock(dataMutex);
+	for (auto itr : dataReceived) {
 		// Copy data to the sensor data
-		sensorData[itr->first] = itr->second;
+		sensorData[itr.first] = itr.second;
 	}
 	// Clear the local data
 	dataReceived.clear();

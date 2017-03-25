@@ -6,14 +6,15 @@
 #include "SensorData.h"
 
 class ForwardSensorData : public SensorData {
-protected:
-
+private:
+	/** Register this sensor data */
+	static bool registered;
 public:
 	/* Create an empty set of sensor data to forward */
 	ForwardSensorData();
 	/* Create an initial set of sensor data to forward */
 	ForwardSensorData(smap<R2Protocol::Packet> data);
-	~ForwardSensorData();
+	virtual ~ForwardSensorData();
 
 	/* Data to be forwarded */
 	smap<R2Protocol::Packet> forwardData;

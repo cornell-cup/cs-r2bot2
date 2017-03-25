@@ -2,7 +2,12 @@
 #include "R2Protocol.hpp"
 #include "SensorData/ForwardSensorData.h"
 
-ForwardHandler::ForwardHandler(smap<ptr<Controller>>& routes): routes(routes) {
+bool ForwardHandler::registered = JobHandler::RegisterJobHandler("forward", [](string command) {
+	smap<ptr<Controller>> routes;
+	return (ptr<JobHandler>) std::make_shared<ForwardHandler>(routes);
+});
+
+ForwardHandler::ForwardHandler(smap<ptr<Controller>>& routes): JobHandler(), routes(routes) {
 }
 
 ForwardHandler::~ForwardHandler() {

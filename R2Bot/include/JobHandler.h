@@ -13,14 +13,16 @@ class JobHandler;
 
 typedef ptr<JobHandler>(*JobHandlerParser)(string);
 
-class JobHandler
-{
+class JobHandler {
+private:
+	/** Register this job handler */
+	static bool registered;
 protected:
 	/** Types of job handlers and pointers to parsing function */
-	static smap<JobHandlerParser> JobHandlers;
+	static smap<JobHandlerParser>& JobHandlers();
 public:
 	/** Register this job handler for running jobs */
-	static void RegisterJobHandler(string handlerName, JobHandlerParser parser);
+	static bool RegisterJobHandler(string handlerName, JobHandlerParser parser);
 
 	/** Get a job handler by command */
 	static ptr<JobHandler> GetJobHandler(string command);

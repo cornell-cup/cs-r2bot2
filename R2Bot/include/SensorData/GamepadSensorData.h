@@ -5,7 +5,9 @@
 #include "SensorData.h"
 
 class GamepadSensorData : public SensorData {
-protected:
+private:
+	/** Register this sensor data */
+	static bool registered;
 public:
 	GamepadSensorData(float x, float y);
 	virtual ~GamepadSensorData();

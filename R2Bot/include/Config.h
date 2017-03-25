@@ -3,7 +3,7 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#define DEBUG_PRINTS
+#undef  DEBUG_PRINTS
 
 #define DEVICE_NAME "nuc"
 #undef  USE_KINECT1
