@@ -58,6 +58,99 @@
                     </ul>
                 </li>
             </ul>
+
+            <div class="row">
+                <div class="col-md-6"> <!-- head/drawers-->
+                    <h3>HEAD</h3>
+                    <button id="flapOn">
+                        Flap ON
+                    </button>
+                    <button id="flapOff">
+                        Flap OFF
+                    </button> <br /> <br/>
+                    <input id="msg" type="text"></input>
+                    <button id="send">
+                        Send
+                    </button><BR> <br/>
+                    <button id="getHeadAngle">
+                        Get Head Angle
+                    </button> <br/> <br/>
+                    <textarea id="log" cols=100 rows=5>
+                     </textarea>
+                    <h3>DRAWERS</h3>
+                    <p>Drawer</p>
+                    <input id="drawerState" type="text" disabled/> </input>
+                    <p>RIFD</p>
+                    <input id="RIFDID" type="text" disabled /> </input>
+                       
+                </div>
+                <div class=" col-md-6"> <!-- graphs???-->
+
+                </div>
+            </div>
+            <script>
+                var sock = new WebSocket("ws://localhost:18080/wsh");
+                sock.onopen = ()=>{
+                    console.log('open')
+                    setInterval(function () {
+                        sock.send("2"); //change this string according to what page it is.
+                        sock.send("3");
+                    }, 33);
+                }
+                sock.onerror = (e)=>{
+                    console.log('error',e)
+                }
+                sock.onclose = ()=>{
+                    console.log('close')
+                }
+                sock.onmessage = (e) =>{
+                    var identifier = e.data.toString().charAt(0);
+                    var text = e.data.toString().substring(1);
+                    var time = function timeNow(i) {
+                        var d = new Date(), h = (d.getHours() < 10 ? '0' : '').d.getHours(), m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+                        i.value = h + ':' + m;
+                    };
+                    /* 
+                        0: HEAD manual input angle
+                        1: HEAD get angle
+                        2: DRAWERS state
+                        3: DRAWERS RFID ID
+                        4: HEAD manual flap state where 0 is OFF and 1 is ON
+                    */
+                    switch (identifier) {
+                        case "0": 
+                            $("#log").val(time + "\t" + text + "\n" + $("#log").val());
+                            break;
+                        case "2":
+                            $("#drawerState").val(text + "\n");
+                            break;
+                        case "3":
+                            $("#RIFDID").val(text + "\n");
+                            break;
+                    }                   
+                }
+                $("#msg").keypress(function(e){
+                    if (e.which == 13)
+                    {
+                    sock.send($("#msg").val());
+                    $("#msg").val("");
+                    }
+                });
+                $("#getHeadAngle").click(() => {
+                    sock.send("1"+ "Get Head Angle");
+                });
+                $("#flapOn").click(() => {
+                    sock.send("41");
+                });
+                $("#flapOff").click(() => {
+                    sock.send("40");
+                });
+                $("#send").click(()=>{
+                    sock.send("0"+ $("#msg").val());
+                    $("#msg").val("");
+                });
+            </script>
+
 		</div>
 	</div>
 </div>

@@ -21,6 +21,7 @@ using namespace cv;
 
 std::vector< char > fileContents;
 std::string manualInput;
+std::string homeInput;
 
 struct Middleware
 {
@@ -167,6 +168,51 @@ void server() {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
+
+		for (auto u : users)
+			if (is_binary) {
+				u->send_binary("data recieved");
+				std::cout << data << std::endl;
+			}
+			else {
+				u->send_binary("data recieved");
+				std::cout << data << std::endl;
+			}
+	});
+
+	CROW_ROUTE(app, "/wsh")
+		.websocket()
+		.onopen([&](crow::websocket::connection& conn) {
+		CROW_LOG_INFO << "new websocket connection";
+		std::lock_guard<std::mutex> _(mtx);
+		users.insert(&conn);
+	})
+		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
+		CROW_LOG_INFO << "websocket connection closed: " << reason;
+		std::lock_guard<std::mutex> _(mtx);
+		users.erase(&conn);
+	})
+		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
+		std::lock_guard<std::mutex> _(mtx);
+
+		std::string identifier = data.substr(0, 1);
+		std::string text = data.substr(1);
+		homeInput = text;
+		if (identifier == "0") {
+
+		}
+		else if (identifier == "1") {
+
+		}
+		else if (identifier == "2") {
+			//homeInput = 
+		}
+		else if (identifier == "3") {
+
+		}
+		else if (identifier == "4") {
+
+		}
 
 		for (auto u : users)
 			if (is_binary) {
