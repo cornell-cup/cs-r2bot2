@@ -8,6 +8,12 @@
 #include <chrono>
 
 #ifdef _WIN32
+#ifndef _CRT_SECURE_NO_WARNINGS
+#	define _CRT_SECURE_NO_WARNINGS
+#endif
+#ifndef _SCL_SECURE_NO_WARNINGS
+#	define _SCL_SECURE_NO_WARNINGS
+#endif
 #	define _WINSOCK_DEPRECATED_NO_WARNINGS
 #	include <WinSock2.h>
 #	include <Windows.h>
@@ -26,12 +32,16 @@ void initializeWSA() {
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
 #include "JobHandler/ForwardHandler.h"
+#include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	smap<ptr<Sensor>> sensors;
-	sensors["udp server"] = std::make_shared<UDPServerSensor>("127.0.0.1", 9000);
+	sensors["udp server"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
+	printf("1\n");
+	sensors["r2 server"] = std::make_shared<R2Server>(18080);
+	printf("2\n");
 	return sensors;
 }
 

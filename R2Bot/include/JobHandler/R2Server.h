@@ -8,14 +8,23 @@
 #	define _SCL_SECURE_NO_WARNINGS
 #endif
 
+#include "Global.h"
 #include "JobHandler.h"
 #include "Sensor.h"
 
 #include "crow_all.h"
 
+#include <unordered_set>
+
 class R2Server : public Sensor, public JobHandler {
-public
-	R2Server(string host, int port);
+protected:
+	crow::SimpleApp app;
+	std::mutex mtx;
+	std::unordered_set<crow::websocket::connection*> users;
+	string homeInput;
+	string manualInput;
+public:
+	R2Server(int port);
 	virtual ~R2Server();
 
 	/** Return the name of the sensor */
@@ -26,6 +35,9 @@ public
 
 	/** Add data from the sensor */
 	virtual void getData(smap<ptr<SensorData>>& sensorData);
+
+	/** Runs the job handler's actions */
+	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif
