@@ -198,6 +198,7 @@ void server() {
 		std::string identifier = data.substr(0, 1);
 		std::string text = data.substr(1);
 		homeInput = text;
+		
 		if (identifier == "0") {
 
 		}
@@ -211,17 +212,21 @@ void server() {
 
 		}
 		else if (identifier == "4") {
-
+			std::cout << "test";
+			std::ofstream headFlap;
+			headFlap.open("sensorIO/headFlap.txt", std::ios_base::app);
+			headFlap << homeInput + "\n";
+			headFlap.close();
 		}
 
 		for (auto u : users)
 			if (is_binary) {
 				u->send_binary("data recieved");
-				std::cout << data << std::endl;
+				//std::cout << data << std::endl;
 			}
 			else {
 				u->send_binary("data recieved");
-				std::cout << data << std::endl;
+				//std::cout << data << std::endl;
 			}
 	});
 
