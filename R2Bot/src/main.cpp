@@ -1,16 +1,5 @@
 #include "Global.h"
 
-#include "Controller.h"
-#include "Job.h"
-#include "JobHandler.h"
-#include "Sensor.h"
-#include "SensorData.h"
-
-#include "Controller/MotorController.h"
-#include "Controller/UDPClientController.h"
-#include "JobHandler/ForwardHandler.h"
-#include "Sensor/UDPServerSensor.h"
-
 #include <vector>
 #include <iostream>
 #include <thread>
@@ -27,6 +16,17 @@ void initializeWSA() {
 	WSAStartup(MAKEWORD(2, 2), &data);
 }
 #endif
+
+#include "Controller.h"
+#include "Job.h"
+#include "JobHandler.h"
+#include "Sensor.h"
+#include "SensorData.h"
+
+#include "Controller/UDPClientController.h"
+#include "Controller/MotorController.h"
+#include "JobHandler/ForwardHandler.h"
+#include "Sensor/UDPServerSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {

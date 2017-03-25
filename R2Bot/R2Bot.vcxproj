@@ -26,6 +26,7 @@
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
+    <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\SensorData.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />

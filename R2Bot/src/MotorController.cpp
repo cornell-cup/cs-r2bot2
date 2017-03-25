@@ -7,11 +7,11 @@ MotorController::~MotorController() {
 }
 
 bool MotorController::ping() {
-	return conn->isConnected();
+	return conn->isConnected() == 1;
 }
 
 void MotorController::sendData(string data) {
 	if (conn->isConnected()) {
-		conn->write((char *) data.data(), data.size());
+		conn->write((char *) data.data(), (unsigned int) data.size());
 	}
 }
