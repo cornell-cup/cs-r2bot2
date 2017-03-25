@@ -8,6 +8,9 @@ class ManualInputsHandler : public JobHandler {
 private:
 	/** Register this job handler */
 	static bool registered;
+
+	/** Pad an integer into a string */
+	string _pad(int i, int l);
 protected:
 public:
 	ManualInputsHandler();

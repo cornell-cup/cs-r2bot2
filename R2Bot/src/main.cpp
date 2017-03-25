@@ -6,6 +6,7 @@
 #include "Sensor.h"
 #include "SensorData.h"
 
+#include "Controller/MotorController.h"
 #include "Controller/UDPClientController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "Sensor/UDPServerSensor.h"
@@ -38,6 +39,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
 	controllers["udp pi"] = std::make_shared<UDPClientController>("127.0.0.1", 9010);
+	controllers["motor"] = std::make_shared<MotorController>("//./", 9600);
 	return controllers;
 }
 

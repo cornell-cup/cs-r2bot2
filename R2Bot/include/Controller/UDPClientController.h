@@ -10,11 +10,11 @@ protected:
 	ptr<UDPSocketClient> client;
 public:
 	UDPClientController(string host, int port);
-	~UDPClientController();
+	virtual ~UDPClientController();
 
-	bool ping();
+	virtual bool ping();
 
-	void sendData(std::string data);
+	virtual void sendData(string data);
 };
 
 #endif
