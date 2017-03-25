@@ -17,7 +17,7 @@ ManualInputsHandler::~ManualInputsHandler() {
 
 string ManualInputsHandler::_pad(int i, int l) {
 	string s = std::to_string(i);
-	return string(l - s.size(), ' ') + s;
+	return s + string(l - s.size(), ' ');
 }
 
 void ManualInputsHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {

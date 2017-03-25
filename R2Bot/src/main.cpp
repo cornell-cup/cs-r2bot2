@@ -39,7 +39,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
 	controllers["udp pi"] = std::make_shared<UDPClientController>("127.0.0.1", 9010);
-	controllers["motor"] = std::make_shared<MotorController>("//./", 9600);
+	controllers["motor"] = std::make_shared<MotorController>("//./COM6", 9600);
 	return controllers;
 }
 
@@ -139,6 +139,6 @@ int main(int argc, char *argv[]) {
 		forwardHandler.execute(jobQueue, data, outputs);
 
 		// Sleep
-		Sleep(10);
+		Sleep(100);
 	}
 }
