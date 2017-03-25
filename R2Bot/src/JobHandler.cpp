@@ -1,5 +1,11 @@
 #include "JobHandler.h"
 
+smap<JobHandlerParser> JobHandler::JobHandlers;
+
+void JobHandler::RegisterJobHandler(string handlerName, JobHandlerParser parser) {
+	JobHandler::JobHandlers[handlerName] = parser;
+}
+
 JobHandler::JobHandler()
 {
 }

@@ -12,7 +12,7 @@ UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), 
 		std::lock_guard<std::mutex> lock(dataMutex);
 		if (params.destination == DEVICE_NAME) {
 			// Data is sent here
-			dataReceived[DEVICE_NAME] = SensorData::DecodeSensorData(DEVICE_NAME, params.data);
+			dataReceived[params.source] = SensorData::DecodeSensorData(params.source, params.data);
 		}
 		else {
 			// Data should be forwarded

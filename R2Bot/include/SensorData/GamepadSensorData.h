@@ -7,11 +7,11 @@
 class GamepadSensorData : public SensorData {
 protected:
 public:
-	GamepadSensorData(int leftMotor, int rightMotor);
+	GamepadSensorData(float x, float y);
 	virtual ~GamepadSensorData();
 
-	int leftMotor;
-	int rightMotor;
+	float x;
+	float y;
 };
 
 #endif

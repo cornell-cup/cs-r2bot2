@@ -3,10 +3,14 @@
 
 #include "Config.h"
 
+#include <deque>
 #include <memory>
+#include <queue>
 #include <unordered_map>
 #include <vector>
 
+using std::deque;
+using std::queue;
 using std::shared_ptr;
 using std::string;
 using std::unordered_map;

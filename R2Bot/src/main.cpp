@@ -52,8 +52,14 @@ smap<ptr<JobHandler>> initializeJobHandlers(smap<string>& args, smap<ptr<Sensor>
 }
 
 /** Initialize a list of jobs */
-smap<ptr<Job>> initializeJobs(smap<string>& args) {
-	smap<ptr<Job>> jobs;
+deque<Job> initializeJobs(smap<string>& args) {
+	deque<Job> jobs;
+	return jobs;
+}
+
+/** Initialize background jobs */
+deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
+	deque<JobHandler> jobs;
 	return jobs;
 }
 
@@ -66,8 +72,8 @@ int main(int argc, char *argv[]) {
 #endif
 	smap<ptr<Sensor>> sensors = initializeSensors(args);
 	smap<ptr<Controller>> controllers = initializeControllers(args);
-	smap<ptr<JobHandler>> handlers = initializeJobHandlers(args, sensors, controllers);
-	smap<ptr<Job>> jobs = initializeJobs(args);
+	deque<Job> jobQueue = initializeJobs(args);
+	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
 
 	/** Main execution loop */
 	while (1) {
@@ -121,5 +127,8 @@ int main(int argc, char *argv[]) {
 		if (forward != handlers.end()) {
 			forward->second->execute(jobs, data, outputs);
 		}
+
+		// Sleep
+		Sleep(10);
 	}
 }
