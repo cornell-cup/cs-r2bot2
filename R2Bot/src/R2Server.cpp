@@ -55,15 +55,6 @@ std::string utf8_encode(const std::wstring &wstr)
 }
 
 R2Server::R2Server(int port) {
-	CROW_ROUTE(app, "/<string>") ([](const crow::request& req, crow::response& res, std::string str) {
-		int index = str.rfind('.');
-		std::wstring place = utf8_decode(str.substr(index));
-		std::string str1(utf8_encode(MimeTypeFromString(place)));
-		res.add_header("Content-Type", str1);
-		res.write(readIn("templates/" + str));
-		res.end();
-	});
-
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
 		.onopen([&](crow::websocket::connection& conn) {
@@ -166,7 +157,18 @@ R2Server::R2Server(int port) {
 		}
 	});
 
-	app.port(port).multithreaded().run();
+	CROW_ROUTE(app, "/<string>") ([](const crow::request& req, crow::response& res, std::string str) {
+		int index = str.rfind('.');
+		std::wstring place = utf8_decode(str.substr(index));
+		std::string str1(utf8_encode(MimeTypeFromString(place)));
+		res.add_header("Content-Type", str1);
+		res.write(readIn("templates/" + str));
+		res.end();
+	});
+
+	std::thread([&, port]() {
+		app.port(port).run();
+	}).detach();
 }
 
 R2Server::~R2Server() {

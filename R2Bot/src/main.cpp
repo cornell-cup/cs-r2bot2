@@ -39,9 +39,7 @@ void initializeWSA() {
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	smap<ptr<Sensor>> sensors;
 	sensors["udp server"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
-	printf("1\n");
 	sensors["r2 server"] = std::make_shared<R2Server>(18080);
-	printf("2\n");
 	return sensors;
 }
 
