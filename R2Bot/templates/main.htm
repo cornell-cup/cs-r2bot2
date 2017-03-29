@@ -34,9 +34,6 @@
                     <a href="camera.htm">Camera</a>
                 </li>
                 <li>
-                    <a href="#">External</a>
-                </li>
-                <li>
                     <a href="database.htm">Database</a>
                 </li>
                 <li class="dropdown pull-right">
@@ -69,7 +66,7 @@
                     <button id="flapOff">
                         Flap CLOSE
                     </button> <br /> <br/>
-                    <input id="msg" type="text"></input>
+                    <input id="msg" type="text"/>
                     <button id="send">
                         Send
                     </button><BR> <br/>
@@ -80,9 +77,9 @@
                      </textarea>
                     <h3>DRAWERS</h3>
                     <p>Drawer</p>
-                    <input id="drawerState" type="text" disabled/> </input>
+                    <input id="drawerState" type="text" disabled/>
                     <p>RIFD</p>
-                    <input id="RIFDID" type="text" disabled /> </input>
+                    <input id="RIFDID" type="text" disabled />
                        
                 </div>
                 <div class=" col-md-6"> <!-- graphs???-->
@@ -94,7 +91,7 @@
                 sock.onopen = ()=>{
                     console.log('open')
                     setInterval(function () {
-                        sock.send("2"); //change this string according to what page it is.
+                        sock.send("2");
                         sock.send("3");
                     }, 33);
                 }

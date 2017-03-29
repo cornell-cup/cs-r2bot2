@@ -35,7 +35,7 @@ inline smap<string> parseArguments(int argc, char ** argv) {
 			if (key.length() > 0) { // Argument is present
 				args[key] = "";
 			}
-			key = part;
+			key = part.substr(2);
 		}
 		else if (key.length() > 0) { // Found a value for a key
 			args[key] = part;

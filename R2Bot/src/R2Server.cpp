@@ -1,6 +1,12 @@
-#include "JobHandler/R2Server.h"
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
 
+#include "JobHandler/R2Server.h"
+#include <iostream>
+#include <fstream>
 #include <urlmon.h>
+#include <vector>
+#include "../amalgamate/crow_all.h"
 
 // Read in a file and return a string containing the byte array input
 string readIn(string fileName) {

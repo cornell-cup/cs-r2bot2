@@ -8,11 +8,13 @@ bool GamepadSensorData::registered = SensorData::RegisterSensorData("gamepad",
 },
 [](vector<uint8_t> data) {
 	float x, y;
+	if (!data.empty()) {
 #ifdef _WIN32
-	sscanf_s((char *)data.data(), "%f %f", &x, &y);
+		sscanf_s((char *)data.data(), "%f %f", &x, &y);
 #else
-	sscanf((char *)data.data(), "%f %f", &x, &y);
+		sscanf((char *)data.data(), "%f %f", &x, &y);
 #endif
+	}
 	return (ptr<SensorData>) std::make_shared<GamepadSensorData>(x, y);
 });
 

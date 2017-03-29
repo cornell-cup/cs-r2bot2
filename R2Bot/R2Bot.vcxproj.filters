@@ -116,5 +116,39 @@
     <ClInclude Include="include\JobHandler\R2Server.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\camera.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\database.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\joystick.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\main.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\manual.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="templates\ccrt-logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="templates\favicon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="templates\favicon-16x16.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="templates\favicon-32x32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

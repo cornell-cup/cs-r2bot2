@@ -35,6 +35,7 @@
     <ClCompile Include="src\GamepadSensorData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
@@ -50,6 +51,27 @@
     <ClInclude Include="include\SensorData\ForwardSensorData.h" />
     <ClInclude Include="include\SensorData\GamepadSensorData.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\camera.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\database.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\joystick.js" />
+    <None Include="templates\main.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\manual.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="templates\ccrt-logo.png" />
+    <Image Include="templates\favicon-16x16.png" />
+    <Image Include="templates\favicon-32x32.png" />
+    <Image Include="templates\favicon.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
@@ -132,10 +154,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

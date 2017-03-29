@@ -28,7 +28,7 @@ void ForwardHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap
 	// Send remaining outputs
 	for (auto itr : outputs) {
 		auto route = routes.find(itr.first);
-		if (route != routes.end()) {
+		if (route != routes.end() && route->second) {
 			route->second->sendData(itr.second);
 		}
 	}

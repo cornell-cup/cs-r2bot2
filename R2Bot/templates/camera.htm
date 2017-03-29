@@ -31,9 +31,6 @@
                         <a href="camera.htm">Camera</a>
                     </li>
                     <li>
-                        <a href="#">External</a>
-                    </li>
-                    <li>
                         <a href="database.htm">Database</a>
                     </li>
                     <li class="dropdown pull-right">
@@ -65,7 +62,7 @@
                 console.log('open');
 
                 setInterval(function () {
-                    sock.send(""); //change this string according to what page it is.
+                    sock.send("");
                 }, 33);
             }
             sock.onerror = (e) => {
@@ -86,7 +83,6 @@
                  function () {
                      var randomnumber = Math.floor(Math.random() * 100);
                      var byteArray = new Uint8Array(data);
-                   //  console.log(byteArray);
                      for (var i = 0; i < data.length; i += 2) {
                          byteArray[i / 2] = parseInt(data.substring(i, i + 2), /* base = */ 16);
                      }
@@ -103,7 +99,6 @@
                          'height': 500
                      });
                  });
-                // console.log(data);
             }
                     </script>
 
