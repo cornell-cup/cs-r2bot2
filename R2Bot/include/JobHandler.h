@@ -1,33 +1,37 @@
-#ifndef _JobHendler
-#define _JobHendler
+#ifndef _R2BOT_JOB_HANDLER
+#define _R2BOT_JOB_HANDLER
 
-#include <list>
-#include "Sensor.h"
+#include "Global.h"
+
 #include "Controller.h"
+#include "Job.h"
+#include "Sensor.h"
 
-class Node {
-	// TODO: define class
-};
+#include <memory>
 
-class JobHandler
-{
+class JobHandler;
+
+typedef ptr<JobHandler>(*JobHandlerParser)(string);
+
+class JobHandler {
+private:
+	/** Register this job handler */
+	static bool registered;
 protected:
-	std::list<Sensor> sensors;
-	std::list<Controller> controllers;
-	std::list<Node> waypoints;
-
-	/** Creates a path between two nodes and stores as Nodes in waypoints */
-	virtual void pathPlan(Node startPos, Node endPos);
-
-	/** Parses arguments from job string to values */
-	virtual void parseArgs(std::string job);
-
+	/** Types of job handlers and pointers to parsing function */
+	static smap<JobHandlerParser>& JobHandlers();
 public:
-	JobHandler(std::list<Sensor> sensors, std::list<Controller> controllers);
+	/** Register this job handler for running jobs */
+	static bool RegisterJobHandler(string handlerName, JobHandlerParser parser);
+
+	/** Get a job handler by command */
+	static ptr<JobHandler> GetJobHandler(string command);
+
+	JobHandler();
 	virtual ~JobHandler();
 
 	/** Runs the job handler's actions */
-	virtual void execute(std::string job);
+	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
 };
 
 #endif

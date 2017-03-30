@@ -1,205 +1,174 @@
-#include "UDPSocketServer.h"
-#include "ManualInputs.h"
-#include "Controller.h"
-#include "JobHandler.h"
-#include "JobQueue.h"
-#include "R2Server.h"
-#include "Sensor.h"
+#include "Global.h"
+
 #include <vector>
 #include <iostream>
-#include "KinectSensor.h"
 #include <thread>
 #include <unordered_map>
 #include <cmath>
 #include <chrono>
 
-std::unordered_map<std::string, Sensor*> sensors;
-std::vector<Controller> controllers;
-std::vector<JobHandler> jobHandlers;
-JobQueue jobQueue;
-ManualInputs *manualInputsHandler;
-int lastKinectTiltAngle = 0;
-
-/** Initializes a Sensor object for each sensor */
-void initializeSensors() {
-	sensors["KinectSensor"] = new KinectSensor("Kinect Sensor");
-}
-
-/** Initializes the manual inputs handler by establishing the UDP socket connection to receive data */
-void initializeManualInputsHandler(std::string host, int port) {
+#ifdef _WIN32
+#ifndef _CRT_SECURE_NO_WARNINGS
+#	define _CRT_SECURE_NO_WARNINGS
+#endif
+#ifndef _SCL_SECURE_NO_WARNINGS
+#	define _SCL_SECURE_NO_WARNINGS
+#endif
+#	define _WINSOCK_DEPRECATED_NO_WARNINGS
+#	include <WinSock2.h>
+#	include <Windows.h>
+void initializeWSA() {
 	WSADATA data;
 	WSAStartup(MAKEWORD(2, 2), &data);
-	manualInputsHandler = new ManualInputs(host, port);
-    (*manualInputsHandler).receiveManualInputs();
 }
+#endif
 
-/** Initializes a Controller object for each controller */
-void initializeControllers() {
-	// "TODO: initializeControllers"
-}
+#include "Controller.h"
+#include "Job.h"
+#include "JobHandler.h"
+#include "Sensor.h"
+#include "SensorData.h"
 
-/** Initializes a JobHandler object for each job type */
-void initializeJobHandlers() {
-	// "TODO: initializeJobHandlers"
-}
+#include "Controller/UDPClientController.h"
+#include "Controller/MotorController.h"
+#include "JobHandler/ForwardHandler.h"
+#include "JobHandler/R2Server.h"
+#include "Sensor/UDPServerSensor.h"
 
-/** Initializes the JobQueue object */
-void initializeJobQueue() {
-	// "TODO: initializeJobQueue"
-}
-
-/** Returns the JobHandler object suited to deal with the given job */
-JobHandler *getHandlerByJob(std::string job) {
-	// "TODO: initializeJobQueue"
-	return nullptr;
-}
-
-/** Gets all sensor data in current time step */
-void getSensorData() {
-	for (auto i : sensors) {
-		i.second->getSensorData();
+/** Initializes sensors */
+smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
+	smap<ptr<Sensor>> sensors;
+	if (!(args["udp-server-ip"].empty()) && !(args["udp-server-port"].empty())) {
+		sensors["udp server"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
 	}
+	else {
+		sensors["udp server"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
+	}
+	if (!(args["r2-server-port"].empty())) {
+		sensors["r2 server"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
+	}
+	else {
+		sensors["r2 server"] = std::make_shared<R2Server>(18080);
+	}
+	return sensors;
 }
 
-/** Utility function for splitting a string based on a delimitting character */
-void split(const std::string& s, char c, std::vector<std::string>& v) {
-	std::string::size_type i = 0;
-	std::string::size_type j = s.find(c);
-
-	while (j != std::string::npos) {
-		v.push_back(s.substr(i, j - i));
-		i = ++j;
-		j = s.find(c, j);
-		if (j == std::string::npos)
-			v.push_back(s.substr(i, s.length()));
+/** Initializes controllers */
+smap<ptr<Controller>> initializeControllers(smap<string>& args) {
+	smap<ptr<Controller>> controllers;
+	if (!(args["udp-pi-ip"].empty()) && !(args["udp-pi-port"].empty())) {
+		controllers["udp pi"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
 	}
+	else {
+		std::cout << "No UDP Pi ip or port specified." << std::endl;
+	}
+	if (!(args["motor-com-port"].empty())) {
+		controllers["motor"] = std::make_shared<MotorController>("//./" + args["motor-com-port"], 9600);
+	}
+	else {
+		std::cout << "No motor ports specified." << std::endl;
+	}
+	return controllers;
 }
 
-/** Pulls data from the manual inputs queue and performs the associated action */
-void processManualData() {
-	while (TRUE) {
-		std::queue<std::string> *taskQueue = (*manualInputsHandler).getCommands();
-		if ((*taskQueue).size() > 0) {
-			std::string manualCommand = (*taskQueue).front();
-			(*taskQueue).pop();
-			if (manualCommand.find("XBOX Kinect") == 0) {
-				std::vector<std::string> v;
-				std::string s = manualCommand.substr(12, 100);
-				split(s, ' ', v);
-				for (int i = 0; i < v.size(); ++i) {
-					std::string tmp = v[i];
-					char number[1024];
-					strcpy_s(number, tmp.c_str());
-				}
-				int first = std::stoi(v[0]);
-				int second = std::stoi(v[1]);
-				if ((std::abs(first - 80.0) + std::abs(second - 80.0)) <= 10.0) {
-					KinectSensor *currentSensor = dynamic_cast<KinectSensor*>(sensors["KinectSensor"]);
-					if (lastKinectTiltAngle == -27) {
-						currentSensor->sensor->NuiCameraElevationSetAngle(0);
-						lastKinectTiltAngle = 0;
-						std::this_thread::sleep_for(std::chrono::seconds(1));
-					}
-					else if (lastKinectTiltAngle == 0) {
-						currentSensor->sensor->NuiCameraElevationSetAngle(27);
-						lastKinectTiltAngle = 27;
-						std::this_thread::sleep_for(std::chrono::seconds(1));
-					}
-				}
-				else if ((std::abs(first + 80) + std::abs(second + 80.0)) <= 10.0) {
-					KinectSensor *currentSensor = dynamic_cast<KinectSensor*>(sensors["KinectSensor"]);
-					if (lastKinectTiltAngle == 27) {
-						currentSensor->sensor->NuiCameraElevationSetAngle(0);
-						lastKinectTiltAngle = 0;
-						std::this_thread::sleep_for(std::chrono::seconds(1));
-					}
-					else if (lastKinectTiltAngle == 0) {
-						currentSensor->sensor->NuiCameraElevationSetAngle(-27);
-						lastKinectTiltAngle = -27;
-						std::this_thread::sleep_for(std::chrono::seconds(1));
-					}
-				}
-			}
-		}
-	}
+/** Initialize a list of jobs */
+deque<Job> initializeJobs(smap<string>& args) {
+	deque<Job> jobs;
+	jobs.push_back(Job("manual-inputs"));
+	return jobs;
+}
+
+/** Initialize background jobs */
+deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
+	deque<JobHandler> jobs;
+	return jobs;
 }
 
 int main(int argc, char *argv[]) {
-	std::string host = "";
-	int port = -1;
-
-	/** Handle arguments */
-	for (int i = 0; i < argc; i++) {
-		std::string arg = std::string(argv[i]);
-		if (arg == "--jobs-file") {
-			// Set initial jobs file for job_queue initialization
-			if (++i < argc) {
-				jobQueue.addJobsFile(argv[i]);
-			}
-			else {
-				std::cout << "jobs-file flag requires an argument";
-			}
-		}
-		else if (arg == "--host") {
-			 //Set network host for job_queue initialization
-			if (++i < argc)
-				host = arg;
-			else
-				std::cout << "host flag requires an argument";
-		}
-		else if (arg == "--port") {
-			// Set network port for job_queue initialization
-			if (++i < argc)
-				port = stoi(arg);
-			else
-				std::cout << "port flag requires an argument";
-		}
-		else {
-			// Unrecognized flag
-			std::cout << "Unrecognized flag " << arg;
-		}
-	}
-
-	if (host != "" && port >= 0)
-		jobQueue.setNetworkInterface(host, port);
-
+	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
-	initializeSensors();
-	initializeManualInputsHandler("192.168.4.170", 9020);
-	initializeControllers();
-	initializeJobHandlers();
-	initializeJobQueue();
+#ifdef _WIN32
+	initializeWSA();
+#endif
+	smap<ptr<Sensor>> sensors = initializeSensors(args);
+	smap<ptr<Controller>> controllers = initializeControllers(args);
+	deque<Job> jobQueue = initializeJobs(args);
+	ptr<JobHandler> currentJob;
+	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
 
-	/** Create web server for displying image stream */
-	char* server_args[] = {"R2Server", "--docroot", ".",
-		"--http-address", "0.0.0.0", "--http-port", "8080"};
-	KinectSensor *kSensor = static_cast<KinectSensor *>(sensors["KinectSensor"]);
-	std::thread serverThread(R2Server::run,
-		kSensor->imageWidth,
-		kSensor->imageHeight,
-		7, server_args);
-	std::cout << "\nStarted Server thread\n";
-
-	/** Create manual input thread */
-	std::thread manualInputThread(processManualData);
-	std::cout << "\nStarted Manual Input Thread\n";
+	// Data forwarding handler
+	smap<ptr<Controller>> routes;
+	routes["motor"] = controllers["udp pi"];
+	routes["pi"] = controllers["udp pi"];
+	ForwardHandler forwardHandler(routes);
 
 	/** Main execution loop */
 	while (1) {
-		std::string job = jobQueue.getJob();
-		if (job != "") {
-			JobHandler *handler = getHandlerByJob(job);
-			handler->execute(job);
+#ifdef DEBUG_PRINTS
+		printf("Loop Start\n");
+#endif
+
+		// Collect data from sensors
+#ifdef DEBUG_PRINTS
+		printf("Sensors\n");
+#endif
+		smap<ptr<SensorData>> data;
+		for (auto itr : sensors) {
+			printf("test 1\n");
+			ptr<Sensor> sensor = itr.second;
+			printf("test 2\n");
+			std::cout << sensor->getName() << std::endl;
+			sensor->getData(data);
+			printf("test 3\n");
 		}
-		getSensorData();
-		// Update server image. TODO: maybe move this?
-		if (R2Server::k != nullptr) {
-			kSensor->imageMutex->lock();
-			R2Server::k->setImage(kSensor->jpgImage,
-				kSensor->jpgSize);
-			kSensor->imageMutex->unlock();
+		// Execute current jobs
+		if (!currentJob) {
+			// Get the next job in the queue
+			if (jobQueue.size() > 0) {
+				Job nextJob = jobQueue.front();
+				jobQueue.pop_front();
+				currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
+			}
 		}
-		break;
-		 //TODO: Complete this function
+
+		// Run the current job
+		smap<string> outputs;
+		if (currentJob) {
+#ifdef DEBUG_PRINTS
+			printf("Current job\n");
+#endif
+			currentJob->execute(jobQueue, data, outputs);
+		}
+
+		// Run background jobs
+		for (auto itr : bgJobs) {
+			itr.execute(jobQueue, data, outputs);
+		}
+
+		// Send output data to controllers
+#ifdef DEBUG_PRINTS
+		printf("Controllers\n");
+#endif
+		auto itr = outputs.begin();
+		while (itr != outputs.end()) {
+			auto controller = controllers.find(itr->first);
+			if (controller != controllers.end()) {
+				controller->second->sendData(itr->second);
+				// Erase from the map
+				itr = outputs.erase(itr);
+			}
+			else {
+				itr++;
+			}
+		}
+
+		// Forward any remaining outputs
+#ifdef DEBUG_PRINTS
+		printf("Forward\n");
+#endif
+		forwardHandler.execute(jobQueue, data, outputs);
+
+		// Sleep
+		Sleep(100);
 	}
 }

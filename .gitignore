@@ -255,5 +255,6 @@ paket-files/
 .vscode/
 
 # Libraries
-R2Bot/lib/wt_3_3_6/
-R2Bot/lib
+lib/**/*
+!lib/*.sh
+!lib/*.md

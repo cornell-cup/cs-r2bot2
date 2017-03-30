@@ -22,12 +22,7 @@ bool Sensor::ping()
 	return false;
 }
 
-void * Sensor::getCachedData()
+void Sensor::getData(smap<ptr<SensorData>>& sensorData)
 {
-	return nullptr;
-}
-
-bool Sensor::getSensorData()
-{
-	return false;
+	return;
 }

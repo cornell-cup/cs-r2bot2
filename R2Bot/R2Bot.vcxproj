@@ -20,24 +20,58 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\ForwardHandler.cpp" />
+    <ClCompile Include="src\ForwardSensorData.cpp" />
+    <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\JobQueue.cpp" />
-    <ClCompile Include="src\KinectSensor.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ManualInputs.cpp" />
+    <ClCompile Include="src\ManualInputsHandler.cpp" />
+    <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
-    <ClCompile Include="src\UDPSocketServer.cpp" />
+    <ClCompile Include="src\SensorData.cpp" />
+    <ClCompile Include="src\UDPClientController.cpp" />
+    <ClCompile Include="src\UDPServerSensor.cpp" />
+    <ClCompile Include="src\GamepadSensorData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
+    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
+    <ClInclude Include="include\Controller\MotorController.h" />
+    <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Global.h" />
+    <ClInclude Include="include\Job.h" />
     <ClInclude Include="include\JobHandler.h" />
-    <ClInclude Include="include\JobQueue.h" />
-    <ClInclude Include="include\KinectSensor.h" />
-    <ClInclude Include="include\ManualInputs.h" />
-    <ClInclude Include="include\R2Server.h" />
+    <ClInclude Include="include\JobHandler\ForwardHandler.h" />
+    <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
+    <ClInclude Include="include\JobHandler\R2Server.h" />
     <ClInclude Include="include\Sensor.h" />
-    <ClInclude Include="include\UDPSocketServer.h" />
+    <ClInclude Include="include\SensorData.h" />
+    <ClInclude Include="include\SensorData\ForwardSensorData.h" />
+    <ClInclude Include="include\SensorData\GamepadSensorData.h" />
+    <ClInclude Include="include\Sensor\UDPServerSensor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="templates\camera.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\database.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\joystick.js" />
+    <None Include="templates\main.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="templates\manual.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="templates\ccrt-logo.png" />
+    <Image Include="templates\favicon-16x16.png" />
+    <Image Include="templates\favicon-32x32.png" />
+    <Image Include="templates\favicon.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0DDE011D-E0C5-4F43-9984-4DADE90D530C}</ProjectGuid>
@@ -78,20 +112,27 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Libraries.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Freeimage\Wrapper\FreeImagePlus\dist\x64;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,12 +152,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(ProjectDir)include;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wt.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64;$(ProjectDir)lib\FreeImage\Dist\x64;$(ProjectDir)lib\FreeImage;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;$(ProjectDir)/lib/wt_3_3_6/lib;C:\Program Files\FreeImage\Source\FreeImage;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;$(ProjectDir)lib\FreeImage\Dist\x64\FreeImage.lib;$(ProjectDir)lib\FreeImage\Wrapper\FreeImagePlus\dist\x64\FreeImagePlus.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wt.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wtd.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wthttp.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\wthttpd.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_thread-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_date_time-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_system-vc140-mt-gd-1_59.lib;$(ProjectDir)lib\Wt-3.3.6-msvs2015-Windows-x64-SDK\lib\libboost_chrono-vc140-mt-gd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,13 +184,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\x86\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

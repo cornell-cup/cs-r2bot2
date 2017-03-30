@@ -1,5 +1,7 @@
-#ifndef _Controller
-#define _Controller
+#ifndef _R2BOT_CONTROLLER
+#define _R2BOT_CONTROLLER
+
+#include "Global.h"
 
 #include <string>
 
@@ -11,7 +13,7 @@ protected:
 
 public:
 	Controller(std::string controllerName);
-	~Controller();
+	virtual ~Controller();
 
 	/** Returns the name of the controller */
 	std::string getName();
@@ -19,8 +21,8 @@ public:
 	/** Returns true if can communicate with controller */
 	virtual bool ping();
 
-	/** Sends the controller-specific command to the controller */
-	virtual void applyCommand(std::string command);
+	/** Sends the controller-specific data to the controller */
+	virtual void sendData(std::string data);
 };
 
 #endif
