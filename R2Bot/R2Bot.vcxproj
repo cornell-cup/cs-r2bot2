@@ -153,12 +153,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(SolutionDir)lib\sqlite;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -191,7 +191,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

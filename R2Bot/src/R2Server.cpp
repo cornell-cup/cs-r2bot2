@@ -6,7 +6,7 @@
 #include <fstream>
 #include <urlmon.h>
 #include <vector>
-#include "../amalgamate/crow_all.h"
+#include "crow_all.h"
 
 // Read in a file and return a string containing the byte array input
 string readIn(string fileName) {
