@@ -1,6 +1,9 @@
 import glob, os, platform, subprocess, sys
 from os import path
 
+IS_WINDOWS = "Windows" in platform.system()
+IS_MSYS = "MSYS" in platform.system()
+
 CC = "g++"
 CFLAGS = ["-pthread", "-std=c++11", "-Wall"]
 
@@ -9,12 +12,16 @@ INC_FOLDER = "{}/include"       # Header files
 OBJ_FOLDER = "{}/obj"           # Object code
 BIN_FOLDER = "{}/bin"           # Compiled executable libraries and binaries
 LIB_INC_FOLDER = [
-    "-I", "lib/crow",
+    "-I", "lib/crow/amalgamate",
     "-I", "lib/cs-communication-utilities/Utilities",
-    "-I", "lib/cs-r2-protocol/src"
-]
+    "-I", "lib/cs-r2-protocol/src",
+    "-I", "lib/opencv3/opencv/build/include",
+    "-I", "lib/sqlite",
+] + (
+    ["-I", "/mingw64/include"] if IS_MSYS else []
+)
 
-BINARY_NAME = "{}." + ("exe" if platform.system() is "Windows" else "x")
+BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

@@ -5,4 +5,7 @@
 # 1. Clone https://github.com/cornell-cup/cs-r2-protocol.git
 # 2. Add `cs-r2-protocol/src` to the include path
 
-git clone https://github.com/cornell-cup/cs-r2-protocol.git
+import subprocess
+
+if __name__=="__main__":
+    subprocess.call([ "git", "clone", "https://github.com/cornell-cup/cs-r2-protocol.git" ])

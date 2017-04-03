@@ -5,4 +5,7 @@
 # 1. Clone https://github.com/cornell-cup/cs-communication-utilities.git
 # 2. Add `cs-communication-utilities/Utilities` to the include path
 
-git clone https://github.com/cornell-cup/cs-communication-utilities.git
+import subprocess
+
+if __name__=="__main__":
+    subprocess.call([ "git", "clone", "https://github.com/cornell-cup/cs-communication-utilities.git" ])
