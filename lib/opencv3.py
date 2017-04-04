@@ -5,7 +5,10 @@
 # 2. Add `opencv3\opencv\build\include` to the include path
 
 import subprocess
+import platform
 
 if __name__=="__main__":
     if "MSYS" in platform.system():
         subprocess.call([ "pacman", "-S", "mingw-w64-x86_64-opencv" ])
+    elif "Linux" in platform.system():
+        # TODO Compile and build opencv

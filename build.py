@@ -20,6 +20,10 @@ LIB_INC_FOLDER = [
 ] + (
     ["-I", "/mingw64/include"] if IS_MSYS else []
 )
+LIBS = [
+    "-lboost_system",
+    "-lboost_date_time",
+]
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
 
@@ -58,7 +62,7 @@ if __name__ == "__main__":
         subprocess.check_output(args)
 
     # Build the binary
-    args = [CC] + CFLAGS + ["-I", INC_FOLDER] + objects \
+    args = [CC] + CFLAGS + ["-I", INC_FOLDER] + objects + LIBS \
         + ["-o", BIN_FOLDER + "/" + BINARY_NAME]
     print("Executing {}".format(args))
     subprocess.check_output(args)
