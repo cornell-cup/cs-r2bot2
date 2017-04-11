@@ -28,6 +28,8 @@ void initializeWSA() {
 #include "JobHandler.h"
 #include "Sensor.h"
 #include "SensorData.h"
+#include "../R2Users.h"
+#include "../R2Tools.h"
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
@@ -102,6 +104,10 @@ int main(int argc, char *argv[]) {
 	routes["pi"] = controllers["udp pi"];
 	ForwardHandler forwardHandler(routes);
 
+	maintainUsers(); //USER DATABASE STUFF
+	maintainTools();
+	//TODO: method arg should be sql command stored in a char
+
 	/** Main execution loop */
 	while (1) {
 #ifdef DEBUG_PRINTS
@@ -114,12 +120,12 @@ int main(int argc, char *argv[]) {
 #endif
 		smap<ptr<SensorData>> data;
 		for (auto itr : sensors) {
-			printf("test 1\n");
+			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;
-			printf("test 2\n");
-			std::cout << sensor->getName() << std::endl;
+			//printf("test 2\n");
+			//std::cout << sensor->getName() << std::endl;
 			sensor->getData(data);
-			printf("test 3\n");
+			//printf("test 3\n");
 		}
 		// Execute current jobs
 		if (!currentJob) {
