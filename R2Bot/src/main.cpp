@@ -111,12 +111,12 @@ int main(int argc, char *argv[]) {
 	/** Main execution loop */
 	while (1) {
 #ifdef DEBUG_PRINTS
-		printf("Loop Start\n");
+	//	printf("Loop Start\n");
 #endif
 
 		// Collect data from sensors
 #ifdef DEBUG_PRINTS
-		printf("Sensors\n");
+	//	printf("Sensors\n");
 #endif
 		smap<ptr<SensorData>> data;
 		for (auto itr : sensors) {
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 		smap<string> outputs;
 		if (currentJob) {
 #ifdef DEBUG_PRINTS
-			printf("Current job\n");
+		//	printf("Current job\n");
 #endif
 			currentJob->execute(jobQueue, data, outputs);
 		}
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
 
 		// Send output data to controllers
 #ifdef DEBUG_PRINTS
-		printf("Controllers\n");
+		//printf("Controllers\n");
 #endif
 		auto itr = outputs.begin();
 		while (itr != outputs.end()) {
@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
 
 		// Forward any remaining outputs
 #ifdef DEBUG_PRINTS
-		printf("Forward\n");
+		//printf("Forward\n");
 #endif
 		forwardHandler.execute(jobQueue, data, outputs);
 

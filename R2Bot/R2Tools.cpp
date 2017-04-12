@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <../sqlite-amalgamation-3170000/sqlite3.h> 
+#include <vector>
+
+std::vector<std::string> entries;
 
 static int callbackTools(void *data, int argc, char **argv, char **azColName) {
 	int i;
 	fprintf(stderr, "%s: ", (const char*)data);
 	for (i = 0; i<argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+		entries.push_back(azColName[i]);
+		entries.push_back(argv[i]);
 	}
 	printf("\n");
 	return 0;
@@ -52,6 +57,7 @@ int maintainTools()
 	else {
 		fprintf(stdout, "Operation done successfully\n");
 	}
+
 	sqlite3_close(db);
 	return 0;
 }

@@ -10,7 +10,7 @@
 
 #include "Global.h"
 
-static int callback(void *data, int argc, char **argv, char **azColName);
+static int callbackUsers(void *data, int argc, char **argv, char **azColName);
 
 int maintainUsers();
 

@@ -7,6 +7,7 @@
 #include <urlmon.h>
 #include <vector>
 #include "../amalgamate/crow_all.h"
+#include "../R2Tools.h"
 
 // Read in a file and return a string containing the byte array input
 string readIn(string fileName) {
@@ -81,6 +82,32 @@ R2Server::R2Server(int port) {
 			}
 			else {
 				u->send_binary(readIn("templates/ccrt-logo.png"));
+			}
+	});
+	CROW_ROUTE(app, "/wsd")
+		.websocket()
+		.onopen([&](crow::websocket::connection& conn) {
+		CROW_LOG_INFO << "new websocket connection";
+		std::lock_guard<std::mutex> _(mtx);
+		users.insert(&conn);
+	})
+		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
+		CROW_LOG_INFO << "websocket connection closed: " << reason;
+		std::lock_guard<std::mutex> _(mtx);
+		users.erase(&conn);
+	})
+		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
+		std::lock_guard<std::mutex> _(mtx);
+		std::string s;
+		for (const auto &piece : entries) s += piece;
+
+		for (auto u : users)
+			if (is_binary) {
+				u->send_binary("hello");
+			}
+			else {
+				//std::cout << s;
+				u->send_binary(s);
 			}
 	});
 
