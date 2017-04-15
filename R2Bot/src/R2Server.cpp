@@ -100,15 +100,29 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
+<<<<<<< Updated upstream
 		std::vector<std::string> toolEntry = getEntry();
 		std::string s;
+=======
+		std::vector<std::string> test = getEntry();
+	//	std::string s;
+		//for (const auto piece : test)std::cout << piece;
+>>>>>>> Stashed changes
 
 		for (auto u : users)
 			if (is_binary) {
-				u->send_binary(s);
+				u->send_binary("hi");
 			}
 			else {
+<<<<<<< Updated upstream
 				for (const auto piece : toolEntry) s += piece;
+=======
+				//std::cout << s;
+				std::string s;
+				for (const auto &piece : test) s += piece;
+		//		std::cout << s << "this is the database entry" << std::endl;
+				//std::cout << test.size() << '\n';
+>>>>>>> Stashed changes
 				u->send_binary(s);
 			}
 	});

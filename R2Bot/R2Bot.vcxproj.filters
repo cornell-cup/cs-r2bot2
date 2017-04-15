@@ -75,6 +75,9 @@
     <ClCompile Include="R2Tools.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="UltrasoundSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="R2Tools.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UltrasoundSensor.h">
+      <Filter>Header Files\Sensor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

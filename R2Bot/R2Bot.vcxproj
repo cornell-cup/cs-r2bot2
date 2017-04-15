@@ -35,6 +35,7 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\GamepadSensorData.cpp" />
+    <ClCompile Include="UltrasoundSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="R2Tools.h" />
     <ClInclude Include="R2Users.h" />
+    <ClInclude Include="UltrasoundSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
