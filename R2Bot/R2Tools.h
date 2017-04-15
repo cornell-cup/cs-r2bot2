@@ -16,4 +16,6 @@ static int callbackTools(void *data, int argc, char **argv, char **azColName);
 
 int maintainTools();
 
+std::vector<std::string> getEntry();
+
 #endif

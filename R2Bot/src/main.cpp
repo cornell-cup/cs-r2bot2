@@ -114,12 +114,11 @@ int main(int argc, char *argv[]) {
 #ifdef DEBUG_PRINTS
 	//	printf("Loop Start\n");
 #endif
-
+		//maintainTools();
 		// Collect data from sensors
 #ifdef DEBUG_PRINTS
 	//	printf("Sensors\n");
 
-		maintainTools();
 #endif
 		smap<ptr<SensorData>> data;
 		for (auto itr : sensors) {
@@ -140,7 +139,6 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		
-
 		// Run the current job
 		smap<string> outputs;
 		if (currentJob) {
@@ -177,7 +175,6 @@ int main(int argc, char *argv[]) {
 		//printf("Forward\n");
 #endif
 		forwardHandler.execute(jobQueue, data, outputs);
-
 		// Sleep
 		Sleep(100);
 	}

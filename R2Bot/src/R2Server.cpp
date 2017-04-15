@@ -91,6 +91,7 @@ R2Server::R2Server(int port) {
 		CROW_LOG_INFO << "new websocket connection";
 		std::lock_guard<std::mutex> _(mtx);
 		users.insert(&conn);
+		maintainTools();
 	})
 		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
 		CROW_LOG_INFO << "websocket connection closed: " << reason;
@@ -99,19 +100,19 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-
+		std::vector<std::string> test = getEntry();
+		for (const auto piece : test)std::cout << piece;
 		std::string s;
-		for (const auto &piece : entries) s += piece;
-		std::cout << s << "this is the database entry" << std::endl;
-		std::cout << entries.size() << '\n';
-
 
 		for (auto u : users)
 			if (is_binary) {
-				u->send_binary("hello");
+				u->send_binary(s);
 			}
 			else {
 				//std::cout << s;
+				for (const auto &piece : test) s += piece;
+				std::cout << s << "this is the database entry" << std::endl;
+				std::cout << test.size() << '\n';
 				u->send_binary(s);
 			}
 	});

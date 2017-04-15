@@ -67,7 +67,10 @@ int maintainTools()
 	else {
 		//fprintf(stdout, "Operation done successfully\n");
 	}
-
 	sqlite3_close(db);
 	return 0;
+}
+
+std::vector<std::string> getEntry() {
+	return entries;
 }
