@@ -30,5 +30,5 @@ JobHandler::JobHandler() {
 JobHandler::~JobHandler() {
 }
 
-void JobHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
+void JobHandler::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
 }

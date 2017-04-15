@@ -1,5 +1,5 @@
 #include "Sensor/UDPServerSensor.h"
-#include "SensorData/ForwardSensorData.h"
+#include "Data/ForwardData.h"
 
 UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(std::make_shared<UDPSocketServer>(host, port)),
 		dataMutex(), dataReceived(), dataToForward() {
@@ -12,7 +12,9 @@ UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), 
 		std::lock_guard<std::mutex> lock(dataMutex);
 		if (params.destination == DEVICE_NAME) {
 			// Data is sent here
-			dataReceived[params.source] = SensorData::DecodeSensorData(params.source, params.data);
+			void * data = malloc(params.data.size());
+			memcpy(data, params.data.data(), params.data.size());
+			dataReceived[params.source] = data;
 		}
 		else {
 			// Data should be forwarded
@@ -29,7 +31,7 @@ bool UDPServerSensor::ping() {
 	return server->isListening() == 1;
 }
 
-void UDPServerSensor::getData(smap<ptr<SensorData>>& sensorData) {
+void UDPServerSensor::getData(smap<void*>& sensorData) {
 	std::lock_guard<std::mutex> lock(dataMutex);
 	for (auto itr : dataReceived) {
 		// Copy data to the sensor data
@@ -41,11 +43,13 @@ void UDPServerSensor::getData(smap<ptr<SensorData>>& sensorData) {
 	// Copy forwarded data
 	auto forward = sensorData.find("forward");
 	if (forward == sensorData.end()) {
-		sensorData["forward"] = std::make_shared<ForwardSensorData>(dataToForward);
+		ForwardData * data = (ForwardData *)malloc(sizeof(ForwardData));
+		data->data = dataToForward;
+		sensorData["forward"] = data;
 	}
 	else {
-		auto data = std::dynamic_pointer_cast<ForwardSensorData>(forward->second);
-		data->forwardData.insert(dataToForward.begin(), dataToForward.end());
+		ForwardData * data = (ForwardData *)(forward->second);
+		data->data.insert(dataToForward.begin(), dataToForward.end());
 	}
 	// Clear the local data
 	dataToForward.clear();

@@ -4,6 +4,8 @@
 #include <iostream>
 #include "crow_all.h"
 
+#include "Data/GamepadData.h"
+
 // Read in a file and return a string containing the byte array input
 static string readIn(string fileName) {
 	std::ifstream file(fileName, std::ios::in | std::ios::binary | std::ios::ate);
@@ -173,13 +175,16 @@ bool R2Server::ping() {
 	return true;
 }
 
-void R2Server::getData(smap<ptr<SensorData>>& sensorData) {
+void R2Server::getData(smap<void*>& sensorData) {
 	if (manualInput.find(" ") >= 0) {
-		vector<uint8_t> data(manualInput.begin(), manualInput.end());
-		sensorData["gamepad"] = SensorData::DecodeSensorData("gamepad", data);
+		std::istringstream ss(manualInput);
+		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
+		if (ss >> data->x >> data->y) {
+			sensorData["gamepad"] = data;
+		}
 	}
 }
 
-void R2Server::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
+void R2Server::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
 
 }

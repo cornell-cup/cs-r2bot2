@@ -27,7 +27,6 @@ void initializeWSA() {
 #include "Job.h"
 #include "JobHandler.h"
 #include "Sensor.h"
-#include "SensorData.h"
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
@@ -112,7 +111,7 @@ int main(int argc, char *argv[]) {
 #ifdef DEBUG_PRINTS
 		printf("Sensors\n");
 #endif
-		smap<ptr<SensorData>> data;
+		smap<void*> data;
 		for (auto itr : sensors) {
 			printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;

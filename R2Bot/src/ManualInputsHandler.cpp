@@ -1,6 +1,6 @@
 #include "JobHandler/ManualInputsHandler.h"
 #include "R2Protocol.hpp"
-#include "SensorData/GamepadSensorData.h"
+#include "Data/GamepadData.h"
 
 #include <cmath>
 #define M_PI 3.14159265358979323846
@@ -23,11 +23,11 @@ string ManualInputsHandler::_pad(int i, int l) {
 	return s + string(l - s.size(), ' ');
 }
 
-void ManualInputsHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
+void ManualInputsHandler::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
 	// Handle gamepad joystick inputs
 	auto gamepad = data.find("gamepad");
 	if (gamepad != data.end()) {
-		auto gamepaddata = std::dynamic_pointer_cast<GamepadSensorData>(gamepad->second);
+		auto gamepaddata = (GamepadData *)(gamepad->second);
 		// Compute tank drive voltages
 		float radius = std::sqrt(std::pow(gamepaddata->x, 2) + std::pow(gamepaddata->y, 2));
 		float angle = std::atan2(gamepaddata->y, gamepaddata->x);
@@ -38,7 +38,11 @@ void ManualInputsHandler::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data,
 		int l = (int) (radius * std::cos(angle));
 		int r = (int) (radius * std::sin(angle));
 		// Pack values into 12 bytes
-		outputs["motor"] = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
-		printf("%s\n", outputs["motor"].c_str());
+		string command = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
+		R2Protocol::Packet params = { "NUC", "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
+		vector<uint8_t> output;
+		R2Protocol::encode(params, output);
+		outputs["motor"] = string(output.begin(), output.end());
+		printf("%s\n", command.c_str());
 	}
 }

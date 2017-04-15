@@ -34,10 +34,10 @@ public:
 	virtual bool ping();
 
 	/** Add data from the sensor */
-	virtual void getData(smap<ptr<SensorData>>& sensorData);
+	virtual void getData(smap<void*>& sensorData);
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs);
 };
 
 #endif

@@ -4,7 +4,6 @@
 #include "Global.h"
 #include "R2Protocol.hpp"
 #include "Sensor.h"
-#include "SensorData.h"
 #include "UDPSocketServer.h"
 
 #include <mutex>
@@ -13,7 +12,7 @@ class UDPServerSensor : public Sensor {
 protected:
 	ptr<UDPSocketServer> server;
 	std::mutex dataMutex;
-	smap<ptr<SensorData>> dataReceived;
+	smap<void*> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
 	UDPServerSensor(string host, int port);
@@ -21,7 +20,7 @@ public:
 
 	bool ping();
 
-	void getData(smap<ptr<SensorData>>& sensorData);
+	void getData(smap<void*>& sensorData);
 };
 
 #endif

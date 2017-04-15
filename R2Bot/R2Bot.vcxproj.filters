@@ -19,11 +19,11 @@
     <Filter Include="Header Files\Controller">
       <UniqueIdentifier>{a902b0cc-9dcd-4cdc-bd9a-a786338e7318}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SensorData">
-      <UniqueIdentifier>{cbe5e291-1826-4b62-b6b9-e4c60304b545}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\JobHandler">
       <UniqueIdentifier>{264ac9bb-6386-4350-abf5-e8b631ba33a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{cbe5e291-1826-4b62-b6b9-e4c60304b545}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,19 +48,10 @@
     <ClCompile Include="src\UDPClientController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SensorData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ForwardSensorData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ManualInputsHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ForwardHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GamepadSensorData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MotorController.cpp">
@@ -98,26 +89,26 @@
     <ClInclude Include="include\Controller\UDPClientController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="include\SensorData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SensorData\ForwardSensorData.h">
-      <Filter>Header Files\SensorData</Filter>
-    </ClInclude>
     <ClInclude Include="include\JobHandler\ManualInputsHandler.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler\ForwardHandler.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
-    <ClInclude Include="include\SensorData\GamepadSensorData.h">
-      <Filter>Header Files\SensorData</Filter>
-    </ClInclude>
     <ClInclude Include="include\JobHandler\R2Server.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\crow\amalgamate\crow_all.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\ForwardData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\GamepadData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\MotorData.h">
+      <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
