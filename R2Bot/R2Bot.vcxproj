@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\R2Tools.cpp" />
+    <ClCompile Include="src\R2Users.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\Job.cpp" />
@@ -30,6 +32,7 @@
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
+    <ClCompile Include="UltrasoundSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
@@ -48,6 +51,9 @@
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
+    <ClInclude Include="include\JobHandler\R2Tools.h" />
+    <ClInclude Include="include\JobHandler\R2Users.h" />
+    <ClInclude Include="UltrasoundSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
@@ -130,6 +136,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)lib/sqlite-dll-win64-x64-3170000;$(ProjectDir)lib/sqlite-amalgamation-3170000;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -181,7 +188,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\sqlite-dll-win64-x64-3170000;$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)lib\sqlite-amalgamation-3170000;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

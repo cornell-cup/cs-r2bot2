@@ -27,12 +27,15 @@ void initializeWSA() {
 #include "Job.h"
 #include "JobHandler.h"
 #include "Sensor.h"
+#include "JobHandler/R2Users.h"
+#include "JobHandler/R2Tools.h"
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
+#include "../UltrasoundSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -49,6 +52,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["r2 server"] = std::make_shared<R2Server>(18080);
 	}
+	if (!(args["ultrasound-port"].empty())) {
+		sensors["ultrasound"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
+	}
+	else {
+		std::cout << "No ultrasound ports specified." << std::endl;
+	} 
+
 	return sensors;
 }
 
@@ -84,6 +94,7 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
 }
 
 int main(int argc, char *argv[]) {
+	
 	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
 #ifdef _WIN32
@@ -101,24 +112,28 @@ int main(int argc, char *argv[]) {
 	routes["pi"] = controllers["udp pi"];
 	ForwardHandler forwardHandler(routes);
 
+	//maintainUsers(); //USER DATABASE STUFF
+
+	//TODO: method arg should be sql command stored in a char
+
 	/** Main execution loop */
 	while (1) {
 #ifdef DEBUG_PRINTS
-		printf("Loop Start\n");
+	//	printf("Loop Start\n");
 #endif
-
+		//maintainTools();
 		// Collect data from sensors
 #ifdef DEBUG_PRINTS
-		printf("Sensors\n");
+	//	printf("Sensors\n");
+
 #endif
 		smap<void*> data;
 		for (auto itr : sensors) {
-			printf("test 1\n");
+			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;
-			printf("test 2\n");
-			std::cout << sensor->getName() << std::endl;
+			//printf("test 2\n");
+			//std::cout << sensor->getName() << std::endl;
 			sensor->getData(data);
-			printf("test 3\n");
 		}
 		// Execute current jobs
 		if (!currentJob) {
@@ -129,12 +144,12 @@ int main(int argc, char *argv[]) {
 				currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
 			}
 		}
-
+		
 		// Run the current job
 		smap<string> outputs;
 		if (currentJob) {
 #ifdef DEBUG_PRINTS
-			printf("Current job\n");
+		//	printf("Current job\n");
 #endif
 			currentJob->execute(jobQueue, data, outputs);
 		}
@@ -146,7 +161,7 @@ int main(int argc, char *argv[]) {
 
 		// Send output data to controllers
 #ifdef DEBUG_PRINTS
-		printf("Controllers\n");
+		//printf("Controllers\n");
 #endif
 		auto itr = outputs.begin();
 		while (itr != outputs.end()) {
@@ -163,10 +178,9 @@ int main(int argc, char *argv[]) {
 
 		// Forward any remaining outputs
 #ifdef DEBUG_PRINTS
-		printf("Forward\n");
+		//printf("Forward\n");
 #endif
 		forwardHandler.execute(jobQueue, data, outputs);
-
 		// Sleep
 		Sleep(100);
 	}

@@ -75,6 +75,7 @@
                         <h3>
                             Head Rotation
                         </h3>
+                        
                         <button type="button" class="btn btn-default">
                             Left
                         </button>
@@ -86,10 +87,17 @@
                         </button>
                     </div>
                 </div>
+
+                <h3> Map</h3>
+
+                <canvas id="main" height="301" width="301 "></canvas>
+
             </div>
+
         </div>
     </div>
     <script src="joystick.js"></script>
+   
     <script>
         var sock = new WebSocket("ws://" + location.host + "/wsm");
         sock.binaryType = "arraybuffer";
@@ -106,6 +114,68 @@
         sock.onclose = () => {
             console.log('close')
         }
+        sock.onmessage = function (e) {
+            if (e.data) {
+                drawMap(e.data);
+            }
+        }
+
+        function drawMap(data) {
+          var map = [
+          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          ];
+        
+
+          var dist =6;
+
+          console.log(dist);
+          
+            var ctx = document.getElementById('main').getContext('2d');
+
+            for (var i = 0; i < map.length; i++) {
+                for (var j = 0; j < map[i].length; j++) {
+                    if (map[i][j] === 1) {
+                        ctx.fillStyle = '#FF0000';
+                        ctx.fillRect(j * 30, i * 30, 30, 30);
+                        map[i][j + dist] = 2;
+                    }
+                    if (map[i][j] == 2) {
+                        ctx.fillStyle = '#FFF000';
+                        ctx.fillRect(j * 30, i * 30, 30, 30);
+                    }
+
+                }
+            }
+        }
+
+        var ctx = document.getElementById('main').getContext('2d');
+        function drawBoard() {
+            for (var x = 0; x <= 301; x += 30) {
+                ctx.moveTo(0.5 + x + 0, 0);
+                ctx.lineTo(0.5 + x + 0, 300 + 0);
+            }
+
+
+            for (var x = 0; x <= 301; x += 30) {
+                ctx.moveTo(0, 0.5 + x + 0);
+                ctx.lineTo(300 + 0, 0.5 + x + 0);
+            }
+
+            ctx.strokeStyle = "black";
+            ctx.stroke();
+        }
+
+        drawBoard();
+
 
     </script>
 </body>

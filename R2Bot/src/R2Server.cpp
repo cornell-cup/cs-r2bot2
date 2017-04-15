@@ -5,6 +5,10 @@
 #include "crow_all.h"
 
 #include "Data/GamepadData.h"
+#include <string>
+#include <urlmon.h>
+#include <vector>
+#include "JobHandler/R2Tools.h"
 
 // Read in a file and return a string containing the byte array input
 static string readIn(string fileName) {
@@ -47,6 +51,7 @@ static string MimeTypeFromString(const string& str) {
 		return MIME_TYPES["*"];
 	}
 }
+int ctr = 0;
 
 R2Server::R2Server(int port) {
 	CROW_ROUTE(app, "/wsc")
@@ -63,13 +68,47 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-		for (auto u : users)
+		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("hello");
 			}
 			else {
 				u->send_binary(readIn("templates/ccrt-logo.png"));
 			}
+		}
+	});
+
+	CROW_ROUTE(app, "/wsd")
+		.websocket()
+		.onopen([&](crow::websocket::connection& conn) {
+		CROW_LOG_INFO << "new websocket connection";
+		std::lock_guard<std::mutex> _(mtx);
+		users.insert(&conn);
+		maintainTools();
+	})
+		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
+		CROW_LOG_INFO << "websocket connection closed: " << reason;
+		std::lock_guard<std::mutex> _(mtx);
+		users.erase(&conn);
+	})
+		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
+		std::lock_guard<std::mutex> _(mtx);
+
+		std::vector<std::string> toolEntry = getEntry();
+		std::string s;
+		std::vector<std::string> s2 = { "RFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
+			"RFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
+			"RFID,1353|NAME,Emily5|TOOLNAME,Laura5|DATE,4/20/17@RFID,1782|NAME,Emily7|TOOLNAME,Laura7|DATE,4/12/17@RFID,2389|NAME,Emily30|TOOLNAME,Laura30|DATE,4/14/17@RFID,1783|NAME,Emily10|TOOLNAME,Laura10|DATE,4/12/17@" };
+		for (auto u : users){
+			if (is_binary) {
+				u->send_binary("hi");
+			}
+			else {
+				//for (const auto piece : toolEntry) s += piece;
+				u->send_binary(s2[ctr%3]);
+				ctr++;
+			}
+		}
 	});
 
 	CROW_ROUTE(app, "/wsm")
@@ -89,15 +128,16 @@ R2Server::R2Server(int port) {
 
 		manualInput = data;
 
-		for (auto u : users)
+		for (auto u : users) {
 			if (is_binary) {
-				u->send_binary("data recieved");
+				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary("data recieved");
+				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
+		}
 	});
 
 	CROW_ROUTE(app, "/wsh")

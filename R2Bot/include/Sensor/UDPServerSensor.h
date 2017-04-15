@@ -15,7 +15,7 @@ protected:
 	smap<void*> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
-	UDPServerSensor(string host, int port);
+	UDPServerSensor(string port, int baudrate);
 	~UDPServerSensor();
 
 	bool ping();

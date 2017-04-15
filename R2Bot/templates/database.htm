@@ -10,9 +10,9 @@
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
   </head>
   <body>
 
@@ -55,42 +55,102 @@
                     </ul>
                 </li>
             </ul>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Tool
-						</th>
-						<th>
-							Status
-						</th>
-						<th>
-							Users
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="danger"> <!-- checked out = danger-->
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="toolsDatabase">
+
+            </div>
 		</div>
 	</div>
+        <script>
+            var sock = new WebSocket("ws://" + location.host + "/wsd");
+            var cols = [];
+            var rows = [];
+            var dict = {};
+            sock.binaryType = "arraybuffer";
+            sock.onopen = () => {
+                console.log('open');
+
+                setInterval(function () {
+                    sock.send("");
+                }, 1000);
+            }
+            sock.onerror = (e) => {
+                console.log('error', e)
+            }
+            sock.onclose = () => {
+                console.log('close')
+            }
+
+            sock.onmessage = function (e) {
+                if (e.data) {
+                    rows = [];
+                    cols = [];
+                    dict = {};
+                    rows = arrayBufferToString(e.data);
+                    rows = rows.substring(0, rows.length - 1).split("@");
+                    for (var i = 0; i < rows.length; i++) {
+                        col = rows[i].split("|");
+                        for (var j = 0; j < col.length; j++) {
+                            cols.push(col[j])
+                        }
+                    }
+                    for (var i = 0; i < cols.length; i++) {
+                        dict = insertIntoDic(dict, cols[i].split(",")[0], cols[i].split(",")[1]);
+                    }
+                }
+
+
+                function insertIntoDic(dictionary, key, value) {
+                    // If key is not initialized or some bad structure
+                    if (!dictionary[key] || !(dictionary[key] instanceof Array)) {
+                        dictionary[key] = [];
+                    }
+                    // All arguments, exept first push as valuses to the dictonary
+                    dictionary[key] = dictionary[key].concat(Array.prototype.slice.call(arguments, 2));
+                    return dictionary;
+                }
+
+                function arrayBufferToString(buffer) {
+                    var arr = new Uint8Array(buffer);
+                    var str = String.fromCharCode.apply(String, arr);
+                    if (/[\u0080-\uffff]/.test(str)) {
+                        throw new Error("this string seems to contain (still encoded) multibytes");
+                    }
+                    return str;
+                }
+
+                var html = "";
+                html += "<div class='panel panel-default'>";
+                html += "<div class='panel-heading'>";
+                html += "<h3 class='panel-title'>";
+                html += "<span>Tools Database</span>";
+                html += "</h3>";
+                html += "</div>";
+                html += "<div class='panel-body'>";
+                html += "<table class='table table-default table-striped'>";
+                html += "<thead class='inverse'><tr>";
+                for (var key in dict) {
+                    html += "<td>" + key + "</td>";
+                }
+                html += "</tr></thead>";
+                for (var i = 0; i < rows.length; i++) {
+                    html += "<tr>";
+                    for (var key in dict) {
+                        html += "<td>" + dict[key][i] + "</td>";
+                    }
+                    html += "</tr>";
+                }
+                html += "</table>";
+                html += "</div>";
+                html += "</div>";
+                $("#toolsDatabase").html(html);
+            }
+        </script>
+        <style>
+            .inverse {
+                background-color: #212121;
+                color: white;
+            }
+        </style>
 </div>
   </body>
 </html>

@@ -1,8 +1,9 @@
 #include "Sensor/UDPServerSensor.h"
 #include "Data/ForwardData.h"
 
+
 UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(std::make_shared<UDPSocketServer>(host, port)),
-		dataMutex(), dataReceived(), dataToForward() {
+dataMutex(), dataReceived(), dataToForward() {
 	server->server([this](char * buffer, unsigned int buffer_len) {
 		// Decode the incoming data
 		R2Protocol::Packet params;
@@ -22,7 +23,6 @@ UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), 
 		}
 	});
 }
-
 UDPServerSensor::~UDPServerSensor() {
 	server->close();
 }
