@@ -60,9 +60,6 @@
     <ClCompile Include="src\R2Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="R2Tools.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
