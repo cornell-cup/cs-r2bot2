@@ -36,6 +36,7 @@ void initializeWSA() {
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
+#include "../UltrasoundSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -52,6 +53,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["r2 server"] = std::make_shared<R2Server>(18080);
 	}
+	if (!(args["ultrasound-port"].empty())) {
+		sensors["ultrasound"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
+	}
+	else {
+		std::cout << "No ultrasound ports specified." << std::endl;
+	} 
+
 	return sensors;
 }
 
@@ -127,7 +135,6 @@ int main(int argc, char *argv[]) {
 			//printf("test 2\n");
 			//std::cout << sensor->getName() << std::endl;
 			sensor->getData(data);
-			//printf("test 3\n");
 		}
 		// Execute current jobs
 		if (!currentJob) {

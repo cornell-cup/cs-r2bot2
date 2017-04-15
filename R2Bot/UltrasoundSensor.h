@@ -1,5 +1,5 @@
-#ifndef _R2BOT_UDPSERVER_SENSOR
-#define _R2BOT_UDPSERVER_SENSOR
+#ifndef _R2BOT_ULTRASOUND_SENSOR
+#define _R2BOT_ULTRASOUND_SENSOR
 
 #include "Global.h"
 #include "R2Protocol.hpp"
@@ -9,15 +9,15 @@
 
 #include <mutex>
 
-class UDPServerSensor : public Sensor {
+class UltrasoundSensor : public Sensor {
 protected:
 	ptr<UDPSocketServer> server;
 	std::mutex dataMutex;
 	smap<ptr<SensorData>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
-	UDPServerSensor(string port, int baudrate);
-	~UDPServerSensor();
+	UltrasoundSensor(string port, int baudrate);
+	~UltrasoundSensor();
 
 	bool ping();
 

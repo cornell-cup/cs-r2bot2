@@ -1,8 +1,7 @@
-#include "Sensor/UDPServerSensor.h"
+#include "UltrasoundSensor.h"
 #include "SensorData/ForwardSensorData.h"
 
-
-UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(std::make_shared<UDPSocketServer>(host, port)),
+UltrasoundSensor::UltrasoundSensor(string host, int port) : Sensor("Ultrasound Sensor"), server(std::make_shared<UDPSocketServer>(host, port)),
 dataMutex(), dataReceived(), dataToForward() {
 	server->server([this](char * buffer, unsigned int buffer_len) {
 		// Decode the incoming data
@@ -21,15 +20,16 @@ dataMutex(), dataReceived(), dataToForward() {
 		}
 	});
 }
-UDPServerSensor::~UDPServerSensor() {
+
+UltrasoundSensor::~UltrasoundSensor() {
 	server->close();
 }
 
-bool UDPServerSensor::ping() {
+bool UltrasoundSensor::ping() {
 	return server->isListening() == 1;
 }
 
-void UDPServerSensor::getData(smap<ptr<SensorData>>& sensorData) {
+void UltrasoundSensor::getData(smap<ptr<SensorData>>& sensorData) {
 	std::lock_guard<std::mutex> lock(dataMutex);
 	for (auto itr : dataReceived) {
 		// Copy data to the sensor data

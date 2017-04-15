@@ -5,11 +5,10 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)lin\sqlite-dll-win64-x64-3170000\;$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;$(SolutionDir)lib\sqlite-amalgamation-3170000</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lin\sqlite-dll-win64-x64-3170000\;$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\boost_1_63_0\lib64-msvc-14.0;$(SolutionDir)lib\sqlite-dll-win64-x64-3170000;$(SolutionDir)lib\sqlite-amalgamation-3170000</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)lib\sqlite-dll-win64-x64-3170000\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
