@@ -91,6 +91,30 @@
 			</table>
 		</div>
 	</div>
+        <script>
+              var sock = new WebSocket("ws://" + location.host + "/wsd");
+            sock.binaryType = "arraybuffer";
+            sock.onopen = () => {
+                console.log('open');
+
+                setInterval(function () {
+                    sock.send("");
+                }, 33);
+            }
+            sock.onerror = (e) => {
+                console.log('error', e)
+            }
+            sock.onclose = () => {
+                console.log('close')
+            }
+
+            sock.onmessage = function (e) {
+                if (e.data) {
+                    console.log(e);
+                }
+            }
+
+        </script>
 </div>
   </body>
 </html>

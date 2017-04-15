@@ -4,6 +4,7 @@
 #include "JobHandler/R2Server.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <urlmon.h>
 #include <vector>
 #include "../amalgamate/crow_all.h"
@@ -98,8 +99,12 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
+
 		std::string s;
 		for (const auto &piece : entries) s += piece;
+		std::cout << s << "this is the database entry" << std::endl;
+		std::cout << entries.size() << '\n';
+
 
 		for (auto u : users)
 			if (is_binary) {

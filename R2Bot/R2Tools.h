@@ -10,7 +10,7 @@
 
 #include "Global.h"
 
-std::vector<std::string> entries;
+static std::vector<std::string> entries;
 
 static int callbackTools(void *data, int argc, char **argv, char **azColName);
 

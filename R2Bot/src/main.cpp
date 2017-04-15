@@ -87,6 +87,7 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
 }
 
 int main(int argc, char *argv[]) {
+	
 	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
 #ifdef _WIN32
@@ -104,8 +105,8 @@ int main(int argc, char *argv[]) {
 	routes["pi"] = controllers["udp pi"];
 	ForwardHandler forwardHandler(routes);
 
-	maintainUsers(); //USER DATABASE STUFF
-	maintainTools();
+	//maintainUsers(); //USER DATABASE STUFF
+
 	//TODO: method arg should be sql command stored in a char
 
 	/** Main execution loop */
@@ -117,6 +118,8 @@ int main(int argc, char *argv[]) {
 		// Collect data from sensors
 #ifdef DEBUG_PRINTS
 	//	printf("Sensors\n");
+
+		maintainTools();
 #endif
 		smap<ptr<SensorData>> data;
 		for (auto itr : sensors) {
@@ -136,6 +139,7 @@ int main(int argc, char *argv[]) {
 				currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
 			}
 		}
+		
 
 		// Run the current job
 		smap<string> outputs;
