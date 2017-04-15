@@ -16,12 +16,12 @@ protected:
 	smap<ptr<SensorData>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
-	UltrasoundSensor(string host, int port);
+	UltrasoundSensor(string port, int baudrate);
 	~UltrasoundSensor();
 
 	bool ping();
 
-	void getData(smap<ptr<SensorData>>& sensorData);
+	void virtual getData(smap<ptr<SensorData>>& sensorData);
 };
 
 #endif

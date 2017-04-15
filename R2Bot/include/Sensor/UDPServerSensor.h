@@ -16,12 +16,12 @@ protected:
 	smap<ptr<SensorData>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
-	UDPServerSensor(string host, int port);
+	UDPServerSensor(string port, int baudrate);
 	~UDPServerSensor();
 
 	bool ping();
 
-	void getData(smap<ptr<SensorData>>& sensorData);
+	void virtual getData(smap<ptr<SensorData>>& sensorData);
 };
 
 #endif

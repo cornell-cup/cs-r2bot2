@@ -53,12 +53,12 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["r2 server"] = std::make_shared<R2Server>(18080);
 	}
-	/*if (!(args["ultrasound-server-ip"].empty()) && !(args["ultrasound-server-port"].empty())) {
-		sensors["ultrasound-server-ip"] = std::make_shared<UltrasoundSensor>(args["ultraound-server-ip"], atoi(args["ultrasound-server-port"].c_str()));
+	if (!(args["ultrasound-port"].empty())) {
+		sensors["ultrasound"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
 	}
 	else {
-		sensors["ultrasound server"] = std::make_shared<UltrasoundSensor>("0.0.1.1", 9500);
-	} */
+		std::cout << "No ultrasound ports specified." << std::endl;
+	} 
 
 	return sensors;
 }
