@@ -132,11 +132,11 @@ R2Server::R2Server(int port) {
 
 		for (auto u : users)
 			if (is_binary) {
-				u->send_binary("data recieved");
+				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary("data recieved");
+				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 	});
