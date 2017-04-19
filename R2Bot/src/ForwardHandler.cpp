@@ -15,7 +15,7 @@ ForwardHandler::~ForwardHandler() {
 
 void ForwardHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data, smap<string>& outputs) {
 	// Send forwarded inputs
-	auto forward = data.find("forward");
+	auto forward = data.find("FORWARD");
 	auto packets = (ForwardData*)(forward->second.data());
 	for (auto itr : packets->data) {
 		auto route = routes.find(itr.first);

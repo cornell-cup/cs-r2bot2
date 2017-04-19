@@ -5,7 +5,7 @@
 
 #define DEBUG_PRINTS
 
-#define DEVICE_NAME "nuc"
+#define DEVICE_NAME "NUC"
 #undef  USE_KINECT1
 #undef  USE_KINECT2
 #undef  USE_MOTORS

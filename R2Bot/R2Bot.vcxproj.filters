@@ -107,9 +107,6 @@
     <ClInclude Include="include\JobHandler\R2Server.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Data\ForwardData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>

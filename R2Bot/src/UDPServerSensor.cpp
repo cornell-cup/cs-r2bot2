@@ -39,11 +39,11 @@ void UDPServerSensor::getData(smap<vector<uint8_t>>& sensorData) {
 	dataReceived.clear();
 
 	// Copy forwarded data
-	auto forward = sensorData.find("forward");
+	auto forward = sensorData.find("FORWARD");
 	if (forward == sensorData.end()) {
 		ForwardData data = { dataToForward };
 		auto ptr = (uint8_t*) &data;
-		sensorData["forward"] = vector<uint8_t>(ptr, ptr + sizeof(ForwardData));
+		sensorData["FORWARD"] = vector<uint8_t>(ptr, ptr + sizeof(ForwardData));
 	}
 	else {
 		ForwardData* data = (ForwardData*) forward->second.data();

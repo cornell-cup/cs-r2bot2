@@ -220,7 +220,7 @@ void R2Server::getData(smap<void*>& sensorData) {
 		std::istringstream ss(manualInput);
 		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
 		if (ss >> data->x >> data->y) {
-			sensorData["gamepad"] = data;
+			sensorData["GAMEPAD"] = data;
 		}
 	}
 }

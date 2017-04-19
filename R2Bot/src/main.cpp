@@ -41,19 +41,19 @@ void initializeWSA() {
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	smap<ptr<Sensor>> sensors;
 	if (!(args["udp-server-ip"].empty()) && !(args["udp-server-port"].empty())) {
-		sensors["udp server"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
+		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
 	}
 	else {
-		sensors["udp server"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
+		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
 	if (!(args["r2-server-port"].empty())) {
-		sensors["r2 server"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
+		sensors["R2 SERVER"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
 	}
 	else {
-		sensors["r2 server"] = std::make_shared<R2Server>(18080);
+		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
 	if (!(args["ultrasound-port"].empty())) {
-		sensors["ultrasound"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
+		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
 	}
 	else {
 		std::cout << "No ultrasound ports specified." << std::endl;
@@ -66,13 +66,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
 	if (!(args["udp-pi-ip"].empty()) && !(args["udp-pi-port"].empty())) {
-		controllers["udp pi"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
+		controllers["UDP PI"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
 	}
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
 	}
 	if (!(args["motor-com-port"].empty())) {
-		controllers["motor"] = std::make_shared<MotorController>("//./" + args["motor-com-port"], 9600);
+		controllers["MOTOR"] = std::make_shared<MotorController>("//./" + args["motor-com-port"], 9600);
 	}
 	else {
 		std::cout << "No motor ports specified." << std::endl;
@@ -108,8 +108,8 @@ int main(int argc, char *argv[]) {
 
 	// Data forwarding handler
 	smap<ptr<Controller>> routes;
-	routes["motor"] = controllers["udp pi"];
-	routes["pi"] = controllers["udp pi"];
+	routes["MOTOR"] = controllers["UDP PI"];
+	routes["PI"] = controllers["UDP PI"];
 	ForwardHandler forwardHandler(routes);
 
 	//maintainUsers(); //USER DATABASE STUFF

@@ -25,7 +25,7 @@ string ManualInputsHandler::_pad(int i, int l) {
 
 void ManualInputsHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data, smap<string>& outputs) {
 	// Handle gamepad joystick inputs
-	auto gamepad = data.find("gamepad");
+	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
 		auto gamepaddata = (GamepadData*)(gamepad->second.data());
 		// Compute tank drive voltages
@@ -39,7 +39,7 @@ void ManualInputsHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data,
 		int r = (int) (radius * std::sin(angle));
 		// Pack values into 12 bytes
 		string command = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
-		R2Protocol::Packet params = { "NUC", "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
+		R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
 		vector<uint8_t> output;
 		R2Protocol::encode(params, output);
 		outputs["motor"] = string(output.begin(), output.end());

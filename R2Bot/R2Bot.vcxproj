@@ -35,7 +35,6 @@
     <ClCompile Include="UltrasoundSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
