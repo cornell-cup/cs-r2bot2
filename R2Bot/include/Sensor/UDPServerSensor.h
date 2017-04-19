@@ -12,7 +12,7 @@ class UDPServerSensor : public Sensor {
 protected:
 	ptr<UDPSocketServer> server;
 	std::mutex dataMutex;
-	smap<void*> dataReceived;
+	smap<vector<uint8_t>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
 	UDPServerSensor(string port, int baudrate);
@@ -20,7 +20,7 @@ public:
 
 	bool ping();
 
-	void getData(smap<void*>& sensorData);
+	void getData(smap<vector<uint8_t>>& sensorData);
 };
 
 #endif

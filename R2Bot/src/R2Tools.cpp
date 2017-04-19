@@ -47,11 +47,13 @@ int maintainTools()
 	/* Create SQL statement */
 	//sql = argv;
 	//where sql will have to be a input from console or website command
-	//sql = "CREATE TABLE TOOLS("  \
-		"RFID INT PRIMARY KEY     NOT NULL," \
-		"NAME           TEXT    NOT NULL," \
-		"TOOLNAME       TEXT    NOT NULL," \
+	/*
+	sql = "CREATE TABLE TOOLS("
+		"RFID INT PRIMARY KEY     NOT NULL,"
+		"NAME           TEXT    NOT NULL,"
+		"TOOLNAME       TEXT    NOT NULL,"
 		"DATE     TEXT     NOT NULL);";
+	*/
 
 	//sql = "INSERT INTO TOOLS (RFID, NAME, TOOLNAME, DATE)" \
 		"VALUES(123, 'Emily1', 'Laura1', '4/12/17'); ";

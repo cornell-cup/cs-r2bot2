@@ -13,10 +13,10 @@ ForwardHandler::ForwardHandler(smap<ptr<Controller>>& routes): JobHandler(), rou
 ForwardHandler::~ForwardHandler() {
 }
 
-void ForwardHandler::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
+void ForwardHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data, smap<string>& outputs) {
 	// Send forwarded inputs
 	auto forward = data.find("forward");
-	auto packets = (ForwardData*)(forward->second);
+	auto packets = (ForwardData*)(forward->second.data());
 	for (auto itr : packets->data) {
 		auto route = routes.find(itr.first);
 		if (route != routes.end()) {

@@ -13,9 +13,7 @@ dataMutex(), dataReceived(), dataToForward() {
 		std::lock_guard<std::mutex> lock(dataMutex);
 		if (params.destination == DEVICE_NAME) {
 			// Data is sent here
-			void * data = malloc(params.data.size());
-			memcpy(data, params.data.data(), params.data.size());
-			dataReceived[params.source] = data;
+			dataReceived[params.source] = params.data;
 		}
 		else {
 			// Data should be forwarded
@@ -31,7 +29,7 @@ bool UDPServerSensor::ping() {
 	return server->isListening() == 1;
 }
 
-void UDPServerSensor::getData(smap<void*>& sensorData) {
+void UDPServerSensor::getData(smap<vector<uint8_t>>& sensorData) {
 	std::lock_guard<std::mutex> lock(dataMutex);
 	for (auto itr : dataReceived) {
 		// Copy data to the sensor data
@@ -43,12 +41,12 @@ void UDPServerSensor::getData(smap<void*>& sensorData) {
 	// Copy forwarded data
 	auto forward = sensorData.find("forward");
 	if (forward == sensorData.end()) {
-		ForwardData * data = (ForwardData *)malloc(sizeof(ForwardData));
-		data->data = dataToForward;
-		sensorData["forward"] = data;
+		ForwardData data = { dataToForward };
+		auto ptr = (uint8_t*) &data;
+		sensorData["forward"] = vector<uint8_t>(ptr, ptr + sizeof(ForwardData));
 	}
 	else {
-		ForwardData * data = (ForwardData *)(forward->second);
+		ForwardData* data = (ForwardData*) forward->second.data();
 		data->data.insert(dataToForward.begin(), dataToForward.end());
 	}
 	// Clear the local data

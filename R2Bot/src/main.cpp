@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
 	//	printf("Sensors\n");
 
 #endif
-		smap<void*> data;
+		smap<vector<uint8_t>> data;
 		for (auto itr : sensors) {
 			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;

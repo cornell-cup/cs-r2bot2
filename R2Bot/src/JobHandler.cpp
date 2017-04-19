@@ -30,5 +30,5 @@ JobHandler::JobHandler() {
 JobHandler::~JobHandler() {
 }
 
-void JobHandler::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
+void JobHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data, smap<string>& outputs) {
 }
