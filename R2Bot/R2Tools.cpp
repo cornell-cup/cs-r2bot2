@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <../sqlite-amalgamation-3170000/sqlite3.h> 
+#include <../sqlite/sqlite3.h> 
 #include "R2Tools.h"
 #include <vector>
 #include <string>
