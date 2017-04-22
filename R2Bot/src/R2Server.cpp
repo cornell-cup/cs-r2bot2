@@ -62,7 +62,7 @@ std::string utf8_encode(const std::wstring &wstr)
 	return strTo;
 }
 int ctr = 0;
-
+int ctr2 = 0;
 R2Server::R2Server(int port) {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
@@ -137,15 +137,17 @@ R2Server::R2Server(int port) {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
-
+		std::vector<int> a = { 1,3,5,7,2 };
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary("6");
+
+				u->send_binary(std::to_string(a[ctr2%5]));
 				std::cout << data << std::endl;
+				ctr2++;
 			}
 		}
 	});

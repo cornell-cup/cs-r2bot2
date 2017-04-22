@@ -135,11 +135,19 @@
           ];
         
 
-          var dist =6;
+          var ctx = document.getElementById('main').getContext('2d');
+          ctx.clearRect(0, 0, 301, 301);
+          var dist =parseInt(arrayBufferToString(data));
 
           console.log(dist);
-          
-            var ctx = document.getElementById('main').getContext('2d');
+          function arrayBufferToString(buffer) {
+              var arr = new Uint8Array(buffer);
+              var str = String.fromCharCode.apply(String, arr);
+              if (/[\u0080-\uffff]/.test(str)) {
+                  throw new Error("this string seems to contain (still encoded) multibytes");
+              }
+              return str;
+          }
 
             for (var i = 0; i < map.length; i++) {
                 for (var j = 0; j < map[i].length; j++) {
@@ -155,28 +163,34 @@
 
                 }
             }
-        }
+          //  var ctx = document.getElementById('main').getContext('2d');
+            function drawBoard() {
+                for (var x = 0; x <= 301; x += 30) {
+                    ctx.moveTo(0.5 + x + 0, 0);
+                    ctx.lineTo(0.5 + x + 0, 300 + 0);
+                }
 
-        var ctx = document.getElementById('main').getContext('2d');
-        function drawBoard() {
-            for (var x = 0; x <= 301; x += 30) {
-                ctx.moveTo(0.5 + x + 0, 0);
-                ctx.lineTo(0.5 + x + 0, 300 + 0);
+
+                for (var x = 0; x <= 301; x += 30) {
+                    ctx.moveTo(0, 0.5 + x + 0);
+                    ctx.lineTo(300 + 0, 0.5 + x + 0);
+                }
+
+                ctx.strokeStyle = "black";
+                ctx.stroke();
             }
 
-
-            for (var x = 0; x <= 301; x += 30) {
-                ctx.moveTo(0, 0.5 + x + 0);
-                ctx.lineTo(300 + 0, 0.5 + x + 0);
-            }
-
-            ctx.strokeStyle = "black";
-            ctx.stroke();
+            drawBoard();
         }
 
-        drawBoard();
+     
 
 
     </script>
+    <style>
+        #main {
+            margin-bottom: 75px;
+        }
+    </style>
 </body>
 </html>
