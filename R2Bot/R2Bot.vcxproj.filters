@@ -36,9 +36,6 @@
     <ClCompile Include="src\JobHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Job.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,13 +57,13 @@
     <ClCompile Include="src\R2Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UltrasoundSensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\R2Users.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\R2Tools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,9 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Job.h">

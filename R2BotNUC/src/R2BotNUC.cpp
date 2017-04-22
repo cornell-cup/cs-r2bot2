@@ -35,7 +35,7 @@ void initializeWSA() {
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
-#include "../UltrasoundSensor.h"
+#include "Sensor/UltrasoundSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -52,12 +52,6 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
-	if (!(args["ultrasound-port"].empty())) {
-		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>("//./" + args["ultrasound-port"], 9600);
-	}
-	else {
-		std::cout << "No ultrasound ports specified." << std::endl;
-	} 
 
 	return sensors;
 }
@@ -71,12 +65,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
 	}
-	if (!(args["motor-com-port"].empty())) {
-		controllers["MOTOR"] = std::make_shared<MotorController>("//./" + args["motor-com-port"], 9600);
-	}
-	else {
-		std::cout << "No motor ports specified." << std::endl;
-	}
+
 	return controllers;
 }
 
@@ -94,7 +83,7 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
 }
 
 int main(int argc, char *argv[]) {
-	
+
 	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
 #ifdef _WIN32
@@ -118,15 +107,8 @@ int main(int argc, char *argv[]) {
 
 	/** Main execution loop */
 	while (1) {
-#ifdef DEBUG_PRINTS
-	//	printf("Loop Start\n");
-#endif
 		//maintainTools();
 		// Collect data from sensors
-#ifdef DEBUG_PRINTS
-	//	printf("Sensors\n");
-
-#endif
 		smap<vector<uint8_t>> data;
 		for (auto itr : sensors) {
 			//printf("test 1\n");
@@ -144,13 +126,10 @@ int main(int argc, char *argv[]) {
 				currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
 			}
 		}
-		
+
 		// Run the current job
 		smap<string> outputs;
 		if (currentJob) {
-#ifdef DEBUG_PRINTS
-		//	printf("Current job\n");
-#endif
 			currentJob->execute(jobQueue, data, outputs);
 		}
 
@@ -160,9 +139,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Send output data to controllers
-#ifdef DEBUG_PRINTS
-		//printf("Controllers\n");
-#endif
 		auto itr = outputs.begin();
 		while (itr != outputs.end()) {
 			auto controller = controllers.find(itr->first);
@@ -177,9 +153,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Forward any remaining outputs
-#ifdef DEBUG_PRINTS
-		//printf("Forward\n");
-#endif
 		forwardHandler.execute(jobQueue, data, outputs);
 		// Sleep
 		Sleep(100);

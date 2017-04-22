@@ -1,4 +1,4 @@
-#include "UltrasoundSensor.h"
+#include "Sensor/UltrasoundSensor.h"
 #include "Data/ForwardData.h"
 
 UltrasoundSensor::UltrasoundSensor(string port, int baudrate) : Sensor("Ultrasound Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {

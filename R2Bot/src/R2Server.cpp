@@ -200,6 +200,7 @@ R2Server::R2Server(int port) {
 	});
 
 	std::thread([&, port]() {
+		printf("R2 server listening on port %d\n", port);
 		app.port(port).run();
 	}).detach();
 }

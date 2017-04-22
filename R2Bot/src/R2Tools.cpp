@@ -55,8 +55,8 @@ int maintainTools()
 		"DATE     TEXT     NOT NULL);";
 	*/
 
-	//sql = "INSERT INTO TOOLS (RFID, NAME, TOOLNAME, DATE)" \
-		"VALUES(123, 'Emily1', 'Laura1', '4/12/17'); ";
+	//sql = "INSERT INTO TOOLS (RFID, NAME, TOOLNAME, DATE)"
+	//	"VALUES(123, 'Emily1', 'Laura1', '4/12/17'); ";
 	sql = "SELECT * from TOOLS";
 	//sql = "DROP TOOLS";
 

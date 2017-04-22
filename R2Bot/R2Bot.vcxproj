@@ -25,17 +25,15 @@
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
-    <ClCompile Include="UltrasoundSensor.cpp" />
+    <ClCompile Include="src\UltrasoundSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
@@ -82,26 +80,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
