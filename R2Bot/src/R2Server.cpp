@@ -136,7 +136,7 @@ R2Server::R2Server(int port) {
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary("6");
+				u->send_binary(readIn("../R2Bot/templates/ultrasoundData.txt"));
 				std::cout << data << std::endl;
 			}
 		}
