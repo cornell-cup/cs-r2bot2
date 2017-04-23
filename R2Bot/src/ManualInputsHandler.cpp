@@ -23,11 +23,11 @@ string ManualInputsHandler::_pad(int i, int l) {
 	return s + string(l - s.size(), ' ');
 }
 
-void ManualInputsHandler::execute(deque<Job>& jobs, smap<vector<uint8_t>>& data, smap<string>& outputs) {
+void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<string>& outputs) {
 	// Handle gamepad joystick inputs
 	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
-		auto gamepaddata = (GamepadData*)(gamepad->second.data());
+		auto gamepaddata = std::static_pointer_cast<GamepadData>(gamepad->second);
 		// Compute tank drive voltages
 		float radius = std::sqrt(std::pow(gamepaddata->x, 2) + std::pow(gamepaddata->y, 2));
 		float angle = std::atan2(gamepaddata->y, gamepaddata->x);

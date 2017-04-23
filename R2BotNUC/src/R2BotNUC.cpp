@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		//maintainTools();
 		// Collect data from sensors
-		smap<vector<uint8_t>> data;
+		SensorData data;
 		for (auto itr : sensors) {
 			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;

@@ -17,7 +17,7 @@ public:
 
 	bool ping();
 
-	void getData(smap<void*>& sensorData);
+	void getData(smap<ptr<void>>& sensorData);
 };
 
 #endif

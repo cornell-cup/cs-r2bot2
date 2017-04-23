@@ -24,7 +24,7 @@ public:
 	virtual bool ping();
 
 	/** Add data from the sensor */
-	virtual void getData(smap<vector<uint8_t>>& sensorData);
+	virtual void getData(smap<ptr<void>>& sensorData);
 };
 
 #endif

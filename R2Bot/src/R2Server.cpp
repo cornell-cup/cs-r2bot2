@@ -228,6 +228,6 @@ void R2Server::getData(smap<void*>& sensorData) {
 	}
 }
 
-void R2Server::execute(deque<Job>& jobs, smap<void*>& data, smap<string>& outputs) {
+void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<string>& outputs) {
 
 }
