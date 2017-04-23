@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\R2Tools.cpp" />
     <ClCompile Include="src\R2Users.cpp" />
     <ClCompile Include="src\Controller.cpp" />
@@ -47,10 +48,11 @@
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
+    <ClInclude Include="include\Sensor\DrawerSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\JobHandler\R2Tools.h" />
     <ClInclude Include="include\JobHandler\R2Users.h" />
-    <ClInclude Include="UltrasoundSensor.h" />
+    <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">

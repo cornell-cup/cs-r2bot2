@@ -66,6 +66,9 @@
     <ClCompile Include="src\UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DrawerSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -110,14 +113,17 @@
     <ClInclude Include="include\Data\MotorData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="UltrasoundSensor.h">
-      <Filter>Header Files\Sensor</Filter>
-    </ClInclude>
     <ClInclude Include="include\JobHandler\R2Users.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler\R2Tools.h">
       <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\UltrasoundSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\DrawerSensor.h">
+      <Filter>Header Files\Sensor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

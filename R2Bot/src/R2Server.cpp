@@ -12,18 +12,20 @@
 
 // Read in a file and return a string containing the byte array input
 static string readIn(string fileName) {
+	std::cout << fileName << std::endl;
 	std::ifstream file(fileName, std::ios::in | std::ios::binary | std::ios::ate);
+	
 	if (!file.is_open())
 		throw std::runtime_error("couldn't open");
 
 	vector<char> fileContents;
 	fileContents.resize(file.tellg());
 
+
 	file.seekg(0, std::ios::beg);
 	if (!file.read(&fileContents[0], fileContents.size())) {
 		throw std::runtime_error("failed to read");
 	}
-
 	return string(fileContents.data(), fileContents.size());
 }
 
@@ -195,7 +197,7 @@ R2Server::R2Server(int port) {
 		size_t index = str.rfind('.');
 		string contentType = (index == str.size()) ? "application/octet-stream" : MimeTypeFromString(str.substr(index));
 		res.add_header("Content-Type", contentType);
-		res.write(readIn("templates/" + str));
+		res.write(readIn("../R2Bot/templates/" + str));
 		res.end();
 	});
 
