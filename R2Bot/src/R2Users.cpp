@@ -13,11 +13,11 @@ static int callbackUsers(void *data, int argc, char **argv, char **azColName) {
 
 int maintainUsers()
 {
-	sqlite3 *db;
-	char *zErrMsg = 0;
+	sqlite3 * db;
+	char * zErrMsg = 0;
 	int rc;
-	char *sql;
-	const char* data = "Callback function called";
+	const char * sql;
+	const char * data = "Callback function called";
 
 	/* Open database */
 	rc = sqlite3_open("users.db", &db);

@@ -26,6 +26,7 @@ LIB_INC_FOLDER = [
 LIBS = [
     "-lboost_system",
     "-lboost_date_time",
+    "-lsqlite3",
 ]
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")

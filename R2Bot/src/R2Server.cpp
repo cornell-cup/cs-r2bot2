@@ -6,7 +6,6 @@
 
 #include "Data/GamepadData.h"
 #include <string>
-#include <urlmon.h>
 #include <vector>
 #include "JobHandler/R2Tools.h"
 
