@@ -15,7 +15,7 @@ ManualInputsHandler::ManualInputsHandler(): JobHandler() {
 ManualInputsHandler::~ManualInputsHandler() {
 }
 
-string ManualInputsHandler::_pad(int i, int l) {
+string ManualInputsHandler::_pad(int i, unsigned int l) {
 	string s = std::to_string(i);
 	if (s.size() >= l) {
 		return s;

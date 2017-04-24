@@ -1,4 +1,6 @@
 import glob, os, platform, subprocess, sys
+from functools import partial
+from multiprocessing import Pool
 from os import path
 
 IS_WINDOWS = "Windows" in platform.system()
@@ -9,9 +11,10 @@ CFLAGS = ["-pthread", "-std=c++11", "-Wall"]
 
 SRC_FOLDER = "{}/src"           # Source files
 INC_FOLDER = "{}/include"       # Header files
-OBJ_FOLDER = "{}/obj"           # Object code
-BIN_FOLDER = "{}/bin"           # Compiled executable libraries and binaries
+OBJ_FOLDER = "obj"              # Object code
+BIN_FOLDER = "bin"              # Compiled executables
 LIB_INC_FOLDER = [
+    "-I", "lib/boost_1_63_0",
     "-I", "lib/crow/amalgamate",
     "-I", "lib/cs-communication-utilities/Utilities",
     "-I", "lib/cs-r2-protocol/src",
@@ -27,17 +30,22 @@ LIBS = [
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
 
+def compile(s, includes, library_includes, objs):
+    o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
+    args = [CC] + CFLAGS + ["-c"] + includes + library_includes + [s] + ["-o", o]
+    print("Executing {}".format(args))
+    subprocess.check_output(args)
+    return o
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python {} <project>".format(sys.argv[0]))
         sys.exit(0)
 
-    # Set parameters
+    # Set
+    CORE_NAME = "R2Bot"
     PROJECT_NAME = sys.argv[1]
-    SRC_FOLDER = SRC_FOLDER.format(PROJECT_NAME)
-    INC_FOLDER = INC_FOLDER.format(PROJECT_NAME)
-    OBJ_FOLDER = OBJ_FOLDER.format(PROJECT_NAME)
-    BIN_FOLDER = BIN_FOLDER.format(PROJECT_NAME)
     BINARY_NAME = BINARY_NAME.format(PROJECT_NAME)
 
     # Make folders
@@ -48,21 +56,19 @@ if __name__ == "__main__":
         os.mkdir(BIN_FOLDER)
 
     # Find all source files
-    sources = glob.glob("{}/*.cpp".format(SRC_FOLDER))
+    sources =   glob.glob("{}/*.cpp".format(SRC_FOLDER.format(CORE_NAME))) + \
+                glob.glob("{}/*.cpp".format(SRC_FOLDER.format(PROJECT_NAME)))
+    includes =  ["-I", INC_FOLDER.format(CORE_NAME)] + \
+                ["-I", INC_FOLDER.format(PROJECT_NAME)]
 
     # Compile each to objects
-    # TODO Parallelize with multiprocessing
     # TODO Don't recompile unchanged files
-    objects = []
-    for s in sources:
-        o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
-        objects.append(o)
-        args = [CC] + CFLAGS + ["-c"] + ["-I", INC_FOLDER] + LIB_INC_FOLDER + [s] + ["-o", o]
-        print("Executing {}".format(args))
-        subprocess.check_output(args)
+    #objects = list(map(lambda s: compile(s, includes, LIB_INC_FOLDER, OBJ_FOLDER), sources))
+    p = Pool()
+    partial_compile = partial(compile, includes=includes, library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
+    objects = p.map(partial_compile, sources)
 
     # Build the binary
-    args = [CC] + CFLAGS + ["-I", INC_FOLDER] + objects + LIBS \
-        + ["-o", BIN_FOLDER + "/" + BINARY_NAME]
+    args = [CC] + CFLAGS + objects + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
     print("Executing {}".format(args))
     subprocess.check_output(args)

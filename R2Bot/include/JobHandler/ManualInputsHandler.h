@@ -10,7 +10,7 @@ private:
 	static bool registered;
 
 	/** Pad an integer into a string */
-	string _pad(int i, int l);
+	string _pad(int i, unsigned int l);
 protected:
 public:
 	ManualInputsHandler();
