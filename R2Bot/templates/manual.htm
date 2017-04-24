@@ -135,9 +135,18 @@
           ];
         
 
-          var dist =6;
+          var dist =arrayBufferToString(data);
 
           console.log(dist);
+
+          function arrayBufferToString(buffer) {
+              var arr = new Uint8Array(buffer);
+              var str = String.fromCharCode.apply(String, arr);
+              if (/[\u0080-\uffff]/.test(str)) {
+                  throw new Error("this string seems to contain (still encoded) multibytes");
+              }
+              return str;
+          }
           
             var ctx = document.getElementById('main').getContext('2d');
 
