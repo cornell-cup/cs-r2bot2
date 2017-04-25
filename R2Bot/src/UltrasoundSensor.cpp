@@ -11,7 +11,7 @@ bool UltrasoundSensor::ping() {
 	return conn->isConnected() == 1;
 }
 
-void UltrasoundSensor::getData(smap<ptr<void>>& sensorData) {
+void UltrasoundSensor::fillData(smap<ptr<void>>& sensorData) {
 	if (conn->isConnected()) {
 		char data[256];
 		int bytesRead = conn->read(data, 256);

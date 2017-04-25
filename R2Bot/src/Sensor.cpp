@@ -22,7 +22,7 @@ bool Sensor::ping()
 	return false;
 }
 
-void Sensor::getData(smap<ptr<void>>& sensorData)
+void Sensor::fillData(smap<ptr<void>>& sensorData)
 {
 	return;
 }

@@ -52,6 +52,19 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
+	if (!(args["ultrasound-serial-port"].empty())) {
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(atoi(args["ultrasound-sensor-port"].c_str()), 9600);
+	}
+	else {
+		std::cout << "No ultrasound serial port specified." << std::endl;
+	}
+
+	if (!(args["drawer-serial-port"].empty())) {
+		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(atoi(args["drawer-sensor-port"].c_str()), 9600);
+	}
+	else {
+		std::cout << "No drawer serial port specified." << std::endl;
+	}
 
 	return sensors;
 }

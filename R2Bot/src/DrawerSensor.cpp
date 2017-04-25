@@ -30,6 +30,6 @@ bool DrawerSensor::ping() {
 	return conn->isConnected() == 1;
 }
 
-void DrawerSensor::getData(smap<void*>& sensorData) {
+void DrawerSensor::fillData(smap<void*>& sensorData) {
 	// TODO 
 }
