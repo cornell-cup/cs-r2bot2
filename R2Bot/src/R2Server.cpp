@@ -7,7 +7,6 @@
 #include "Data/GamepadData.h"
 #include <string>
 #include <vector>
-#include "JobHandler/R2Tools.h"
 
 // Read in a file and return a string containing the byte array input
 static string readIn(string fileName) {

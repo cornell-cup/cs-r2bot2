@@ -27,8 +27,6 @@ void initializeWSA() {
 #include "Job.h"
 #include "JobHandler.h"
 #include "Sensor.h"
-#include "JobHandler/R2Users.h"
-#include "JobHandler/R2Tools.h"
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
