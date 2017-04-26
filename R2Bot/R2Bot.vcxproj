@@ -20,8 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DrawerSensor.cpp" />
-    <ClCompile Include="src\R2Tools.cpp" />
-    <ClCompile Include="src\R2Users.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\Job.cpp" />
@@ -50,8 +48,6 @@
     <ClInclude Include="include\Data\GamepadData.h" />
     <ClInclude Include="include\Sensor\DrawerSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
-    <ClInclude Include="include\JobHandler\R2Tools.h" />
-    <ClInclude Include="include\JobHandler\R2Users.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
   </ItemGroup>
   <ItemGroup>

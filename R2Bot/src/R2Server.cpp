@@ -217,7 +217,7 @@ bool R2Server::ping() {
 	return true;
 }
 
-void R2Server::getData(smap<void*>& sensorData) {
+void R2Server::getData(smap<ptr<void>>& sensorData) {
 	if (manualInput.find(" ") >= 0) {
 		std::istringstream ss(manualInput);
 		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));

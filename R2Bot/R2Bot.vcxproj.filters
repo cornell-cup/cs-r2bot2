@@ -57,12 +57,6 @@
     <ClCompile Include="src\R2Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\R2Users.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\R2Tools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,12 +106,6 @@
     </ClInclude>
     <ClInclude Include="include\Data\MotorData.h">
       <Filter>Header Files\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="include\JobHandler\R2Users.h">
-      <Filter>Header Files\JobHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="include\JobHandler\R2Tools.h">
-      <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\Sensor\UltrasoundSensor.h">
       <Filter>Header Files\Sensor</Filter>
