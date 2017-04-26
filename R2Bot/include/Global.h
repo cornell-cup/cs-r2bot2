@@ -1,7 +1,7 @@
 #ifndef _R2BOT_GLOBAL
 #define _R2BOT_GLOBAL
 
-#include "..\..\R2BotNUC\include\Config.h"
+#include "Config.h"
 
 #include <deque>
 #include <memory>
