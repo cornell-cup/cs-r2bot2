@@ -18,6 +18,6 @@ bool Controller::ping()
 	return false;
 }
 
-void Controller::sendData(std::string data)
+void Controller::sendData(smap<ptr<void>>& controllerData)
 {
 }

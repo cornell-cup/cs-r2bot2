@@ -60,6 +60,9 @@
     <ClCompile Include="..\R2Bot\src\UltrasoundSensor.cpp">
       <Filter>Source Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\R2Bot\src\DrawerSensor.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">

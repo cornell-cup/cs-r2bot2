@@ -23,6 +23,8 @@ template<typename T> using ptr = shared_ptr<T>;
 template<typename T> using smap = unordered_map<string, T>;
 /** Sensor Data map<string, pair<ptr<void>, size_t>> */
 typedef smap<ptr<void>> SensorData;
+/** Controller Data map<string, pair<ptr<void>, size_t>> */
+typedef smap<ptr<void>> ControllerData;
 
 #ifndef _WIN32
 #	define Sleep(x) usleep(x*1000)

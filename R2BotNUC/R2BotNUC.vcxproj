@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\R2Bot\src\Controller.cpp" />
+    <ClCompile Include="..\R2Bot\src\DrawerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\Job.cpp" />
     <ClCompile Include="..\R2Bot\src\JobHandler.cpp" />

@@ -12,7 +12,7 @@ class DrawerSensor : public Sensor {
 protected:
 	ptr<SerialPort> conn;
 	std::mutex dataMutex;
-	smap<vector<uint8_t>> dataReceived;
+	smap<ptr<void>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
 	DrawerSensor(string port, int baudrate);
@@ -20,7 +20,7 @@ public:
 
 	bool ping();
 
-	void fillData(smap<void*>& sensorData);
+	void fillData(smap<ptr<void>>& sensorData);
 	//void sendData(string data);
 };
 

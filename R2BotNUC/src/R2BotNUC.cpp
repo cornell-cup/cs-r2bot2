@@ -36,6 +36,7 @@ void initializeWSA() {
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
+#include "Sensor/DrawerSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -128,7 +129,7 @@ int main(int argc, char *argv[]) {
 			ptr<Sensor> sensor = itr.second;
 			//printf("test 2\n");
 			//std::cout << sensor->getName() << std::endl;
-			sensor->getData(data);
+			sensor->fillData(data);
 		}
 		// Execute current jobs
 		if (!currentJob) {

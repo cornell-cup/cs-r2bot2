@@ -14,7 +14,7 @@ public:
 
 	virtual bool ping();
 
-	virtual void sendData(string data);
+	virtual void sendData(smap<ptr<void>>& data);
 };
 
 #endif

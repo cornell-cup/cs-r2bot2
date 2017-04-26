@@ -32,7 +32,7 @@ bool UDPServerSensor::ping() {
 	return server->isListening() == 1;
 }
 
-void UDPServerSensor::fillData(smap<ptr<void>>& sensorData) {
+void UDPServerSensor::fillData(SensorData & sensorData) {
 	std::lock_guard<std::mutex> lock(dataMutex);
 	for (auto itr : dataReceived) {
 		// Copy data to the sensor data
@@ -54,4 +54,5 @@ void UDPServerSensor::fillData(smap<ptr<void>>& sensorData) {
 	}
 	// Clear the local data
 	dataToForward.clear();
+	std::lock_guard<std::mutex> unlock(dataMutex);
 }
