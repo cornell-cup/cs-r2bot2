@@ -84,7 +84,6 @@ R2Server::R2Server(int port) {
 		CROW_LOG_INFO << "new websocket connection";
 		std::lock_guard<std::mutex> _(mtx);
 		users.insert(&conn);
-		maintainTools();
 	})
 		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
 		CROW_LOG_INFO << "websocket connection closed: " << reason;
@@ -94,7 +93,6 @@ R2Server::R2Server(int port) {
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
 
-		std::vector<std::string> toolEntry = getEntry();
 		std::string s;
 		std::vector<std::string> s2 = { "RFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
 			"RFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
