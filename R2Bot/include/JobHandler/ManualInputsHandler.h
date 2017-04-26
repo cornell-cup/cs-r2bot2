@@ -16,7 +16,7 @@ public:
 	ManualInputsHandler();
 	virtual ~ManualInputsHandler();
 
-	virtual void execute(deque<Job>& jobs, SensorData& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>>& outputs);
 };
 
 #endif

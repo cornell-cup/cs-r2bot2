@@ -23,7 +23,7 @@ string ManualInputsHandler::_pad(int i, unsigned int l) {
 	return s + string(l - s.size(), ' ');
 }
 
-void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<string>& outputs) {
+void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>>& outputs) {
 	// Handle gamepad joystick inputs
 	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
@@ -42,7 +42,8 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<strin
 		R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
 		vector<uint8_t> output;
 		R2Protocol::encode(params, output);
-		outputs["motor"] = string(output.begin(), output.end());
+		string s = string(output.begin(), output.end());
+		outputs["motor"] = static_cast<ptr<void>>(&s);
 		printf("%s\n", command.c_str());
 	}
 }

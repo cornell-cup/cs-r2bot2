@@ -222,11 +222,12 @@ void R2Server::getData(smap<ptr<void>>& sensorData) {
 		std::istringstream ss(manualInput);
 		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
 		if (ss >> data->x >> data->y) {
-			sensorData["GAMEPAD"] = data;
+			ptr<void> v = static_cast<ptr<void>>(&data);
+			sensorData["GAMEPAD"] = v;
 		}
 	}
 }
 
-void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<string>& outputs) {
+void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<ptr<void>>& outputs) {
 
 }

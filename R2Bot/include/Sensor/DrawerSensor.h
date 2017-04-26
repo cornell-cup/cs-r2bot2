@@ -20,8 +20,8 @@ public:
 
 	bool ping();
 
-	void fillData(smap<ptr<void>>& sensorData);
-	//void sendData(string data);
+	void fillData(SensorData & sensorData);
+	void sendData(ControllerData & controllerData);
 };
 
 #endif

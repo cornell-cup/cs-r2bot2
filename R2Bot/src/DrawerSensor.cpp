@@ -57,7 +57,7 @@ void DrawerSensor::fillData(SensorData & sensorData) {
 	std::lock_guard<std::mutex> unlock(dataMutex);
 }
 
-void MotorController::sendData(ControllerData & data) {
+void DrawerSensor::sendData(ControllerData & data) {
 	if (conn->isConnected()) {
 		auto result = data.find("FORWARD");
 		if (result != data.end()) {

@@ -13,7 +13,7 @@ ForwardHandler::ForwardHandler(smap<ptr<Controller>>& routes): JobHandler(), rou
 ForwardHandler::~ForwardHandler() {
 }
 
-void ForwardHandler::execute(deque<Job>& jobs, SensorData& data, smap<string>& outputs) {
+void ForwardHandler::execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>>& outputs) {
 	// Send forwarded inputs
 	auto forward = data.find("FORWARD");
 	auto packets = std::static_pointer_cast<ForwardData>(forward->second);
@@ -22,14 +22,20 @@ void ForwardHandler::execute(deque<Job>& jobs, SensorData& data, smap<string>& o
 		if (route != routes.end()) {
 			vector<uint8_t> output;
 			R2Protocol::encode(itr.second, output);
-			route->second->sendData(string(output.begin(), output.end()));
+			string s = string(output.begin(), output.end());
+			ptr<void> v = static_cast<ptr<void>>(&s);
+			smap<ptr<void>> m;
+			m[itr.first] = v;
+			route->second->sendData(m);
 		}
 	}
 	// Send remaining outputs
 	for (auto itr : outputs) {
 		auto route = routes.find(itr.first);
 		if (route != routes.end() && route->second) {
-			route->second->sendData(itr.second);
+			smap<ptr<void>> m;
+			m[itr.first] = itr.second;
+			route->second->sendData(m);
 		}
 	}
 }

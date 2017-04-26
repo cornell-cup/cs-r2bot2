@@ -54,14 +54,14 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
 	if (!(args["ultrasound-serial-port"].empty())) {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(atoi(args["ultrasound-sensor-port"].c_str()), 9600);
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-sensor-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No ultrasound serial port specified." << std::endl;
 	}
 
 	if (!(args["drawer-serial-port"].empty())) {
-		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(atoi(args["drawer-sensor-port"].c_str()), 9600);
+		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-sensor-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No drawer serial port specified." << std::endl;
@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Run the current job
-		smap<string> outputs;
+		smap<ptr<void>> outputs;
 		if (currentJob) {
 			currentJob->execute(jobQueue, data, outputs);
 		}
@@ -157,7 +157,9 @@ int main(int argc, char *argv[]) {
 		while (itr != outputs.end()) {
 			auto controller = controllers.find(itr->first);
 			if (controller != controllers.end()) {
-				controller->second->sendData(itr->second);
+				smap<ptr<void>> m;
+				m[itr->first] = itr->second;
+				controller->second->sendData(m);
 				// Erase from the map
 				itr = outputs.erase(itr);
 			}

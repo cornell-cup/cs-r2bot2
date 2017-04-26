@@ -31,7 +31,7 @@ public:
 	virtual ~JobHandler();
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, SensorData& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>> & outputs);
 };
 
 #endif
