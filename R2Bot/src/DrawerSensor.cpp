@@ -23,7 +23,6 @@ dataMutex(), dataReceived(), dataToForward() {
 			// Data should be forwarded
 			dataToForward[params.destination] = params;
 		}
-		std::lock_guard<std::mutex> unlock(dataMutex);
 }
 
 DrawerSensor::~DrawerSensor() {

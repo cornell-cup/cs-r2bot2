@@ -14,7 +14,7 @@ public:
 	virtual ~UDPClientController();
 
 	virtual bool ping();
-	virtual void sendData(smap<ptr<void>>& data);
+	virtual void sendData(ControllerData & data);
 };
 
 #endif
