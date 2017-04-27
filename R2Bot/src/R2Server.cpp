@@ -134,7 +134,7 @@ R2Server::R2Server(int port) {
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary(readIn("../R2Bot/templates/ultrasoundData.txt"));
+				u->send_binary(ultrasoundInput);
 				//std::cout << data << std::endl;
 			}
 		}
@@ -229,4 +229,10 @@ void R2Server::getData(smap<ptr<void>>& sensorData) {
 
 void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<ptr<void>>& outputs) {
 
+	auto result = data.find("ULTRASOUND");
+	ultrasoundInput += result->first;
+	ptr<string> inches = std::static_pointer_cast<string>(result->second);
+	ultrasoundInput += ",";
+	ultrasoundInput += inches.get;
+	ultrasoundInput += "\n";
 }

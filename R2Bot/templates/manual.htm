@@ -158,10 +158,10 @@
           var dict = {};
           for (var i = 0; i < n.length ; i++) {
               var split = n[i].split(',');
-              var subs = split[0].substring(1);
-              subs = subs.substring(0, subs.length - 1);
+           //   var subs = split[0].substring(1);
+             // subs = subs.substring(0, subs.length - 1);
               if (parseFloat(split[1]) <= 20.0) {
-                  dict[subs] = parseFloat(split[1])/2;
+                  dict[split] = parseFloat(split[1])/2;
               }
               console.log(dict);
           }
