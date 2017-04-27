@@ -7,8 +7,9 @@ DrawerSensor::DrawerSensor(string port, int baudrate) : Sensor("Drawer Sensor"),
 dataMutex(), dataReceived(), dataToForward() {
 		// Decode the incoming data
 		R2Protocol::Packet params;
-		char buffer[1024];
-		std::vector<unsigned char> input(buffer, buffer + 1024);
+		char data[256];
+		int bytesRead = conn->read(data, 256);
+		std::vector<unsigned char> input(data, data + bytesRead);
 		R2Protocol::decode(input, params);
 
 		std::lock_guard<std::mutex> lock(dataMutex);
@@ -54,7 +55,6 @@ void DrawerSensor::fillData(SensorData & sensorData) {
 	}
 	// Clear the local data
 	dataToForward.clear();
-	std::lock_guard<std::mutex> unlock(dataMutex);
 }
 
 void DrawerSensor::sendData(ControllerData & data) {
