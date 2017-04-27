@@ -156,8 +156,6 @@
     <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
-    <ClCompile Include="..\R2Bot\src\R2Tools.cpp" />
-    <ClCompile Include="..\R2Bot\src\R2Users.cpp" />
     <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPServerSensor.cpp" />
