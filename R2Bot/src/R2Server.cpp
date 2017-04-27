@@ -232,7 +232,7 @@ void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<ptr<void>>&
 	auto result = data.find("ULTRASOUND");
 	ultrasoundInput += result->first;
 	ptr<string> inches = std::static_pointer_cast<string>(result->second);
-	ultrasoundInput += ",";
-	ultrasoundInput += inches.get;
-	ultrasoundInput += "\n";
+	ultrasoundInput += string(",");
+	ultrasoundInput += *inches;
+	ultrasoundInput += string("\n");
 }
