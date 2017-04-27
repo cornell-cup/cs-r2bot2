@@ -65,7 +65,11 @@ if __name__ == "__main__":
     # Compile each to objects
     # TODO Don't recompile unchanged files
     #objects = list(map(lambda s: compile(s, includes, LIB_INC_FOLDER, OBJ_FOLDER), sources))
-    p = Pool()
+    if len(sys.argv) >= 3:
+        p = Pool(int(sys.argv[2]))
+    else:
+        p = Pool()
+
     partial_compile = partial(compile, includes=includes, library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
     objects = p.map(partial_compile, sources)
 
