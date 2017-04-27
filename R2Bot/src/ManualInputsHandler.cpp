@@ -33,13 +33,11 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, Controller
 		output->leftMotor = l;
 		output->rightMotor = r;
 		outputs["MOTOR"] = output;
-		printf("%d %d\n", output->leftMotor, output->rightMotor);
 	}
 	else {
 		ptr<MotorData> output = std::make_shared<MotorData>();
 		output->leftMotor = 0;
 		output->rightMotor = 0;
 		outputs["MOTOR"] = output;
-		printf("%d %d\n", output->leftMotor, output->rightMotor);
 	}
 }
