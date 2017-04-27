@@ -37,7 +37,7 @@ public:
 	virtual void getData(smap<ptr<void>>& sensorData);
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>>& outputs);
+	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

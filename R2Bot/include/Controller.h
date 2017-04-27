@@ -22,7 +22,7 @@ public:
 	virtual bool ping();
 
 	/** Sends the controller-specific data to the controller */
-	virtual void sendData(smap<ptr<void>>& data);
+	virtual void sendData(ControllerData& data);
 };
 
 #endif

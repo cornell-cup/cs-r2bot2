@@ -27,6 +27,7 @@
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
+    <ClCompile Include="src\SafetyHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
     <ClInclude Include="include\JobHandler.h" />
@@ -43,6 +45,7 @@
     <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
     <ClInclude Include="include\JobHandler\R2Server.h" />
     <ClInclude Include="include\Data\MotorData.h" />
+    <ClInclude Include="include\JobHandler\SafetyHandler.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
