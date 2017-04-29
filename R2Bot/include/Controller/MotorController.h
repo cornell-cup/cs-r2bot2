@@ -8,13 +8,16 @@
 class MotorController : public Controller {
 protected:
 	ptr<SerialPort> conn;
+
+	/** Pad an integer into a string */
+	static string _pad(int i, unsigned int l);
 public:
 	MotorController(string port, int baudrate);
 	virtual ~MotorController();
 
 	virtual bool ping();
 
-	virtual void sendData(string data);
+	virtual void sendData(ControllerData& data);
 };
 
 #endif

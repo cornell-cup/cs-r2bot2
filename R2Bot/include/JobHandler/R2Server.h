@@ -23,6 +23,7 @@ protected:
 	std::unordered_set<crow::websocket::connection*> users;
 	string homeInput;
 	string manualInput;
+	string ultrasoundInput;
 public:
 	R2Server(int port);
 	virtual ~R2Server();
@@ -34,10 +35,10 @@ public:
 	virtual bool ping();
 
 	/** Add data from the sensor */
-	virtual void getData(smap<ptr<SensorData>>& sensorData);
+	virtual void getData(smap<ptr<void>>& sensorData);
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs);
+	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

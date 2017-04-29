@@ -256,5 +256,5 @@ paket-files/
 
 # Libraries
 lib/**/*
-!lib/*.sh
+!lib/*.py
 !lib/*.md

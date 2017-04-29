@@ -4,24 +4,20 @@
 #include "Global.h"
 #include "R2Protocol.hpp"
 #include "Sensor.h"
-#include "SensorData.h"
-#include "UDPSocketServer.h"
+#include "SerialPort.h"
 
 #include <mutex>
 
 class UltrasoundSensor : public Sensor {
 protected:
-	ptr<UDPSocketServer> server;
-	std::mutex dataMutex;
-	smap<ptr<SensorData>> dataReceived;
-	smap<R2Protocol::Packet> dataToForward;
+	ptr<SerialPort> conn;
 public:
 	UltrasoundSensor(string port, int baudrate);
 	~UltrasoundSensor();
 
 	bool ping();
 
-	void virtual getData(smap<ptr<SensorData>>& sensorData);
+	void fillData(SensorData& sensorData);
 };
 
 #endif

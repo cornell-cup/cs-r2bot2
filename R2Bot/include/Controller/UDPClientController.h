@@ -3,6 +3,7 @@
 
 #include "Global.h"
 #include "Controller.h"
+#include "R2Protocol.hpp"
 #include "UDPSocketClient.h"
 
 class UDPClientController : public Controller {
@@ -13,8 +14,7 @@ public:
 	virtual ~UDPClientController();
 
 	virtual bool ping();
-
-	virtual void sendData(string data);
+	virtual void sendData(ControllerData & data);
 };
 
 #endif

@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <Xinput.h>
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 /**
 * Initialize WinSock
@@ -62,8 +63,9 @@ int main(int argc, char** argv) {
 		}
 
 		// Get normalized X and Y values to [-1, 1]
-		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 15);
-		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 15);
+		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 14);
+		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 14);
+		printf("%f %f\n", normLX, normLY);
 
 		// Send these values over UDP
 		sprintf_s(buffer, 64, "%f %f", normLX, normLY);
@@ -72,10 +74,10 @@ int main(int argc, char** argv) {
 			R2Protocol::Packet params;
 			params.source = "gamepad";
 			params.destination = "nuc";
-			params.id = "0";
+			params.id = "";
 			params.data = std::vector<uint8_t>(buffer, buffer + strlen(buffer));
 			R2Protocol::encode(params, output);
-			client.write((char *) output.data(), output.size());
+			client.write((char *) output.data(), (unsigned int) output.size());
 		}
 
 		// Wait

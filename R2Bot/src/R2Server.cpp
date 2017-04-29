@@ -1,65 +1,55 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define _SCL_SECURE_NO_WARNINGS
-
 #include "JobHandler/R2Server.h"
-#include <iostream>
+#include <algorithm>
 #include <fstream>
+#include <iostream>
+#include "crow_all.h"
+
+#include "Data/GamepadData.h"
 #include <string>
-#include <urlmon.h>
 #include <vector>
-#include "../amalgamate/crow_all.h"
-#include "../R2Tools.h"
 
 // Read in a file and return a string containing the byte array input
-string readIn(string fileName) {
+static string readIn(string fileName) {
+	std::cout << fileName << std::endl;
 	std::ifstream file(fileName, std::ios::in | std::ios::binary | std::ios::ate);
+	
 	if (!file.is_open())
 		throw std::runtime_error("couldn't open");
 
 	vector<char> fileContents;
 	fileContents.resize(file.tellg());
 
+
 	file.seekg(0, std::ios::beg);
 	if (!file.read(&fileContents[0], fileContents.size())) {
 		throw std::runtime_error("failed to read");
 	}
-
 	return string(fileContents.data(), fileContents.size());
 }
 
-std::wstring MimeTypeFromString(const std::wstring& str) {
-	LPWSTR pwzMimeOut = NULL;
-	HRESULT hr = FindMimeFromData(NULL, str.c_str(), NULL, 0,
-		NULL, FMFD_URLASFILENAME, &pwzMimeOut, 0x0);
-	if (SUCCEEDED(hr)) {
-		std::wstring strResult(pwzMimeOut);
-		// Despite the documentation stating to call operator delete, the
-		// returned string must be cleaned up using CoTaskMemFree
-		CoTaskMemFree(pwzMimeOut);
-		return strResult;
+static string MimeTypeFromString(const string& str) {
+	static smap<string> MIME_TYPES{
+		{ ".html", "text/html" },
+		{ ".htm", "text/html" },
+		{ ".css", "text/css" },
+		{ ".js", "text/javascript" },
+		{ ".txt", "text/plain" },
+		{ ".jpg", "image/jpeg" },
+		{ ".png", "image/png" },
+		{ ".bmp", "image/bmp" },
+		{ ".mp3", "audio/mpeg" },
+		{ ".mp4", "video/mp4" },
+		{ ".pdf", "application/pdf" },
+		{ "*", "application/octet-stream" }
+	};
+
+	auto mime = MIME_TYPES.find(str);
+	if (mime != MIME_TYPES.end()) {
+		return mime->second;
 	}
-
-	return L"";
-}
-
-// Convert an UTF8 string to a wide Unicode String
-std::wstring utf8_decode(const std::string &str)
-{
-	if (str.empty()) return std::wstring();
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
-	std::wstring wstrTo(size_needed, 0);
-	MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
-	return wstrTo;
-}
-
-// Convert a wide Unicode string to an UTF8 string
-std::string utf8_encode(const std::wstring &wstr)
-{
-	if (wstr.empty()) return std::string();
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-	std::string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
+	else {
+		return MIME_TYPES["*"];
+	}
 }
 int ctr = 0;
 int ctr2 = 0;
@@ -94,7 +84,6 @@ R2Server::R2Server(int port) {
 		CROW_LOG_INFO << "new websocket connection";
 		std::lock_guard<std::mutex> _(mtx);
 		users.insert(&conn);
-		maintainTools();
 	})
 		.onclose([&](crow::websocket::connection& conn, const std::string& reason) {
 		CROW_LOG_INFO << "websocket connection closed: " << reason;
@@ -103,8 +92,6 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-
-		std::vector<std::string> toolEntry = getEntry();
 		std::string s;
 		std::vector<std::string> s2 = { "RFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
 			"RFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
@@ -144,10 +131,8 @@ R2Server::R2Server(int port) {
 				std::cout << data << std::endl;
 			}
 			else {
-
-				u->send_binary(std::to_string(a[ctr2%5]));
-				std::cout << data << std::endl;
-				ctr2++;
+				u->send_binary(ultrasoundInput);
+				//std::cout << data << std::endl;
 			}
 		}
 	});
@@ -204,15 +189,15 @@ R2Server::R2Server(int port) {
 	});
 
 	CROW_ROUTE(app, "/<string>") ([](const crow::request& req, crow::response& res, std::string str) {
-		int index = str.rfind('.');
-		std::wstring place = utf8_decode(str.substr(index));
-		std::string str1(utf8_encode(MimeTypeFromString(place)));
-		res.add_header("Content-Type", str1);
-		res.write(readIn("templates/" + str));
+		size_t index = str.rfind('.');
+		string contentType = (index == str.size()) ? "application/octet-stream" : MimeTypeFromString(str.substr(index));
+		res.add_header("Content-Type", contentType);
+		res.write(readIn("../R2Bot/templates/" + str));
 		res.end();
 	});
 
 	std::thread([&, port]() {
+		printf("R2 server listening on port %d\n", port);
 		app.port(port).run();
 	}).detach();
 }
@@ -228,13 +213,23 @@ bool R2Server::ping() {
 	return true;
 }
 
-void R2Server::getData(smap<ptr<SensorData>>& sensorData) {
+void R2Server::getData(smap<ptr<void>>& sensorData) {
 	if (manualInput.find(" ") >= 0) {
-		vector<uint8_t> data(manualInput.begin(), manualInput.end());
-		sensorData["gamepad"] = SensorData::DecodeSensorData("gamepad", data);
+		std::istringstream ss(manualInput);
+		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
+		if (ss >> data->x >> data->y) {
+			ptr<void> v = static_cast<ptr<void>>(&data);
+			sensorData["GAMEPAD"] = v;
+		}
 	}
 }
 
-void R2Server::execute(deque<Job>& jobs, smap<ptr<SensorData>>& data, smap<string>& outputs) {
+void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 
+	auto result = data.find("ULTRASOUND");
+	ultrasoundInput += result->first;
+	ptr<string> inches = std::static_pointer_cast<string>(result->second);
+	ultrasoundInput += string(",");
+	ultrasoundInput += *inches;
+	ultrasoundInput += string("\n");
 }

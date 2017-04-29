@@ -11,6 +11,7 @@
 
 using std::deque;
 using std::queue;
+using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::unordered_map;
@@ -20,6 +21,10 @@ using std::vector;
 template<typename T> using ptr = shared_ptr<T>;
 /** String => Class Pointer Map */
 template<typename T> using smap = unordered_map<string, T>;
+/** Sensor Data map<string, pair<ptr<void>, size_t>> */
+typedef smap<ptr<void>> SensorData;
+/** Controller Data map<string, pair<ptr<void>, size_t>> */
+typedef smap<ptr<void>> ControllerData;
 
 #ifndef _WIN32
 #	define Sleep(x) usleep(x*1000)

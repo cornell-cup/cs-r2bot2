@@ -19,44 +19,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="R2Tools.cpp" />
-    <ClCompile Include="R2Users.cpp" />
+    <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
-    <ClCompile Include="src\ForwardSensorData.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
+    <ClCompile Include="src\SafetyHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
-    <ClCompile Include="src\SensorData.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
-    <ClCompile Include="src\GamepadSensorData.cpp" />
-    <ClCompile Include="UltrasoundSensor.cpp" />
+    <ClCompile Include="src\UltrasoundSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lib\crow\amalgamate\crow_all.h" />
-    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
     <ClInclude Include="include\JobHandler.h" />
     <ClInclude Include="include\JobHandler\ForwardHandler.h" />
     <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
     <ClInclude Include="include\JobHandler\R2Server.h" />
+    <ClInclude Include="include\Data\MotorData.h" />
+    <ClInclude Include="include\JobHandler\SafetyHandler.h" />
     <ClInclude Include="include\Sensor.h" />
-    <ClInclude Include="include\SensorData.h" />
-    <ClInclude Include="include\SensorData\ForwardSensorData.h" />
-    <ClInclude Include="include\SensorData\GamepadSensorData.h" />
+    <ClInclude Include="include\Data\ForwardData.h" />
+    <ClInclude Include="include\Data\GamepadData.h" />
+    <ClInclude Include="include\Sensor\DrawerSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
-    <ClInclude Include="R2Tools.h" />
-    <ClInclude Include="R2Users.h" />
-    <ClInclude Include="UltrasoundSensor.h" />
+    <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
@@ -86,26 +81,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -160,12 +155,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;WIN32;HPDF_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -191,14 +185,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\sqlite-dll-win64-x64-3170000;$(SolutionDir)lib\crow\amalgamate;$(SolutionDir)lib\cs-communication-utilities\Utilities;$(SolutionDir)lib\cs-r2-protocol\src;$(SolutionDir)lib\boost_1_63_0;$(SolutionDir)lib\opencv3\opencv\build\include;$(ProjectDir)lib\sqlite-amalgamation-3170000;$(ProjectDir)include;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

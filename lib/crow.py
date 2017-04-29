@@ -6,4 +6,7 @@
 # 2. Add `crow/amalgamate` to the include path
 # 3. Include `crow_all.h`
 
-git clone https://github.com/ipkn/crow
+import subprocess
+
+if __name__=="__main__":
+    subprocess.call([ "git", "clone", "https://github.com/ipkn/crow" ])
