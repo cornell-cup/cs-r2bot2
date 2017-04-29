@@ -54,5 +54,4 @@ void UDPServerSensor::fillData(SensorData & sensorData) {
 	}
 	// Clear the local data
 	dataToForward.clear();
-	std::lock_guard<std::mutex> unlock(dataMutex);
 }

@@ -92,7 +92,6 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-
 		std::string s;
 		std::vector<std::string> s2 = { "RFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
 			"RFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
@@ -132,8 +131,8 @@ R2Server::R2Server(int port) {
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary(readIn("../R2Bot/templates/ultrasoundData.txt"));
-				std::cout << data << std::endl;
+				u->send_binary(ultrasoundInput);
+				//std::cout << data << std::endl;
 			}
 		}
 	});
@@ -227,4 +226,10 @@ void R2Server::getData(smap<ptr<void>>& sensorData) {
 
 void R2Server::execute(deque<Job>& jobs, smap<ptr<void>>& data, smap<ptr<void>>& outputs) {
 
+	auto result = data.find("ULTRASOUND");
+	ultrasoundInput += result->first;
+	ptr<string> inches = std::static_pointer_cast<string>(result->second);
+	ultrasoundInput += string(",");
+	ultrasoundInput += *inches;
+	ultrasoundInput += string("\n");
 }

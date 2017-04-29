@@ -23,6 +23,7 @@ protected:
 	std::unordered_set<crow::websocket::connection*> users;
 	string homeInput;
 	string manualInput;
+	string ultrasoundInput;
 public:
 	R2Server(int port);
 	virtual ~R2Server();
