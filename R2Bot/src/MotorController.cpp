@@ -32,7 +32,9 @@ void MotorController::sendData(ControllerData& data) {
 			//vector<uint8_t> output;
 			//R2Protocol::encode(params, output);
 			printf("Motors: %d %d\n", m->leftMotor, m->rightMotor);
-			conn->write(command.c_str(), (unsigned int)command.size());
+			char *c = new char[command.length() + 1];
+			std::strcpy(c, command.c_str());
+			conn->write(c, (unsigned int)command.size());
 		}
 	}
 }
