@@ -1,6 +1,6 @@
 #include "JobHandler/ManualInputsHandler.h"
-#include "R2Protocol.hpp"
 #include "Data/GamepadData.h"
+#include "Data/MotorData.h"
 
 #include <cmath>
 #define M_PI 3.14159265358979323846
@@ -15,15 +15,7 @@ ManualInputsHandler::ManualInputsHandler(): JobHandler() {
 ManualInputsHandler::~ManualInputsHandler() {
 }
 
-string ManualInputsHandler::_pad(int i, unsigned int l) {
-	string s = std::to_string(i);
-	if (s.size() >= l) {
-		return s;
-	}
-	return s + string(l - s.size(), ' ');
-}
-
-void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<ptr<void>>& outputs) {
+void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	// Handle gamepad joystick inputs
 	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
@@ -37,13 +29,15 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, smap<ptr<v
 		angle = angle - (float) M_PI / 4.f;
 		int l = (int) (radius * std::cos(angle));
 		int r = (int) (radius * std::sin(angle));
-		// Pack values into 12 bytes
-		string command = string("M1") + _pad(l, 4) + string("M2") + _pad(r, 4);
-		R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
-		vector<uint8_t> output;
-		R2Protocol::encode(params, output);
-		string s = string(output.begin(), output.end());
-		outputs["motor"] = static_cast<ptr<void>>(&s);
-		printf("%s\n", command.c_str());
+		ptr<MotorData> output = std::make_shared<MotorData>();
+		output->leftMotor = l;
+		output->rightMotor = r;
+		outputs["MOTOR"] = output;
+	}
+	else {
+		ptr<MotorData> output = std::make_shared<MotorData>();
+		output->leftMotor = 0;
+		output->rightMotor = 0;
+		outputs["MOTOR"] = output;
 	}
 }

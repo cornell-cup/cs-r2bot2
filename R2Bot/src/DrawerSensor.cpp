@@ -1,6 +1,7 @@
 #include "Sensor/DrawerSensor.h"
 #include "Data/ForwardData.h"
 #include "Controller/MotorController.h"
+#include <cstring>
 #include <vector>
 
 DrawerSensor::DrawerSensor(string port, int baudrate) : Sensor("Drawer Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)),
