@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+static vector<string> entries;
+
 class R2Databases : public JobHandler {
 private:
 	sqlite3 *db;

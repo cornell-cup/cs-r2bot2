@@ -122,6 +122,12 @@
     <ClInclude Include="include\Data\UltrasoundData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="include\JobHandler\R2Databases.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\R2Databases.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
