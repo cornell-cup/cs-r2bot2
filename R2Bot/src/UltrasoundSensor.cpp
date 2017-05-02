@@ -15,6 +15,9 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 	if (conn->isConnected()) {
 		char data[256];
 		int bytesRead = conn->read(data, 256);
+		if (bytesRead <= 0) {
+			return;
+		}
 
 		// Decode the incoming data
 		R2Protocol::Packet params;
@@ -25,7 +28,8 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 			if (params.source == "U1SENSOR") {
 				udata->distance = std::atof((char *) params.data.data());
 			}
-			std::vector<uint8_t>(input.begin() + read, input.end()).swap(input);
+			std::vector<uint8_t> newinput(input.begin() + read, input.end());
+			newinput.swap(input);
 		}
 		sensorData["ULTRASOUND"] = udata;
 		printf("Ultrasound: %f\n", udata->distance);
