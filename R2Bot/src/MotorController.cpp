@@ -2,6 +2,8 @@
 #include "Data/MotorData.h"
 #include "R2Protocol.hpp"
 
+#include <cstring>
+
 MotorController::MotorController(string port, int baudrate) : Controller("Motor Controller"), conn(std::make_shared<SerialPort>(port, baudrate)) {
 }
 
