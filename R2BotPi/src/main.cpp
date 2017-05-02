@@ -11,13 +11,12 @@
 #include "Job.h"
 #include "JobHandler.h"
 #include "Sensor.h"
-#include "JobHandler/R2Users.h"
-#include "JobHandler/R2Tools.h"
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
+#include "JobHandler/SafetyHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 
@@ -29,6 +28,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	}
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
+	}
+
+	if (!(args["ultrasound-com-port"].empty())) {
+		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600);
+	}
+	else {
+		std::cout << "No ultrasound port specified." << std::endl;
 	}
 
 	return sensors;
@@ -43,11 +49,12 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	else {
 		std::cout << "No UDP NUC ip or port specified." << std::endl;
 	}
+
 	if (!(args["motor-com-port"].empty())) {
-		controllers["motor"] = std::make_shared<MotorController>(args["motor-com-port"], 9600);
+		controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], B9600);
 	}
 	else {
-		std::cout << "No motor ports specified." << std::endl;
+		std::cout << "No motor port specified." << std::endl;
 	}
 
 	return controllers;
@@ -61,41 +68,34 @@ deque<Job> initializeJobs(smap<string>& args) {
 }
 
 /** Initialize background jobs */
-deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
+deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
 	deque<JobHandler> jobs;
+	jobs.push_back(SafetyHandler());
+
+	smap<ptr<Controller>> routes;
+	routes["PICAMERA"] = controllers["UDP NUC"];
+	jobs.push_back(ForwardHandler(routes));
 	return jobs;
 }
 
 int main(int argc, char *argv[]) {
-
 	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
 	smap<ptr<Sensor>> sensors = initializeSensors(args);
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
 	ptr<JobHandler> currentJob;
-	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
-
-	// Data forwarding handler
-	smap<ptr<Controller>> routes;
-	routes["PICAMERA"] = controllers["UDP NUC"];
-	ForwardHandler forwardHandler(routes);
-
-	//maintainUsers(); //USER DATABASE STUFF
+	deque<JobHandler> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
 
 	//TODO: method arg should be sql command stored in a char
 
 	/** Main execution loop */
 	while (1) {
-		//maintainTools();
 		// Collect data from sensors
 		SensorData data;
 		for (auto itr : sensors) {
-			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;
-			//printf("test 2\n");
-			//std::cout << sensor->getName() << std::endl;
-			sensor->getData(data);
+			sensor->fillData(data);
 		}
 		// Execute current jobs
 		if (!currentJob) {
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Run the current job
-		smap<string> outputs;
+		ControllerData outputs;
 		if (currentJob) {
 			currentJob->execute(jobQueue, data, outputs);
 		}
@@ -119,22 +119,12 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Send output data to controllers
-		auto itr = outputs.begin();
-		while (itr != outputs.end()) {
-			auto controller = controllers.find(itr->first);
-			if (controller != controllers.end()) {
-				controller->second->sendData(itr->second);
-				// Erase from the map
-				itr = outputs.erase(itr);
-			}
-			else {
-				itr++;
-			}
+		for (auto itr : controllers) {
+			ptr<Controller> controller = itr.second;
+			controller->sendData(outputs);
 		}
 
-		// Forward any remaining outputs
-		forwardHandler.execute(jobQueue, data, outputs);
 		// Sleep
-		Sleep(100);
+		Sleep(20);
 	}
 }
