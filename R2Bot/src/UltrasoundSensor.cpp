@@ -2,6 +2,7 @@
 #include "Data/UltrasoundData.h"
 
 UltrasoundSensor::UltrasoundSensor(string port, int baudrate) : Sensor("Ultrasound Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {
+	printf("Ultrasound connected to port %s\n", port.c_str());
 }
 
 UltrasoundSensor::~UltrasoundSensor() {

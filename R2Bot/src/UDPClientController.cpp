@@ -2,6 +2,7 @@
 #include "Data/ForwardData.h"
 
 UDPClientController::UDPClientController(string host, int port) : Controller("UDP Client"), client(std::make_shared<UDPSocketClient>(host, port)) {
+	printf("UDP Client connected to host %s and port %d\n", host.c_str(), port);
 }
 
 UDPClientController::~UDPClientController() {

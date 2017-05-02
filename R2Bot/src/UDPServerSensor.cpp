@@ -23,6 +23,8 @@ dataMutex(), dataReceived(), dataToForward() {
 			dataToForward[params.destination] = params;
 		}
 	});
+
+	printf("UDP Server listening on host %s and port %d\n", host.c_str(), port);
 }
 UDPServerSensor::~UDPServerSensor() {
 	server->close();
