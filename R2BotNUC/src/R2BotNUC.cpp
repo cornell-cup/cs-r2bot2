@@ -39,13 +39,13 @@ void initializeWSA() {
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	smap<ptr<Sensor>> sensors;
-	if (!(args["udp-server-ip"].empty()) && !(args["udp-server-port"].empty())) {
+	if (args.find("udp-server-ip") != args.end() && args.find("udp-server-port") != args.end()) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
 	}
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
-	if (!(args["r2-server-port"].empty())) {
+	if (args.find("r2-server-port") != args.end()) {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
 	}
 	else {
@@ -58,7 +58,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 /** Initializes controllers */
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
-	if (!(args["udp-pi-ip"].empty()) && !(args["udp-pi-port"].empty())) {
+	if (args.find("udp-pi-ip") != args.end() && args.find("udp-pi-port") != args.end()) {
 		controllers["UDP PI"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
 	}
 	else {
@@ -81,10 +81,12 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>
 
 	// Data forwarding handler
 	smap<ptr<Controller>> routes;
-	routes["MOTOR"] = controllers["UDP PI"];
-	routes["DRAWER"] = controllers["UDP PI"];
-	routes["ULTRASOUND"] = controllers["UDP PI"];
-	routes["PI"] = controllers["UDP PI"];
+	if (controllers.find("UDP PI") != controllers.end()) {
+		routes["MOTOR"] = controllers["UDP PI"];
+		routes["DRAWER"] = controllers["UDP PI"];
+		routes["ULTRASOUND"] = controllers["UDP PI"];
+		routes["PI"] = controllers["UDP PI"];
+	}
 	jobs.push_back(ForwardHandler(routes));
 
 	return jobs;
