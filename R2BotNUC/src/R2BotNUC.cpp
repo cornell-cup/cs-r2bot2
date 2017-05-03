@@ -39,18 +39,19 @@ void initializeWSA() {
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	smap<ptr<Sensor>> sensors;
-	if (!(args["udp-server-ip"].empty()) && !(args["udp-server-port"].empty())) {
+	if (args.find("udp-server-ip") != args.end() && args.find("udp-server-port") != args.end()) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
 	}
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
-	if (!(args["r2-server-port"].empty())) {
+	if (args.find("r2-server-port") != args.end()) {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
 	}
 	else {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
+
 	if (!(args["ultrasound-serial-port"].empty())) {
 		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
 	}
@@ -72,7 +73,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 /** Initializes controllers */
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
-	if (!(args["udp-pi-ip"].empty()) && !(args["udp-pi-port"].empty())) {
+	if (args.find("udp-pi-ip") != args.end() && args.find("udp-pi-port") != args.end()) {
 		controllers["UDP PI"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
 	}
 	else {
@@ -90,8 +91,19 @@ deque<Job> initializeJobs(smap<string>& args) {
 }
 
 /** Initialize background jobs */
-deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
+deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
 	deque<JobHandler> jobs;
+
+	// Data forwarding handler
+	smap<ptr<Controller>> routes;
+	if (controllers.find("UDP PI") != controllers.end()) {
+		routes["MOTOR"] = controllers["UDP PI"];
+		routes["DRAWER"] = controllers["UDP PI"];
+		routes["ULTRASOUND"] = controllers["UDP PI"];
+		routes["PI"] = controllers["UDP PI"];
+	}
+	jobs.push_back(ForwardHandler(routes));
+
 	return jobs;
 }
 
@@ -106,28 +118,16 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
 	ptr<JobHandler> currentJob;
-	deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
-
-	// Data forwarding handler
-	smap<ptr<Controller>> routes;
-	routes["MOTOR"] = controllers["UDP PI"];
-	routes["PI"] = controllers["UDP PI"];
-	ForwardHandler forwardHandler(routes);
-
-	//maintainUsers(); //USER DATABASE STUFF
+	deque<JobHandler> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
 
 	//TODO: method arg should be sql command stored in a char
 
 	/** Main execution loop */
 	while (1) {
-		//maintainTools();
 		// Collect data from sensors
 		SensorData data;
 		for (auto itr : sensors) {
-			//printf("test 1\n");
 			ptr<Sensor> sensor = itr.second;
-			//printf("test 2\n");
-			//std::cout << sensor->getName() << std::endl;
 			sensor->fillData(data);
 		}
 		// Execute current jobs
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Run the current job
-		smap<ptr<void>> outputs;
+		ControllerData outputs;
 		if (currentJob) {
 			currentJob->execute(jobQueue, data, outputs);
 		}
@@ -152,24 +152,12 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Send output data to controllers
-		auto itr = outputs.begin();
-		while (itr != outputs.end()) {
-			auto controller = controllers.find(itr->first);
-			if (controller != controllers.end()) {
-				smap<ptr<void>> m;
-				m[itr->first] = itr->second;
-				controller->second->sendData(m);
-				// Erase from the map
-				itr = outputs.erase(itr);
-			}
-			else {
-				itr++;
-			}
+		for (auto itr : controllers) {
+			ptr<Controller> controller = itr.second;
+			controller->sendData(outputs);
 		}
 
-		// Forward any remaining outputs
-		forwardHandler.execute(jobQueue, data, outputs);
 		// Sleep
-		Sleep(100);
+		Sleep(20);
 	}
 }

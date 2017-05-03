@@ -73,7 +73,7 @@ R2Server::R2Server(int port) {
 				u->send_binary("hello");
 			}
 			else {
-				u->send_binary(readIn("templates/ccrt-logo.png"));
+				u->send_binary(readIn("../R2Bot/templates/ccrt-logo.png"));
 			}
 		}
 	});

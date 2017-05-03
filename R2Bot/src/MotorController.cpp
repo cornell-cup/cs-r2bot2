@@ -2,7 +2,10 @@
 #include "Data/MotorData.h"
 #include "R2Protocol.hpp"
 
+#include <cstring>
+
 MotorController::MotorController(string port, int baudrate) : Controller("Motor Controller"), conn(std::make_shared<SerialPort>(port, baudrate)) {
+	printf("Motor connected to port %s\n", port.c_str());
 }
 
 MotorController::~MotorController() {
@@ -28,13 +31,11 @@ void MotorController::sendData(ControllerData& data) {
 			// Pack values into 12 bytes
 			string command = string("M1") + _pad(m->leftMotor, 4) + string("M2") + _pad(m->rightMotor, 4);
 			// Protocol disabled because decoding is not working on the PIC32
-			//R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
-			//vector<uint8_t> output;
-			//R2Protocol::encode(params, output);
+			R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
+			vector<uint8_t> output;
+			R2Protocol::encode(params, output);
 			printf("Motors: %d %d\n", m->leftMotor, m->rightMotor);
-			char *c = new char[command.length() + 1];
-			std::strcpy(c, command.c_str());
-			conn->write(c, (unsigned int)command.size());
+			conn->write((char *) output.data(), (unsigned int)output.size());
 		}
 	}
 }
