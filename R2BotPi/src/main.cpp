@@ -14,6 +14,7 @@
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
+#include "Controller/ManualInputsHandler.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "JobHandler/SafetyHandler.h"
@@ -22,15 +23,17 @@
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
+	printf("Initialize sensors\n");
+
 	smap<ptr<Sensor>> sensors;
-	if (!(args["udp-server-ip"].empty()) && !(args["udp-server-port"].empty())) {
+	if (args.find("udp-server-ip") != args.end() && args.find("udp-server-port") != args.end()) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>(args["udp-server-ip"], atoi(args["udp-server-port"].c_str()));
 	}
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
 
-	if (!(args["ultrasound-com-port"].empty())) {
+	if (args.find("ultrasound-com-port") != args.end()) {
 		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600);
 	}
 	else {
@@ -42,15 +45,17 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 
 /** Initializes controllers */
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
+	printf("Initialize controllers\n");
+
 	smap<ptr<Controller>> controllers;
-	if (!(args["udp-nuc-ip"].empty()) && !(args["udp-nuc-port"].empty())) {
+	if (args.find("udp-nuc-ip") != args.end() && args.find("udp-nuc-port") != args.end()) {
 		controllers["UDP NUC"] = std::make_shared<UDPClientController>(args["udp-nuc-ip"], atoi(args["udp-nuc-port"].c_str()));
 	}
 	else {
 		std::cout << "No UDP NUC ip or port specified." << std::endl;
 	}
 
-	if (!(args["motor-com-port"].empty())) {
+	if (args.find("motor-com-port") != args.end()) {
 		controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], B9600);
 	}
 	else {
@@ -62,6 +67,8 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 
 /** Initialize a list of jobs */
 deque<Job> initializeJobs(smap<string>& args) {
+	printf("Initialize jobs\n");
+
 	deque<Job> jobs;
 	jobs.push_back(Job("manual-inputs"));
 	return jobs;
@@ -69,11 +76,15 @@ deque<Job> initializeJobs(smap<string>& args) {
 
 /** Initialize background jobs */
 deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
+	printf("Initializing background jobs\n");
+
 	deque<JobHandler> jobs;
 	jobs.push_back(SafetyHandler());
 
 	smap<ptr<Controller>> routes;
-	routes["PICAMERA"] = controllers["UDP NUC"];
+	if (controllers.find("UDP NUC") != controllers.end()) {
+		routes["PICAMERA"] = controllers["UDP NUC"];
+	}
 	jobs.push_back(ForwardHandler(routes));
 	return jobs;
 }
@@ -92,14 +103,15 @@ int main(int argc, char *argv[]) {
 	/** Main execution loop */
 	while (1) {
 		// Collect data from sensors
+		printf("Collecting data from sensors\n");
 		SensorData data;
 		for (auto itr : sensors) {
 			ptr<Sensor> sensor = itr.second;
 			sensor->fillData(data);
 		}
-		// Execute current jobs
+
+		// Get the next job in the queue
 		if (!currentJob) {
-			// Get the next job in the queue
 			if (jobQueue.size() > 0) {
 				Job nextJob = jobQueue.front();
 				jobQueue.pop_front();
@@ -108,19 +120,23 @@ int main(int argc, char *argv[]) {
 		}
 
 		// Run the current job
+		printf("Executing the current job\n");
 		ControllerData outputs;
 		if (currentJob) {
 			currentJob->execute(jobQueue, data, outputs);
 		}
 
 		// Run background jobs
+		printf("Executing background jobs\n");
 		for (auto itr : bgJobs) {
 			itr.execute(jobQueue, data, outputs);
 		}
 
 		// Send output data to controllers
+		printf("Sending outputs to controllers\n");
 		for (auto itr : controllers) {
 			ptr<Controller> controller = itr.second;
+			std::cout << controller->getName() << std::endl;
 			controller->sendData(outputs);
 		}
 
