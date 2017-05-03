@@ -33,7 +33,7 @@ public:
 	string getName();
 	bool ping();
 	virtual void fillData(smap<ptr<void>>& sensorData);
-	virtual void getData();
+	//virtual void getData();
 	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 #endif

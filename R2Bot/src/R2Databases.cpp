@@ -74,7 +74,7 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 
 	auto inventoryD = data.find("DRAWER1");
 	if (inventoryD != data.end()){
-		sql = (char*)sqlCommand("INSERT", database, table).c_str();
+		sql = (char*)sqlCommand("INSERT", database, table).c_str(); //add on data
 	}	
 	char dbArray[] = ".db";
 	sqlite3 *db;

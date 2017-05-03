@@ -1,5 +1,6 @@
 #include "Sensor/UltrasoundSensor.h"
 #include "Data/UltrasoundData.h"
+#include <iostream>
 
 UltrasoundSensor::UltrasoundSensor(string port, int baudrate) : Sensor("Ultrasound Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {
 }
@@ -21,11 +22,12 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 		std::vector<uint8_t> input(data, data + bytesRead);
 		int32_t read;
 		ptr<UltrasoundData> udata = std::make_shared<UltrasoundData>();
-		while ((read = R2Protocol::decode(input, params)) >= 0) {
-			if (params.source == "U1SENSOR") {
+		
+		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
+			if (params.source.c_str() == "U4SENSOR") {
 				udata->distance = std::atof((char *) params.data.data());
 			}
-			std::vector<uint8_t>(input.begin() + read, input.end()).swap(input);
+			udata->distance = std::atof((char *)params.data.data());
 		}
 		sensorData["ULTRASOUND"] = udata;
 		printf("Ultrasound: %f\n", udata->distance);

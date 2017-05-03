@@ -52,14 +52,15 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
 	if (!(args["ultrasound-serial-port"].empty())) {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-sensor-port"].c_str(), 9600);
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
 	}
 	else {
-		std::cout << "No ultrasound serial port specified." << std::endl;
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM4", 9600);
+		//std::cout << "No ultrasound serial port specified." << std::endl;
 	}
 
 	if (!(args["drawer-serial-port"].empty())) {
-		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-sensor-port"].c_str(), 9600);
+		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-serial-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No drawer serial port specified." << std::endl;

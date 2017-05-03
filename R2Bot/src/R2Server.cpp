@@ -131,7 +131,10 @@ R2Server::R2Server(int port) {
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary(ultrasoundInput);
+				std::cout << ultrasoundInput << std::endl;
+				if (ultrasoundInput.length() != 0) {
+					u->send_binary(ultrasoundInput);
+				}
 				//std::cout << data << std::endl;
 			}
 		}
