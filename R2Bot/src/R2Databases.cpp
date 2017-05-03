@@ -13,6 +13,7 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 			entries.push_back("|");
 		}
 	}
+	return 0;
 }
 
 string sqlCommand(string const& commandType, string database, string table) {
