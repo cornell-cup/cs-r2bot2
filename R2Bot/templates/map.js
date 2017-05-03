@@ -38,7 +38,7 @@ function drawMap(data) {
         //   var subs = split[0].substring(1);
         // subs = subs.substring(0, subs.length - 1);
         if (parseFloat(split[1]) <= 20.0) {
-            dict[split] = parseFloat(split[1]) / 2;
+            dict[split[0]] = parseFloat(split[1]) / 2;
         }
         console.log(dict);
     }
@@ -79,67 +79,67 @@ function drawMap(data) {
 
         }
     }
-    
-function findEdge(distance, angle, sensor) {
-    //R2 position = map[15][15]
 
-    var centerAngle = angle;
-    console.log("ca" + centerAngle);
-    for (var i = 0; i < 4; i++) { //going counterclockwise
-        var xComponent = Math.floor(distance * Math.cos(centerAngle));
-        console.log(distance * Math.cos(centerAngle));
-        var yComponent = Math.floor(distance * Math.sin(centerAngle));
-        console.log("going ccw");
-        // console.log(xComponent);
-        console.log(yComponent);
+    function findEdge(distance, angle, sensor) {
+        //R2 position = map[15][15]
 
-        map[15 - yComponent][15 + xComponent] = getColor(sensor);
-        centerAngle += 5 * Math.PI / 180;
+        var centerAngle = angle;
+        console.log("ca" + centerAngle);
+        for (var i = 0; i < 4; i++) { //going counterclockwise
+            var xComponent = Math.floor(distance * Math.cos(centerAngle));
+            console.log(distance * Math.cos(centerAngle));
+            var yComponent = Math.floor(distance * Math.sin(centerAngle));
+            console.log("going ccw");
+            // console.log(xComponent);
+            console.log(yComponent);
+
+            map[15 - yComponent][15 + xComponent] = getColor(sensor);
+            centerAngle += 5 * Math.PI / 180;
+        }
+
+        for (var i = 0; i < 4; i++) { //going clockwise
+            var xComponent = Math.floor(distance * Math.cos(angle));
+            var yComponent = Math.floor(distance * Math.sin(angle));
+            console.log("going cw");
+            console.log(xComponent);
+            console.log(yComponent);
+            map[15 - yComponent][15 + xComponent] = getColor(sensor);
+            angle -= 5 * Math.PI / 180;
+        }
+        //column, row
     }
+    function getColor(sensor) {
+        var color = 0;
+        switch (sensor) {
+            case "U1SENSOR":
+                color = 2;
+                break;
+            case "U2SENSOR":
+                color = 3;
+                break;
+            case "U3SENSOR":
+                color = 4;
+                break;
+        }
 
-    for (var i = 0; i < 4; i++) { //going clockwise
-        var xComponent = Math.floor(distance * Math.cos(angle));
-        var yComponent = Math.floor(distance * Math.sin(angle));
-        console.log("going cw");
-        console.log(xComponent);
-        console.log(yComponent);
-        map[15 - yComponent][15 + xComponent] = getColor(sensor);
-        angle -= 5 * Math.PI / 180;
+        return color;
     }
-    //column, row
-}
-function getColor(sensor) {
-    var color = 0;
-    switch (sensor) {
-        case "U1SENSOR":
-            color = 2;
-            break;
-        case "U2SENSOR":
-            color = 3;
-            break;
-        case "U3SENSOR":
-            color = 4;
-            break;
-    }
+    function getAngle(sensor) {
+        var angle = 0;
+        switch (sensor) {
+            case "U1SENSOR":
+                angle = 90;
+                break;
+            case "U2SENSOR":
+                angle = 67.5;
+                break;
+            case "U3SENSOR":
+                angle = 112.5;
+                break;
+        }
 
-    return color;
-}
-function getAngle(sensor) {
-    var angle = 0;
-    switch (sensor) {
-        case "U1SENSOR":
-            angle = 90;
-            break;
-        case "U2SENSOR":
-            angle = 67.5;
-            break;
-        case "U3SENSOR":
-            angle = 112.5;
-            break;
+        return angle;
     }
-
-    return angle;
-}
 }
 
 function drawBoard() {
