@@ -135,6 +135,8 @@ R2Server::R2Server(int port) {
 				if (ultrasoundInput.length() != 0) {
 					u->send_binary(ultrasoundInput);
 				}
+				u->send_binary("U1SENSOR,11.1");
+				u->send_binary("U2SENSOR, 14.3");
 				//std::cout << data << std::endl;
 			}
 		}

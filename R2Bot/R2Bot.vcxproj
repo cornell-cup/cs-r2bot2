@@ -69,6 +69,7 @@
     <None Include="templates\manual.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="templates\map.js" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="templates\ccrt-logo.png" />
