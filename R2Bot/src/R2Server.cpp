@@ -216,23 +216,23 @@ bool R2Server::ping() {
 	return true;
 }
 
-void R2Server::fillData(smap<ptr<void>>& sensorData) {
+void R2Server::fillData(SensorData& sensorData) {
 	if (manualInput.find(" ") >= 0) {
 		std::istringstream ss(manualInput);
-		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
+		ptr<GamepadData> data = std::make_shared<GamepadData>();
 		if (ss >> data->x >> data->y) {
-			ptr<void> v = static_cast<ptr<void>>(&data);
-			sensorData["GAMEPAD"] = v;
+			sensorData["GAMEPAD"] = data;
 		}
 	}
 }
 
 void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
-
 	auto result = data.find("ULTRASOUND");
-	ultrasoundInput += result->first;
-	ptr<string> inches = std::static_pointer_cast<string>(result->second);
-	ultrasoundInput += string(",");
-	ultrasoundInput += *inches;
-	ultrasoundInput += string("\n");
+	if (result != data.end()) {
+		ultrasoundInput += result->first;
+		ptr<string> inches = std::static_pointer_cast<string>(result->second);
+		ultrasoundInput += string(",");
+		ultrasoundInput += *inches;
+		ultrasoundInput += string("\n");
+	}
 }
