@@ -55,9 +55,8 @@
                     </ul>
                 </li>
             </ul>
-			<div id="toolsDatabase">
-
-            </div>
+			<div id="toolsDatabase"></div>
+            <div id="usersDatabase"></div>
 		</div>
 	</div>
         <script>
@@ -86,7 +85,8 @@
                     cols = [];
                     dict = {};
                     rows = arrayBufferToString(e.data);
-                    rows = rows.substring(0, rows.length - 1).split("@");
+                    identifier = rows.substring(0, 1);
+                    rows = rows.substring(1, rows.length - 1).split("@");
                     for (var i = 0; i < rows.length; i++) {
                         col = rows[i].split("|");
                         for (var j = 0; j < col.length; j++) {
@@ -122,7 +122,12 @@
                 html += "<div class='panel panel-default'>";
                 html += "<div class='panel-heading'>";
                 html += "<h3 class='panel-title'>";
-                html += "<span>Tools Database</span>";
+                if (identifier == "T") {
+                    html += "<span>Tools Database</span>";
+                }
+                else if (identifier == "U") {
+                    html += "<span>Users Database</span>";
+                }
                 html += "</h3>";
                 html += "</div>";
                 html += "<div class='panel-body'>";
@@ -142,7 +147,12 @@
                 html += "</table>";
                 html += "</div>";
                 html += "</div>";
-                $("#toolsDatabase").html(html);
+                if (identifier == "T") {
+                    $("#toolsDatabase").html(html);
+                }
+                else if (identifier == "U") {
+                    $("#usersDatabase").html(html);
+                }
             }
         </script>
         <style>

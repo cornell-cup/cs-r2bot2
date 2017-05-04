@@ -28,7 +28,7 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 		ptr<RFIDData> rdata = std::make_shared<RFIDData>();
 
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
-			if (params.source.c_str() == "HEAD") {
+			if (params.source.c_str() == "RFID") {
 				rdata->ID = std::atof((char *)params.data.data());
 			}
 			rdata->ID = std::atof((char *)params.data.data());
@@ -47,7 +47,7 @@ void RFIDSensor::sendData(ControllerData& data) {
 			ptr<RFIDData> r = std::static_pointer_cast<RFIDData>(result->second);
 			// Pack values into 12 bytes
 			string command;
-			R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
+			R2Protocol::Packet params = { DEVICE_NAME, "RFID", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
 			printf("RFID: %d\n", r->ID);

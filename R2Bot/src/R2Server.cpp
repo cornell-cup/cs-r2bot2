@@ -94,9 +94,9 @@ R2Server::R2Server(int port) {
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
 		std::string s;
-		std::vector<std::string> s2 = { "RFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
-			"RFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
-			"RFID,1353|NAME,Emily5|TOOLNAME,Laura5|DATE,4/20/17@RFID,1782|NAME,Emily7|TOOLNAME,Laura7|DATE,4/12/17@RFID,2389|NAME,Emily30|TOOLNAME,Laura30|DATE,4/14/17@RFID,1783|NAME,Emily10|TOOLNAME,Laura10|DATE,4/12/17@" };
+		std::vector<std::string> s2 = { "TRFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
+			"URFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
+			"TRFID,1353|NAME,Emily5|TOOLNAME,Laura5|DATE,4/20/17@RFID,1782|NAME,Emily7|TOOLNAME,Laura7|DATE,4/12/17@RFID,2389|NAME,Emily30|TOOLNAME,Laura30|DATE,4/14/17@RFID,1783|NAME,Emily10|TOOLNAME,Laura10|DATE,4/12/17@" };
 		for (auto u : users){
 			if (is_binary) {
 				u->send_binary("hi");

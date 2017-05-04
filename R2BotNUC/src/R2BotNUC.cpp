@@ -37,6 +37,7 @@ void initializeWSA() {
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
 #include "Sensor/HeadSensor.h"
+#include "Sensor/RFIDSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -73,6 +74,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	}
 	else {
 		std::cout << "No head serial port specified." << std::endl;
+	}
+
+	if (!(args["rfid-serial-port"].empty())) {
+		sensors["R2 RFID"] = std::make_shared<RFIDSensor>(args["rfid-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No RFID serial port specified." << std::endl;
 	}
 
 	return sensors;

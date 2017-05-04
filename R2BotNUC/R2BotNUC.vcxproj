@@ -159,6 +159,7 @@
     <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Databases.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
+    <ClCompile Include="..\R2Bot\src\RFIDSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPServerSensor.cpp" />

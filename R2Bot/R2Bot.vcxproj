@@ -30,6 +30,7 @@
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
+    <ClCompile Include="src\RFIDSensor.cpp" />
     <ClCompile Include="src\SafetyHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
     <ClInclude Include="include\Data\HeadData.h" />
+    <ClInclude Include="include\Data\RFIDData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
@@ -58,6 +60,7 @@
     <ClInclude Include="include\Data\GamepadData.h" />
     <ClInclude Include="include\Sensor\DrawerSensor.h" />
     <ClInclude Include="include\Sensor\HeadSensor.h" />
+    <ClInclude Include="include\Sensor\RFIDSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
     <ClInclude Include="src\R2Databases.cpp" />
