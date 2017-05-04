@@ -135,6 +135,7 @@ R2Server::R2Server(int port) {
 				if (ultrasoundInput.length() != 0) {
 					u->send_binary(ultrasoundInput);
 				}
+				u->send_binary("U2SENSOR,11.5");
 			}
 		}
 	});
@@ -157,27 +158,6 @@ R2Server::R2Server(int port) {
 		std::string identifier = data.substr(0, 1);
 		std::string text = data.substr(1);
 		homeInput = text;
-
-		if (identifier == "0") {
-			// L{#}, R{#}, P{#}
-			
-		}
-		else if (identifier == "1") {
-
-		}
-		else if (identifier == "2") {
-			//homeInput = 
-		}
-		else if (identifier == "3") {
-
-		}
-		else if (identifier == "4") {
-			std::cout << "test";
-			std::ofstream headFlap;
-			headFlap.open("sensorIO/headFlap.txt", std::ios_base::app);
-			headFlap << homeInput + "\n";
-			headFlap.close();
-		}
 
 		for (auto u : users) {
 			if (is_binary) {
