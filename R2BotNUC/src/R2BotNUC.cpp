@@ -35,6 +35,7 @@ void initializeWSA() {
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
+#include "Sensor/HeadSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -56,8 +57,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
 	}
 	else {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM4", 9600);
-		//std::cout << "No ultrasound serial port specified." << std::endl;
+		std::cout << "No ultrasound serial port specified." << std::endl;
 	}
 
 	if (!(args["drawer-serial-port"].empty())) {
@@ -65,6 +65,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	}
 	else {
 		std::cout << "No drawer serial port specified." << std::endl;
+	}
+
+	if (!(args["head-serial-port"].empty())) {
+		sensors["R2 HEAD"] = std::make_shared<HeadSensor>(args["head-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No head serial port specified." << std::endl;
 	}
 
 	return sensors;
