@@ -23,6 +23,8 @@
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
+    <ClCompile Include="src\HeadFlapController.cpp" />
+    <ClCompile Include="src\HeadSensor.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
@@ -37,8 +39,10 @@
   <ItemGroup>
     <ClInclude Include="include\Controller.h" />
     <ClInclude Include="include\Controller\FakeMotorController.h" />
+    <ClInclude Include="include\Controller\HeadFlapController.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Data\HeadData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
@@ -47,13 +51,16 @@
     <ClInclude Include="include\JobHandler\ManualInputsHandler.h" />
     <ClInclude Include="include\JobHandler\R2Server.h" />
     <ClInclude Include="include\Data\MotorData.h" />
+    <ClInclude Include="include\JobHandler\R2Databases.h" />
     <ClInclude Include="include\JobHandler\SafetyHandler.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
     <ClInclude Include="include\Sensor\DrawerSensor.h" />
+    <ClInclude Include="include\Sensor\HeadSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
+    <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
@@ -69,6 +76,7 @@
     <None Include="templates\manual.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="templates\map.js" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="templates\ccrt-logo.png" />

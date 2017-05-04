@@ -30,11 +30,13 @@ void initializeWSA() {
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
+#include "Controller/HeadFlapController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
+#include "Sensor/HeadSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -52,6 +54,27 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	}
 
+	if (!(args["ultrasound-serial-port"].empty())) {
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No ultrasound serial port specified." << std::endl;
+	}
+
+	if (!(args["drawer-serial-port"].empty())) {
+		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No drawer serial port specified." << std::endl;
+	}
+
+	if (!(args["head-serial-port"].empty())) {
+		sensors["R2 HEAD"] = std::make_shared<HeadSensor>(args["head-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No head serial port specified." << std::endl;
+	}
+
 	return sensors;
 }
 
@@ -63,6 +86,12 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	}
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
+	}
+	if (!(args["head-flap-serial-port"].empty())) {
+		controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>(args["head-flap-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No head flap serial port specified." << std::endl;
 	}
 
 	return controllers;

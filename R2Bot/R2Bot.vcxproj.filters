@@ -67,6 +67,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\FakeMotorController.cpp">
+    <ClCompile Include="src\HeadSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeadFlapController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,6 +130,19 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="include\Controller\FakeMotorController.h">
+    <ClInclude Include="include\JobHandler\R2Databases.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\R2Databases.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\HeadData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\HeadSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Controller\HeadFlapController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,6 +160,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="templates\manual.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\map.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

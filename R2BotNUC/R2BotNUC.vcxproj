@@ -151,10 +151,13 @@
     <ClCompile Include="..\R2Bot\src\Controller.cpp" />
     <ClCompile Include="..\R2Bot\src\DrawerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
+    <ClCompile Include="..\R2Bot\src\HeadFlapController.cpp" />
+    <ClCompile Include="..\R2Bot\src\HeadSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\Job.cpp" />
     <ClCompile Include="..\R2Bot\src\JobHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
+    <ClCompile Include="..\R2Bot\src\R2Databases.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
     <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />

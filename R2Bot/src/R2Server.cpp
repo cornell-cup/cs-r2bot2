@@ -5,6 +5,7 @@
 #include "crow_all.h"
 
 #include "Data/GamepadData.h"
+#include "Data/HeadData.h"
 #include <string>
 #include <vector>
 
@@ -52,7 +53,7 @@ static string MimeTypeFromString(const string& str) {
 	}
 }
 int ctr = 0;
-
+int ctr2 = 0;
 R2Server::R2Server(int port) {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
@@ -124,15 +125,16 @@ R2Server::R2Server(int port) {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
-
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary(ultrasoundInput);
-				//std::cout << data << std::endl;
+				std::cout << ultrasoundInput << std::endl;
+				if (ultrasoundInput.length() != 0) {
+					u->send_binary(ultrasoundInput);
+				}
 			}
 		}
 	});
@@ -157,7 +159,8 @@ R2Server::R2Server(int port) {
 		homeInput = text;
 
 		if (identifier == "0") {
-
+			// L{#}, R{#}, P{#}
+			
 		}
 		else if (identifier == "1") {
 
@@ -213,23 +216,41 @@ bool R2Server::ping() {
 	return true;
 }
 
-void R2Server::getData(smap<ptr<void>>& sensorData) {
+void R2Server::fillData(SensorData& sensorData) {
 	if (manualInput.find(" ") >= 0) {
 		std::istringstream ss(manualInput);
-		GamepadData * data = (GamepadData *)malloc(sizeof(GamepadData));
+		ptr<GamepadData> data = std::make_shared<GamepadData>();
 		if (ss >> data->x >> data->y) {
-			ptr<void> v = static_cast<ptr<void>>(&data);
-			sensorData["GAMEPAD"] = v;
+			sensorData["GAMEPAD"] = data;
+		}
+	}
+	if (homeInput.length() > 0){
+		ptr<HeadData> data = std::make_shared<HeadData>();
+		if (homeInput.substr(0, 1) == "P") {
+			data->angle = std::stoi(homeInput.substr(2,homeInput.length()-2));
+			sensorData["HEAD"] = data;
+		}
+		else if (homeInput.substr(0, 1) == "L" || homeInput.substr(0,1) == "R") {
+			data->time = std::stoi(homeInput.substr(2, homeInput.length() - 2));
+			sensorData["HEAD"] = data;
+		}
+		else if (homeInput.substr(0, 1) == "O" || homeInput.substr(0, 1) == "C") {
+			sensorData["FLAP"] = static_cast<ptr<void>>(&homeInput);
 		}
 	}
 }
 
 void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
-
 	auto result = data.find("ULTRASOUND");
-	ultrasoundInput += result->first;
-	ptr<string> inches = std::static_pointer_cast<string>(result->second);
-	ultrasoundInput += string(",");
-	ultrasoundInput += *inches;
-	ultrasoundInput += string("\n");
+	if (result != data.end()) {
+		ultrasoundInput += result->first;
+		ptr<string> inches = std::static_pointer_cast<string>(result->second);
+		ultrasoundInput += string(",");
+		ultrasoundInput += *inches;
+		ultrasoundInput += string("\n");
+	}
+	result = data.find("FLAP");
+	if (result != data.end()) {
+		outputs["FLAP"] = result->second;
+	}
 }
