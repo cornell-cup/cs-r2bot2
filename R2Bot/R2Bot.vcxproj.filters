@@ -66,6 +66,9 @@
     <ClCompile Include="src\SafetyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FakeMotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="include\Data\UltrasoundData.h">
       <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Controller\FakeMotorController.h">
+      <Filter>Header Files\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

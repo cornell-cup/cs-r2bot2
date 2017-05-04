@@ -58,6 +58,9 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	if (args.find("motor-com-port") != args.end()) {
 		controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], B9600);
 	}
+	else if (args.find("use-fake-motor") != args.end()) {
+		controllers["MOTOR"] = std::make_shared<FakeMotorController>();
+	}
 	else {
 		std::cout << "No motor port specified." << std::endl;
 	}

@@ -30,7 +30,6 @@ void MotorController::sendData(ControllerData& data) {
 			ptr<MotorData> m = std::static_pointer_cast<MotorData>(result->second);
 			// Pack values into 12 bytes
 			string command = string("M1") + _pad(m->leftMotor, 4) + string("M2") + _pad(m->rightMotor, 4);
-			// Protocol disabled because decoding is not working on the PIC32
 			R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
