@@ -228,11 +228,11 @@ void R2Server::fillData(SensorData& sensorData) {
 	if (homeInput.length() > 0){
 		ptr<HeadData> data = std::make_shared<HeadData>();
 		if (homeInput.substr(0, 1) == "P") {
-			data->time = std::stoi(homeInput.substr(2,homeInput.length()-2));
+			data->angle = std::stoi(homeInput.substr(2,homeInput.length()-2));
 			sensorData["HEAD"] = data;
 		}
 		else {
-			data->angle = std::stoi(homeInput.substr(2, homeInput.length() - 2));
+			data->time = std::stoi(homeInput.substr(2, homeInput.length() - 2));
 			sensorData["HEAD"] = data;
 		}
 	}
