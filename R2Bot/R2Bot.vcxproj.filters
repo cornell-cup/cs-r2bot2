@@ -67,6 +67,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\FakeMotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\HeadSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -130,6 +132,8 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="include\Controller\FakeMotorController.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
     <ClInclude Include="include\JobHandler\R2Databases.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
