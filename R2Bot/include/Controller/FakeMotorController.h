@@ -14,5 +14,4 @@ public:
 	virtual void sendData(ControllerData& data);
 };
 
-
 #endif

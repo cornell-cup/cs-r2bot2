@@ -32,6 +32,7 @@
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\SafetyHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
+    <ClCompile Include="src\SoundController.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
@@ -41,8 +42,10 @@
     <ClInclude Include="include\Controller\FakeMotorController.h" />
     <ClInclude Include="include\Controller\HeadFlapController.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
+    <ClInclude Include="include\Controller\SoundController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
     <ClInclude Include="include\Data\HeadData.h" />
+    <ClInclude Include="include\Data\SoundData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
