@@ -159,7 +159,8 @@ R2Server::R2Server(int port) {
 		homeInput = text;
 
 		if (identifier == "0") {
-
+			// L{#}, R{#}, P{#}
+			
 		}
 		else if (identifier == "1") {
 
@@ -221,6 +222,14 @@ void R2Server::fillData(SensorData& sensorData) {
 		ptr<GamepadData> data = std::make_shared<GamepadData>();
 		if (ss >> data->x >> data->y) {
 			sensorData["GAMEPAD"] = data;
+		}
+	}
+	if (homeInput.length() > 0){
+		if (homeInput.substr(0, 1) == "P") {
+			//sensorData["HEAD"] = homeInput;
+		}
+		else {
+			//sensorData["HEAD"] = homeInput;
 		}
 	}
 }
