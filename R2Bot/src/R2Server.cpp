@@ -5,6 +5,7 @@
 #include "crow_all.h"
 
 #include "Data/GamepadData.h"
+#include "Data/HeadData.h"
 #include <string>
 #include <vector>
 
@@ -225,11 +226,14 @@ void R2Server::fillData(SensorData& sensorData) {
 		}
 	}
 	if (homeInput.length() > 0){
+		ptr<HeadData> data = std::make_shared<HeadData>();
 		if (homeInput.substr(0, 1) == "P") {
-			//sensorData["HEAD"] = homeInput;
+			data->time = std::stoi(homeInput.substr(2,homeInput.length()-2));
+			sensorData["HEAD"] = data;
 		}
 		else {
-			//sensorData["HEAD"] = homeInput;
+			data->angle = std::stoi(homeInput.substr(2, homeInput.length() - 2));
+			sensorData["HEAD"] = data;
 		}
 	}
 }
