@@ -4,7 +4,6 @@
 #include "Global.h"
 #include "R2Protocol.hpp"
 #include "Sensor.h"
-#include "Controller.h"
 #include "SerialPort.h"
 
 #include <mutex>

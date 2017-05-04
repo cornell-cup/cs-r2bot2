@@ -125,7 +125,6 @@ R2Server::R2Server(int port) {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
-		std::vector<int> a = { 1,3,5,7,2 };
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
@@ -231,9 +230,12 @@ void R2Server::fillData(SensorData& sensorData) {
 			data->angle = std::stoi(homeInput.substr(2,homeInput.length()-2));
 			sensorData["HEAD"] = data;
 		}
-		else {
+		else if (homeInput.substr(0, 1) == "L" || homeInput.substr(0,1) == "R") {
 			data->time = std::stoi(homeInput.substr(2, homeInput.length() - 2));
 			sensorData["HEAD"] = data;
+		}
+		else if (homeInput.substr(0, 1) == "O" || homeInput.substr(0, 1) == "C") {
+			sensorData["FLAP"] = static_cast<ptr<void>>(&homeInput);
 		}
 	}
 }
@@ -246,5 +248,9 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 		ultrasoundInput += string(",");
 		ultrasoundInput += *inches;
 		ultrasoundInput += string("\n");
+	}
+	result = data.find("FLAP");
+	if (result != data.end()) {
+		outputs["FLAP"] = result->second;
 	}
 }

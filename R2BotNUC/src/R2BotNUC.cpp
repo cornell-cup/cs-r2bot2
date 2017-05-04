@@ -30,6 +30,7 @@ void initializeWSA() {
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
+#include "Controller/HeadFlapController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
@@ -85,6 +86,12 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	}
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
+	}
+	if (!(args["head-flap-serial-port"].empty())) {
+		controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>(args["head-flap-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No head flap serial port specified." << std::endl;
 	}
 
 	return controllers;

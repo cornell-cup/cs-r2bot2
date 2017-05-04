@@ -22,6 +22,8 @@
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
+    <ClCompile Include="src\HeadFlapController.cpp" />
+    <ClCompile Include="src\HeadSensor.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
@@ -35,8 +37,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Controller.h" />
+    <ClInclude Include="include\Controller\HeadFlapController.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Data\HeadData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />
     <ClInclude Include="include\Job.h" />
@@ -51,6 +55,7 @@
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
     <ClInclude Include="include\Sensor\DrawerSensor.h" />
+    <ClInclude Include="include\Sensor\HeadSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
     <ClInclude Include="src\R2Databases.cpp" />
