@@ -1,6 +1,7 @@
 
 #include "R2Protocol.hpp"
 #include "UDPSocketClient.h"
+#include "Data/GamepadData.h"
 
 #include <Windows.h>
 #include <Xinput.h>
@@ -42,7 +43,6 @@ int main(int argc, char** argv) {
 	UDPSocketClient client(host, port);
 
 	XINPUT_STATE state;
-	char buffer[64];
 
 	int controllerId = -1;
 	while (1) {
@@ -68,20 +68,23 @@ int main(int argc, char** argv) {
 		printf("%f %f\n", normLX, normLY);
 
 		// Send these values over UDP
-		sprintf_s(buffer, 64, "%f %f", normLX, normLY);
 		if (client.isConnected()) {
+			GamepadData g = { normLX, normLY };
+			uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
+			memcpy(buffer, &g, sizeof(GamepadData));
 			std::vector<uint8_t> output;
 			R2Protocol::Packet params;
 			params.source = "GAMEPAD";
 			params.destination = "PI";
 			params.id = "";
-			params.data = std::vector<uint8_t>(buffer, buffer + strlen(buffer));
+			params.data = std::vector<uint8_t>(buffer, buffer + sizeof(GamepadData));
 			R2Protocol::encode(params, output);
 			client.write((char *) output.data(), (unsigned int) output.size());
+			free(buffer);
 		}
 
 		// Wait
-		Sleep(16);
+		Sleep(50);
 	}
     return 0;
 }
