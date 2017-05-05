@@ -72,8 +72,8 @@ int main(int argc, char** argv) {
 		if (client.isConnected()) {
 			std::vector<uint8_t> output;
 			R2Protocol::Packet params;
-			params.source = "gamepad";
-			params.destination = "nuc";
+			params.source = "GAMEPAD";
+			params.destination = "PI";
 			params.id = "";
 			params.data = std::vector<uint8_t>(buffer, buffer + strlen(buffer));
 			R2Protocol::encode(params, output);
