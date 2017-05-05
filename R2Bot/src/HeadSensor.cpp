@@ -2,7 +2,7 @@
 #include "Data/HeadData.h"
 #include <iostream>
 
-HeadSensor::HeadSensor(string port, int baudrate) : Sensor("Head Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {
+HeadSensor::HeadSensor(string port, int baudrate) : Sensor("Head Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Head connected to port %s\n", port.c_str());
 }
 
@@ -20,7 +20,7 @@ void HeadSensor::fillData(SensorData& sensorData) {
 		if (bytesRead <= 0) {
 			return;
 		}
-
+		std::lock_guard<std::mutex> lock(dataMutex);
 		// Decode the incoming data
 		R2Protocol::Packet params;
 		std::vector<uint8_t> input(data, data + bytesRead);

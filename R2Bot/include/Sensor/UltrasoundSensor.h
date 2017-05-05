@@ -10,6 +10,7 @@
 
 class UltrasoundSensor : public Sensor {
 protected:
+	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
 	UltrasoundSensor(string port, int baudrate);

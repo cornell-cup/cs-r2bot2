@@ -24,6 +24,7 @@ dataMutex(), dataReceived(), dataToForward() {
 			// Data should be forwarded
 			dataToForward[params.destination] = params;
 		}
+		drawerState = false;
 }
 
 DrawerSensor::~DrawerSensor() {

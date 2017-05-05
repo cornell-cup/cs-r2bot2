@@ -11,6 +11,7 @@
 
 class RFIDSensor : public Sensor {
 protected:
+	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
 	RFIDSensor(string port, int baudrate);

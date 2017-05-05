@@ -2,7 +2,7 @@
 #include "Data/UltrasoundData.h"
 #include <iostream>
 
-UltrasoundSensor::UltrasoundSensor(string port, int baudrate) : Sensor("Ultrasound Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {
+UltrasoundSensor::UltrasoundSensor(string port, int baudrate) : Sensor("Ultrasound Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Ultrasound connected to port %s\n", port.c_str());
 }
 
@@ -20,7 +20,7 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 		if (bytesRead <= 0) {
 			return;
 		}
-
+		std::lock_guard<std::mutex> lock(dataMutex);
 		// Decode the incoming data
 		R2Protocol::Packet params;
 		std::vector<uint8_t> input(data, data + bytesRead);

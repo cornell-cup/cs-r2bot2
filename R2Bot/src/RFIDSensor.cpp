@@ -1,8 +1,9 @@
 #include "Sensor/RFIDSensor.h"
+#include "Sensor/DrawerSensor.h"
 #include "Data/RFIDData.h"
 #include <iostream>
 
-RFIDSensor::RFIDSensor(string port, int baudrate) : Sensor("RFID Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)) {
+RFIDSensor::RFIDSensor(string port, int baudrate) : Sensor("RFID Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("RFID connected to port %s\n", port.c_str());
 }
 
@@ -20,7 +21,7 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 		if (bytesRead <= 0) {
 			return;
 		}
-
+		std::lock_guard<std::mutex> lock(dataMutex);
 		// Decode the incoming data
 		R2Protocol::Packet params;
 		std::vector<uint8_t> input(data, data + bytesRead);
@@ -42,16 +43,30 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 
 void RFIDSensor::sendData(ControllerData& data) {
 	if (conn->isConnected()) {
-		auto result = data.find("RFID");
-		if (result != data.end()) {
-			ptr<RFIDData> r = std::static_pointer_cast<RFIDData>(result->second);
-			// Pack values into 12 bytes
-			string command;
-			R2Protocol::Packet params = { DEVICE_NAME, "RFID", "", vector<uint8_t>(command.begin(), command.end()) };
-			vector<uint8_t> output;
-			R2Protocol::encode(params, output);
-			printf("RFID: %d\n", r->ID);
-			conn->write((char *)output.data(), (unsigned int)output.size());
+		auto result = data.find("DATABASE");
+
+		bool drawerState;
+		if (result != data.end() && !drawerState) {
+			if (result->second) {
+				drawerState = true;
+				string command = "O";
+				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output;
+				R2Protocol::encode(params, output);
+				printf("User authenticed. Open drawer.\n");
+				conn->write((char *)output.data(), (unsigned int)output.size());
+			}
+		}
+		else if (result != data.end() && drawerState) {
+			if (result->second) {
+				drawerState = false;
+				string command = "C";
+				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output;
+				R2Protocol::encode(params, output);
+				printf("User authenticed. Close drawer.\n");
+				conn->write((char *)output.data(), (unsigned int)output.size());
+			}
 		}
 	}
 }

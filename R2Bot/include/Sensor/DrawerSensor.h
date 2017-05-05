@@ -15,6 +15,7 @@ protected:
 	smap<ptr<void>> dataReceived;
 	smap<R2Protocol::Packet> dataToForward;
 public:
+	bool drawerState;
 	DrawerSensor(string port, int baudrate);
 	~DrawerSensor();
 
