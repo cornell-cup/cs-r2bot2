@@ -28,7 +28,7 @@ void HeadSensor::fillData(SensorData& sensorData) {
 		ptr<HeadData> hdata = std::make_shared<HeadData>();
 
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
-			if (params.source.c_str() == "HEAD") {
+			if (params.source == "HEAD") {
 				hdata->angle = std::atof((char *)params.data.data());
 			}
 			hdata->angle = std::atof((char *)params.data.data());

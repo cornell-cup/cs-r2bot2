@@ -22,10 +22,10 @@ string sqlCommand(string const& commandType, string database, string table) {
 
 	if (commandType == "INSERT") {
 		if (table == "TOOLS") {
-			sql = "INSERT INTO " + table + " (RIFD, NAME, TOOLNAME, DATE)\" \ \"VALUES";
+			sql = "INSERT INTO " + table + " (RIFD, NAME, TOOLNAME, DATE) VALUES";
 		}
 		else if (table == "USERS") {
-			sql = "INSERT INTO " + table + " (ID, NAME, TOOLCOUNT)\" \ \"VALUES";
+			sql = "INSERT INTO " + table + " (ID, NAME, TOOLCOUNT) VALUES";
 		}
 	}
 	else if (commandType == "SELECT") {
