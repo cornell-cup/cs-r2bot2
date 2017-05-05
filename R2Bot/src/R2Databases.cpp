@@ -1,6 +1,7 @@
 #include "JobHandler/R2Databases.h"
 #include "Data/DrawerData.h"
 #include "Data/RFIDData.h"
+#include "Data/RFIDCommand.h"
 
 
 static int callback(void *data, int argc, char **argv, char **azColName) {
@@ -84,7 +85,7 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 	char * sql;
 	string sqlLite;
 	entries.clear();
-	auto inventory = data.find("DRAWER");
+	auto inven = data.find("DRAWER");
 	auto rfid = data.find("RFID");
 
 	bool authenticated = false;
@@ -112,28 +113,36 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 			data["DATABASE"] = std::shared_ptr<int>(new int(0));
 		}
 	}
+	auto drawerState = outputs.find("RFIDCOMMAND");
+	if (drawerState != data.end() && inven != data.end() && authenticated) {
+		if (std::static_pointer_cast<RFIDCommand>(drawerState->second)->state == "T") {
+			entries.clear();
 
-	if (inventory != data.end() && authenticated) {
-		entries.clear();
-		string inv = (std::static_pointer_cast<DrawerData>(inventory->second)->inventory);
-		string invV = inv.substr(0, 1) + "," + inv.substr(1, 2) + "," + inv.substr(2, 3) + "," + inv.substr(3, 4) + "," + inv.substr(4, 5) + "," + inv.substr(5) + ",";
-		string rfid = "1238";
-		string total = rfid + "," + invV;
-		sql = (char*)total.c_str(); //add on data
+			int zero = std::static_pointer_cast<DrawerData>(inven->second)->tool0;
+			int one = std::static_pointer_cast<DrawerData>(inven->second)->tool1;
+			int two = std::static_pointer_cast<DrawerData>(inven->second)->tool2;
+			int three = std::static_pointer_cast<DrawerData>(inven->second)->tool3;
+			int four = std::static_pointer_cast<DrawerData>(inven->second)->tool4;
+			int five = std::static_pointer_cast<DrawerData>(inven->second)->tool5;
+			string invV = std::to_string(zero) + "," + std::to_string(one) + "," + std::to_string(two) + "," + std::to_string(three) + "," + std::to_string(four) + "," + std::to_string(five) + ",";
+			string rfids = std::to_string((std::static_pointer_cast<RFIDData>(rfid->second)->ID));
+			string total = rfids + "," + invV;
+			sql = (char*)total.c_str(); //add on data
 
-		char dbArray[] = ".db";
-		sqlite3 *db;
-		sqlite3_open(database.c_str() + *dbArray, &db);
-		char *zErrMsg = 0;
-		const char* str = "Callback function called";
+			char dbArray[] = ".db";
+			sqlite3 *db;
+			sqlite3_open(database.c_str() + *dbArray, &db);
+			char *zErrMsg = 0;
+			const char* str = "Callback function called";
 
-		sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
-		sql = (char*)sqlCommand("SELECT", database, table).c_str();
-		sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
+			sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
 
-		sqlite3_close(db);
+			sql = (char*)sqlCommand("SELECT", database, table).c_str();
+			sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
 
-		data["TOOLS"] = std::make_shared<vector<string>>(entries);
+			sqlite3_close(db);
+
+			data["TOOLS"] = std::make_shared<vector<string>>(entries);
+		}
 	}
-
 }

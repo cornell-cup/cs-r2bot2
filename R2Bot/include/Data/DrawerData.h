@@ -4,7 +4,8 @@
 #include "Global.h"
 
 typedef struct {
-	string inventory;
+	int tool0, tool1, tool2, tool3, tool4, tool5;
+
 } DrawerData;
 
 #endif

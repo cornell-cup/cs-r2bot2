@@ -1,6 +1,7 @@
 #include "Sensor/RFIDSensor.h"
 #include "Sensor/DrawerSensor.h"
 #include "Data/RFIDData.h"
+#include "Data/RFIDCommand.h"
 #include <iostream>
 
 RFIDSensor::RFIDSensor(string port, int baudrate) : Sensor("RFID Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
@@ -44,12 +45,14 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 void RFIDSensor::sendData(ControllerData& data) {
 	if (conn->isConnected()) {
 		auto result = data.find("DATABASE");
-
+		ptr<RFIDCommand> cdata = std::make_shared<RFIDCommand>();
 		bool drawerState;
 		if (result != data.end() && !drawerState) {
 			if (result->second) {
 				drawerState = true;
 				string command = "O";
+				data["RFIDCOMMAND"] = std::shared_ptr<string>("O");
+				cdata->state = "O";
 				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
 				vector<uint8_t> output;
 				R2Protocol::encode(params, output);
@@ -59,13 +62,28 @@ void RFIDSensor::sendData(ControllerData& data) {
 		}
 		else if (result != data.end() && drawerState) {
 			if (result->second) {
+				//closing the drawer
 				drawerState = false;
 				string command = "C";
+				cdata->state = "C";
+				data["RFIDCOMMAND"] = std::shared_ptr<string>("C");
 				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
 				vector<uint8_t> output;
 				R2Protocol::encode(params, output);
 				printf("User authenticed. Close drawer.\n");
 				conn->write((char *)output.data(), (unsigned int)output.size());
+
+
+				//immediately getting inventory after closing drawer
+				command = "T";
+				data["RFIDCOMMAND"] = std::shared_ptr<string>("T");
+				cdata->state = "T";
+				R2Protocol::Packet params2 = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output2;
+				R2Protocol::encode(params2, output2);
+				printf("User authenticed. Close drawer.\n");
+				conn->write((char *)output.data(), (unsigned int)output2.size());
+
 			}
 		}
 	}

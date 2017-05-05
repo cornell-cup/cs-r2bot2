@@ -95,9 +95,6 @@
     <ClInclude Include="include\Job.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Sensor\UDPServerSensor.h">
-      <Filter>Header Files\Sensor</Filter>
-    </ClInclude>
     <ClInclude Include="include\Controller\MotorController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
@@ -159,6 +156,12 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\DrawerData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\UDPServerSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\RFIDCommand.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
