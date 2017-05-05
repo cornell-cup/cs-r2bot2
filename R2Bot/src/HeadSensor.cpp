@@ -35,7 +35,7 @@ void HeadSensor::fillData(SensorData& sensorData) {
 			std::vector<uint8_t> newinput(input.begin() + read, input.end());
 			newinput.swap(input);
 			sensorData["HEAD"] = hdata;
-			printf("Head Angle: %f\n", hdata->angle);
+			printf("Head Angle: %d\n", hdata->angle);
 		}
 	}
 }
@@ -50,7 +50,7 @@ void HeadSensor::sendData(ControllerData& data) {
 			R2Protocol::Packet params = { DEVICE_NAME, "HEAD", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
-			printf("Head: %s\n", command);
+			printf("Head: %s\n", command.c_str());
 			conn->write((char *)output.data(), (unsigned int)output.size());
 		}
 	}
