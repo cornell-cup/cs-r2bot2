@@ -1,6 +1,7 @@
 import glob, os, platform, subprocess, sys
 from functools import partial
 from multiprocessing import Pool
+import multiprocessing
 from os import path
 
 IS_WINDOWS = "Windows" in platform.system()
@@ -66,12 +67,17 @@ if __name__ == "__main__":
     # TODO Don't recompile unchanged files
     #objects = list(map(lambda s: compile(s, includes, LIB_INC_FOLDER, OBJ_FOLDER), sources))
     if len(sys.argv) >= 3:
-        p = Pool(int(sys.argv[2]))
+        threads = int(sys.argv[2])
     else:
-        p = Pool()
-
+        threads = multiprocessing.cpu_count()
+    
     partial_compile = partial(compile, includes=includes, library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
-    objects = p.map(partial_compile, sources)
+    
+    if threads == 1:
+        objects = map(partial_compile, sources)
+    else:
+        p = Pool(threads)
+        objects = p.map(partial_compile, sources)
 
     # Build the binary
     args = [CC] + CFLAGS + objects + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
