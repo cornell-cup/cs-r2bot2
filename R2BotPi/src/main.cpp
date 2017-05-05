@@ -14,7 +14,7 @@
 
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
-#include "Controller/ManualInputsHandler.h"
+#include "JobHandler/ManualInputsHandler.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "JobHandler/SafetyHandler.h"
