@@ -43,6 +43,7 @@
     <ClInclude Include="include\Controller\HeadFlapController.h" />
     <ClInclude Include="include\Controller\MotorController.h" />
     <ClInclude Include="include\Controller\UDPClientController.h" />
+    <ClInclude Include="include\Data\DrawerData.h" />
     <ClInclude Include="include\Data\HeadData.h" />
     <ClInclude Include="include\Data\RFIDData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />

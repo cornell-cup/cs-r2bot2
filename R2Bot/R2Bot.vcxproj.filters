@@ -158,6 +158,9 @@
     <ClInclude Include="include\Data\RFIDData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="include\Data\DrawerData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
