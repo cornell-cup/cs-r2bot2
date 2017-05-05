@@ -1,5 +1,6 @@
 #include "Sensor/DrawerSensor.h"
 #include "Data/DrawerData.h"
+#include "Data/DrawerCommand.h"
 #include <iostream>
 
 DrawerSensor::DrawerSensor(string port, int baudrate) : Sensor("Drawer Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
@@ -38,6 +39,53 @@ void DrawerSensor::fillData(SensorData& sensorData) {
 			newinput.swap(input);
 			sensorData["DRAWER"] = ddata;
 			printf("DRAWER: %f\n", ddata->tool0);
+		}
+	}
+}
+
+void DrawerSensor::sendData(ControllerData& data) {
+	if (conn->isConnected()) {
+		auto result = data.find("DATABASE");
+		ptr<DrawerCommand> cdata = std::make_shared<DrawerCommand>();
+		bool drawerState;
+		if (result != data.end() && !drawerState) {
+			if (result->second) {
+				drawerState = true;
+				string command = "O";
+				cdata->state = command;
+				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
+				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output;
+				R2Protocol::encode(params, output);
+				printf("User authenticed. Open drawer.\n");
+				conn->write((char *)output.data(), (unsigned int)output.size());
+			}
+		}
+		else if (result != data.end() && drawerState) {
+			if (result->second) {
+				//closing the drawer
+				drawerState = false;
+				string command = "C";
+				cdata->state = command;
+				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
+				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output;
+				R2Protocol::encode(params, output);
+				printf("User authenticed. Close drawer.\n");
+				conn->write((char *)output.data(), (unsigned int)output.size());
+
+
+				//immediately getting inventory after closing drawer
+				command = "T";
+				cdata->state = command;
+				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
+				R2Protocol::Packet params2 = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				vector<uint8_t> output2;
+				R2Protocol::encode(params2, output2);
+				printf("Tool inventory updated.\n");
+				conn->write((char *)output.data(), (unsigned int)output2.size());
+
+			}
 		}
 	}
 }

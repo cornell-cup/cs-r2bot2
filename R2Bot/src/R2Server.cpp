@@ -52,8 +52,11 @@ static string MimeTypeFromString(const string& str) {
 		return MIME_TYPES["*"];
 	}
 }
-int ctr = 0;
-int ctr2 = 0;
+
+string drawerC;
+string RFID;
+string toolInv;
+string userList;
 R2Server::R2Server(int port) {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
@@ -93,18 +96,24 @@ R2Server::R2Server(int port) {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-		std::string s;
-		std::vector<std::string> s2 = { "TRFID,5678|NAME,Emily1|TOOLNAME,Laura1|DATE,4/14/17@RFID,123|NAME,Emily0|TOOLNAME,Laura0|DATE,4/19/17@",
-			"URFID,5678|NAME,Emily2|TOOLNAME,Laura2|DATE,4/14/17@",
-			"TRFID,1353|NAME,Emily5|TOOLNAME,Laura5|DATE,4/20/17@RFID,1782|NAME,Emily7|TOOLNAME,Laura7|DATE,4/12/17@RFID,2389|NAME,Emily30|TOOLNAME,Laura30|DATE,4/14/17@RFID,1783|NAME,Emily10|TOOLNAME,Laura10|DATE,4/12/17@" };
+
 		for (auto u : users){
 			if (is_binary) {
 				u->send_binary("hi");
 			}
 			else {
-				//for (const auto piece : toolEntry) s += piece;
-				u->send_binary(s2[ctr%3]);
-				ctr++;
+				if (drawerC.length() != 0) {
+					u->send_binary("2" + drawerC);
+				}
+				if (RFID.length() != 0) {
+					u->send_binary("3" + RFID);
+				}
+				if (toolInv.length() != 0) {
+					u->send_binary("T"+toolInv);
+				}
+				if (userList.length() != 0) {
+					u->send_binary("U" + userList);
+				}
 			}
 		}
 	});
@@ -155,18 +164,14 @@ R2Server::R2Server(int port) {
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
 
-		std::string identifier = data.substr(0, 1);
-		std::string text = data.substr(1);
-		homeInput = text;
+		homeInput = data;
 
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("data recieved");
-				//std::cout << data << std::endl;
 			}
 			else {
-				u->send_binary("data recieved");
-				//std::cout << data << std::endl;
+
 			}
 		}
 	});
@@ -204,18 +209,21 @@ void R2Server::fillData(SensorData& sensorData) {
 			sensorData["GAMEPAD"] = data;
 		}
 	}
-	if (homeInput.length() > 0){
+	if (manualInput.length() > 0){
 		ptr<HeadData> data = std::make_shared<HeadData>();
-		if (homeInput.substr(0, 1) == "P") {
-			data->angle = std::stoi(homeInput.substr(2,homeInput.length()-2));
+		if (manualInput.substr(0, 1) == "P") {
+			data->angle = std::stoi(manualInput.substr(2, manualInput.length() - 2));
 			sensorData["HEAD"] = data;
 		}
-		else if (homeInput.substr(0, 1) == "L" || homeInput.substr(0,1) == "R") {
-			data->time = std::stoi(homeInput.substr(2, homeInput.length() - 2));
+		else if (manualInput.substr(0, 1) == "L" || manualInput.substr(0,1) == "R") {
+			data->time = std::stoi(manualInput.substr(2, manualInput.length() - 2));
 			sensorData["HEAD"] = data;
 		}
-		else if (homeInput.substr(0, 1) == "O" || homeInput.substr(0, 1) == "C") {
-			sensorData["FLAP"] = static_cast<ptr<void>>(&homeInput);
+		else if (manualInput == "O" || manualInput == "C") {
+			sensorData["FLAP"] = std::make_shared<string>(manualInput);
+		}
+		else if (manualInput == "Get Head Angle") {
+			sensorData["HEAD"] = std::make_shared<string>("G");
 		}
 	}
 }
@@ -232,5 +240,29 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 	result = data.find("FLAP");
 	if (result != data.end()) {
 		outputs["FLAP"] = result->second;
+	}
+	result = data.find("HEAD");
+	if (result != data.end() && homeInput == "Get Head Angle") {
+		outputs["HEAD"] = result->second;
+	}
+	result = outputs.find("DRAWERCOMMAND");
+	if (result != outputs.end()) {
+		ptr<string> c = std::static_pointer_cast<string>(result->second);
+		drawerC = *c;
+	}
+	result = data.find("RFID");
+	if (result != data.end()) {
+		ptr<string> r = std::static_pointer_cast<string>(result->second);
+		RFID = *r;
+	}
+	result = outputs.find("TOOLS");
+	if (result != outputs.end()) {
+		ptr<string> t = std::static_pointer_cast<string>(result->second);
+		toolInv = *t;
+	}
+	result = outputs.find("USERS");
+	if (result != outputs.end()) {
+		ptr<string> u = std::static_pointer_cast<string>(result->second);
+		userList = *u;
 	}
 }

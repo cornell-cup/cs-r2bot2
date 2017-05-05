@@ -45,7 +45,7 @@
     <ClInclude Include="include\Controller\UDPClientController.h" />
     <ClInclude Include="include\Data\DrawerData.h" />
     <ClInclude Include="include\Data\HeadData.h" />
-    <ClInclude Include="include\Data\RFIDCommand.h" />
+    <ClInclude Include="include\Data\DrawerCommand.h" />
     <ClInclude Include="include\Data\RFIDData.h" />
     <ClInclude Include="include\Data\UltrasoundData.h" />
     <ClInclude Include="include\Global.h" />

@@ -5,7 +5,6 @@
 #include "R2Protocol.hpp"
 #include "Sensor.h"
 #include "SerialPort.h"
-#include "Controller.h"
 
 #include <mutex>
 
@@ -20,7 +19,6 @@ public:
 	bool ping();
 
 	void fillData(SensorData& sensorData);
-	void sendData(ControllerData& controllerData);
 };
 
 #endif

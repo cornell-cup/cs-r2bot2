@@ -37,25 +37,6 @@
                     <li>
                         <a href="database.htm">Database</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
 
                 <div class="row">
@@ -71,28 +52,30 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>
-                            Head Rotation
-                        </h3>
-                        
-                        <button type="button" class="btn btn-default">
-                            Left
+                    <div class="col-md-6">
+                        <h3>HEAD</h3>
+                        <button id="flapOn">
+                            Flap OPEN
                         </button>
-                        <button type="button" class="btn btn-default">
-                            Right
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Stop
-                        </button>
+                        <button id="flapOff">
+                            Flap CLOSE
+                        </button> <br /> <br />
+                        <input size="52" id="msg" type="text" placeholder="Use L or R{#}, where # is time in ms or P{#} where # is in degrees" />
+                        <button id="send">
+                            Send
+                        </button><BR> <br />
+                        <button id="getHeadAngle">
+                            Get Head Angle
+                        </button> <br /> <br />
+                        <textarea id="log" cols=50 rows=2 disabled></textarea>
+
                     </div>
+
+                    <h3> Map</h3>
+
+                    <canvas id="main" height="301" width="301 "></canvas>
+
                 </div>
-
-                <h3> Map</h3>
-
-                <canvas id="main" height="301" width="301 "></canvas>
-
-            </div>
 
         </div>
     </div>
@@ -120,6 +103,26 @@
                 drawBoard();
             }
         }
+        $("#msg").keypress(function (e) {
+            if (e.which == 13) {
+                sock.send($("#msg").val());
+                $("#msg").val("");
+                $("#log").val(time + "\t" + $("#msg").val() + "\n" + $("#log").val());
+            }
+        });
+        $("#getHeadAngle").click(() => {
+            sock.send("Get Head Angle");
+        });
+        $("#flapOn").click(() => {
+            sock.send("O");
+        });
+        $("#flapOff").click(() => {
+            sock.send("C");
+        });
+        $("#send").click(() => {
+            sock.send($("#msg").val());
+            $("#msg").val("");
+        });
         
 
     </script>

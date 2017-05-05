@@ -1,7 +1,7 @@
 #include "JobHandler/R2Databases.h"
 #include "Data/DrawerData.h"
 #include "Data/RFIDData.h"
-#include "Data/RFIDCommand.h"
+#include "Data/DrawerCommand.h"
 
 
 static int callback(void *data, int argc, char **argv, char **azColName) {
@@ -113,9 +113,9 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 			data["DATABASE"] = std::shared_ptr<int>(new int(0));
 		}
 	}
-	auto drawerState = outputs.find("RFIDCOMMAND");
+	auto drawerState = outputs.find("DRAWERCOMMAND");
 	if (drawerState != data.end() && inven != data.end() && authenticated) {
-		if (std::static_pointer_cast<RFIDCommand>(drawerState->second)->state == "T") {
+		if (std::static_pointer_cast<DrawerCommand>(drawerState->second)->state == "T") {
 			entries.clear();
 
 			int zero = std::static_pointer_cast<DrawerData>(inven->second)->tool0;
@@ -137,12 +137,20 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 
 			sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
 
-			sql = (char*)sqlCommand("SELECT", database, table).c_str();
+			sql = (char*)sqlCommand("SELECT", database, "TOOLS").c_str();
 			sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
 
 			sqlite3_close(db);
 
-			data["TOOLS"] = std::make_shared<vector<string>>(entries);
+			outputs["TOOLS"] = std::make_shared<vector<string>>(entries);
+			entries.clear();
+
+			sql = (char*)sqlCommand("SELECT", database, "USERS").c_str();
+			sqlite3_exec(db, sql, callback, (void*)str, &zErrMsg);
+
+			sqlite3_close(db);
+
+			outputs["USERS"] = std::make_shared<vector<string>>(entries);
 		}
 	}
 }

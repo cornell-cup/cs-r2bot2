@@ -47,7 +47,6 @@ void HeadSensor::sendData(ControllerData& data) {
 		if (result != data.end()) {
 			ptr<string> type = std::static_pointer_cast<string>(headData);
 			string command = *type;
-			// Protocol disabled because decoding is not working on the PIC32
 			R2Protocol::Packet params = { DEVICE_NAME, "HEAD", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);

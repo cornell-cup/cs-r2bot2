@@ -125,9 +125,6 @@
     <ClInclude Include="include\Sensor\DrawerSensor.h">
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
-    <ClInclude Include="include\JobHandler\SafetyHandler.h">
-      <Filter>Header Files\JobHandler</Filter>
-    </ClInclude>
     <ClInclude Include="include\Data\UltrasoundData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
@@ -161,8 +158,11 @@
     <ClInclude Include="include\Sensor\UDPServerSensor.h">
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
-    <ClInclude Include="include\Data\RFIDCommand.h">
+    <ClInclude Include="include\Data\DrawerCommand.h">
       <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\SafetyHandler.h">
+      <Filter>Header Files\Sensor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

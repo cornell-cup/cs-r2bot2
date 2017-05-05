@@ -22,6 +22,7 @@ public:
 	bool ping();
 
 	void fillData(SensorData & sensorData);
+
 	void sendData(ControllerData & controllerData);
 };
 

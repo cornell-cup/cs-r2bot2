@@ -36,64 +36,14 @@
                 <li>
                     <a href="database.htm">Database</a>
                 </li>
-                <li class="dropdown pull-right">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Action</a>
-                        </li>
-                        <li>
-                            <a href="#">Another action</a>
-                        </li>
-                        <li>
-                            <a href="#">Something else here</a>
-                        </li>
-                        <li class="divider">
-                        </li>
-                        <li>
-                            <a href="#">Separated link</a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
-
-            <div class="row">
-                <div class="col-md-6"> <!-- head/drawers-->
-                    <h3>HEAD</h3>
-                    <button id="flapOn">
-                        Flap OPEN
-                    </button>
-                    <button id="flapOff">
-                        Flap CLOSE
-                    </button> <br /> <br/>
-                    <input size="52" id="msg" type="text" placeholder="Use L or R{#}, where # is time in ms or P{#} where # is in degrees"/>
-                    <button id="send">
-                        Send
-                    </button><BR> <br/>
-                    <button id="getHeadAngle">
-                        Get Head Angle
-                    </button> <br/> <br/>
-                    <textarea id="log" cols=50 rows=2 disabled>
-                     </textarea>
-                    <h3>DRAWERS</h3>
-                    <p>Drawer</p>
-                    <input id="drawerState" type="text" disabled/>
-                    <p>RIFD</p>
-                    <input id="RIFDID" type="text" disabled />
-                       
-                </div>
                 <div class=" col-md-6"> <!-- graphs???-->
 
                 </div>
             </div>
             <script>
                 var sock = new WebSocket("ws://" + location.host + "/wsh");
-                sock.onopen = ()=>{
-                    console.log('open')
-                    setInterval(function () {
-                        sock.send("2");
-                        sock.send("3");
-                    }, 33);
+                sock.onopen = () => {
                 }
                 sock.onerror = (e)=>{
                     console.log('error',e)
@@ -102,56 +52,12 @@
                     console.log('close')
                 }
                 sock.onmessage = (e) =>{
-                    var identifier = e.data.toString().charAt(0);
-                    var text = e.data.toString().substring(1);
-                    var time = function timeNow(i) {
-                        var d = new Date(), h = (d.getHours() < 10 ? '0' : '').d.getHours(), m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-                        i.value = h + ':' + m;
-                    };
-                    /* 
-                        0: HEAD manual input angle
-                        1: HEAD get angle
-                        2: DRAWERS state
-                        3: DRAWERS RFID ID
-                        4: HEAD manual flap state where 0 is OFF and 1 is ON
-                    */
-                    switch (identifier) {
-                        case "0": 
-                            $("#log").val(time + "\t" + text + "\n" + $("#log").val());
-                            break;
-                        case "2":
-                            $("#drawerState").val(text + "\n");
-                            break;
-                        case "3":
-                            $("#RIFDID").val(text + "\n");
-                            break;
-                    }                   
+                    
                 }
-                $("#msg").keypress(function(e){
-                    if (e.which == 13)
-                    {
-                    sock.send($("#msg").val());
-                    $("#msg").val("");
-                    }
-                });
-                $("#getHeadAngle").click(() => {
-                    sock.send("1"+ "Get Head Angle");
-                });
-                $("#flapOn").click(() => {
-                    sock.send("41");
-                    console.log("opening");
-                });
-                $("#flapOff").click(() => {
-                    sock.send("40");
-                });
-                $("#send").click(()=>{
-                    sock.send("0"+ $("#msg").val());
-                    $("#msg").val("");
-                });
             </script>
 
 		</div>
 	</div>
-</div>
+
   </body>
 </html>
