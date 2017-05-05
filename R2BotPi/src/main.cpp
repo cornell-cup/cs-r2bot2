@@ -13,6 +13,7 @@
 #include "Sensor.h"
 
 #include "Controller/UDPClientController.h"
+#include "Controller/FakeMotorController.h"
 #include "Controller/MotorController.h"
 #include "JobHandler/ManualInputsHandler.h"
 #include "JobHandler/ForwardHandler.h"
