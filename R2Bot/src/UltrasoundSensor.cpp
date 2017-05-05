@@ -28,7 +28,7 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 		ptr<UltrasoundData> udata = std::make_shared<UltrasoundData>();
 
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
-			if (params.source.c_str() == "U4SENSOR") {
+			if (params.source == "U4SENSOR") {
 				udata->distance = std::atof((char *)params.data.data());
 			}
 			udata->distance = std::atof((char *)params.data.data());

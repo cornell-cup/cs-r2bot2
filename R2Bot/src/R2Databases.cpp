@@ -29,7 +29,7 @@ string sqlCommand(string const& commandType, string database, string table) {
 			sql = "INSERT INTO " + table + " (RIFD,TOOL0, TOOL1, TOOL2, TOOL3,TOOL4, TOOL5, T)" + "VALUES (";
 		}
 		else if (table == "USERS") {
-			sql = "INSERT INTO " + table + " (ID, NAME)\" \ \"VALUES";
+			sql = "INSERT INTO " + table + " (ID, NAME) VALUES";
 		}
 	}
 	else if (commandType == "SELECT") {
