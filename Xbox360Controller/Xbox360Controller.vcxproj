@@ -150,6 +150,9 @@
   <ItemGroup>
     <ClCompile Include="Xbox360Controller.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
