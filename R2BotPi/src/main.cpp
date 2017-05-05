@@ -83,7 +83,12 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>
 	printf("Initializing background jobs\n");
 
 	deque<JobHandler> jobs;
-	jobs.push_back(SafetyHandler());
+	if (args.find("disable-safety") != args.end()) {
+		printf("WARNING: DISABLING MOTOR SAFETY\n");
+	}
+	else {
+		jobs.push_back(SafetyHandler());
+	}
 
 	smap<ptr<Controller>> routes;
 	if (controllers.find("UDP NUC") != controllers.end()) {
