@@ -1,7 +1,7 @@
 #ifndef _R2BOT_CONFIG
 #define _R2BOT_CONFIG
 
-#define DEBUG_PRINTS
+#undef  DEBUG_PRINTS
 
 #define DEVICE_NAME "PI"
 #undef  USE_KINECT1

@@ -24,7 +24,9 @@
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
+#ifdef DEBUG_PRINTS
 	printf("*** Initialize sensors\n");
+#endif
 
 	smap<ptr<Sensor>> sensors;
 	if (args.find("udp-server-ip") != args.end() && args.find("udp-server-port") != args.end()) {
@@ -46,7 +48,9 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 
 /** Initializes controllers */
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
+#ifdef DEBUG_PRINTS
 	printf("*** Initialize controllers\n");
+#endif
 
 	smap<ptr<Controller>> controllers;
 	if (args.find("udp-nuc-ip") != args.end() && args.find("udp-nuc-port") != args.end()) {
@@ -71,7 +75,9 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 
 /** Initialize a list of jobs */
 deque<Job> initializeJobs(smap<string>& args) {
+#ifdef DEBUG_PRINTS
 	printf("*** Initialize jobs\n");
+#endif
 
 	deque<Job> jobs;
 	jobs.push_back(Job("manual-inputs"));
@@ -80,7 +86,9 @@ deque<Job> initializeJobs(smap<string>& args) {
 
 /** Initialize background jobs */
 deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
+#ifdef DEBUG_PRINT
 	printf("*** Initializing background jobs\n");
+#endif
 
 	deque<JobHandler> jobs;
 	if (args.find("disable-safety") != args.end()) {
@@ -112,7 +120,9 @@ int main(int argc, char *argv[]) {
 	/** Main execution loop */
 	while (1) {
 		// Collect data from sensors
+#ifdef DEBUG_PRINTS
 		printf("** Collecting data from sensors\n");
+#endif
 		SensorData data;
 		for (auto itr : sensors) {
 			ptr<Sensor> sensor = itr.second;
@@ -131,24 +141,31 @@ int main(int argc, char *argv[]) {
 		// Run the current job
 		ControllerData outputs;
 		if (currentJob) {
+#ifdef DEBUG_PRINTS
 			printf("** Executing the current job\n");
+#endif
 			currentJob->execute(jobQueue, data, outputs);
 		}
+#ifdef DEBUG_PRINTS
 		else {
 			printf("** No current job to execute\n");
 		}
+#endif
 
 		// Run background jobs
+#ifdef DEBUG_PRINTS
 		printf("** Executing background jobs\n");
+#endif
 		for (auto itr : bgJobs) {
 			itr.execute(jobQueue, data, outputs);
 		}
 
 		// Send output data to controllers
+#ifdef DEBUG_PRINTS
 		printf("** Sending outputs to controllers\n");
+#endif
 		for (auto itr : controllers) {
 			ptr<Controller> controller = itr.second;
-			std::cout << controller->getName() << std::endl;
 			controller->sendData(outputs);
 		}
 
