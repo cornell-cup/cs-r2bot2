@@ -26,7 +26,7 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, Controller
 		// Compute tank drive voltages
 		float radius = std::sqrt(std::pow(gamepaddata->x, 2) + std::pow(gamepaddata->y, 2));
 		float angle = std::atan2(gamepaddata->y, gamepaddata->x);
-		// Implement radius deadzone and scale to max speed (200)
+		// Implement radius deadzone and scale
 		radius = std::fmax(0.f, radius - 0.2f) / 0.8f * 200.f;
 		// Implement tank drive by rotating angle by 45 degrees clockwise
 		angle = angle - (float) M_PI / 4.f;

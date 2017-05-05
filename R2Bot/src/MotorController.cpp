@@ -2,6 +2,7 @@
 #include "Data/MotorData.h"
 #include "R2Protocol.hpp"
 
+#include <algorithm>
 #include <cstring>
 
 MotorController::MotorController(string port, int baudrate) : Controller("Motor Controller"), conn(std::make_shared<SerialPort>(port, baudrate)) {
@@ -28,8 +29,11 @@ void MotorController::sendData(ControllerData& data) {
 		auto result = data.find("MOTOR");
 		if (result != data.end()) {
 			ptr<MotorData> m = std::static_pointer_cast<MotorData>(result->second);
+			// Cap speeds at the defined maximum
+			int leftMotor = std::max(std::min(m->leftMotor, MOTOR_MAX_SPEED), -MOTOR_MAX_SPEED);
+			int rightMotor = std::max(std::min(m->rightMotor, MOTOR_MAX_SPEED), -MOTOR_MAX_SPEED);
 			// Pack values into 12 bytes
-			string command = string("M1") + _pad(m->leftMotor, 4) + string("M2") + _pad(m->rightMotor, 4);
+			string command = string("M1") + _pad(leftMotor, 4) + string("M2") + _pad(rightMotor, 4);
 			R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
