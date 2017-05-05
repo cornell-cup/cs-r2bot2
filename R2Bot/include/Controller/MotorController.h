@@ -5,6 +5,8 @@
 #include "Controller.h"
 #include "SerialPort.h"
 
+#define MOTOR_MAX_SPEED 300
+
 class MotorController : public Controller {
 protected:
 	ptr<SerialPort> conn;
