@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Sensor\LidarSensor.cpp" />
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="src\HeadSensor.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
+    <ClCompile Include="src\LidarSensor.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
@@ -37,6 +39,8 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
+    <ClInclude Include="include\Data\LidarData.h" />
+    <ClInclude Include="include\Sensor\LidarSensor.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
