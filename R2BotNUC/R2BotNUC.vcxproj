@@ -153,6 +153,7 @@
     <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadFlapController.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadSensor.cpp" />
+    <ClCompile Include="..\R2Bot\src\IMUSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\Job.cpp" />
     <ClCompile Include="..\R2Bot\src\JobHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />

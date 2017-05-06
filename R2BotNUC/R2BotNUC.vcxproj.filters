@@ -72,6 +72,9 @@
     <ClCompile Include="..\R2Bot\src\SoundController.cpp">
       <Filter>Source Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\R2Bot\src\IMUSensor.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
