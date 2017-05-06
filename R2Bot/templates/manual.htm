@@ -38,19 +38,43 @@
                         <a href="database.htm">Database</a>
                     </li>
                 </ul>
-
+                <br />
+                <select id="sound">
+                    <option value="1">acknowledge4.wav</option>
+                    <option value="2">anxious.wav</option>
+                    <option value="3">cheerful.wav</option>
+                    <option value="4">excited1.wav</option>
+                    <option value="5">laughing.wav</option>
+                    <option value="6">panic.wav</option>
+                    <option value="7">playful.wav</option>
+                    <option value="8">proud.wav</option>
+                    <option value="2">sad1.wav</option>
+                    <option value="9">scanning2.wav</option>
+                    <option value="10">scream.wav</option>
+                    <option value="11">uncategorized1.wav</option>
+                    <option value="12">uncategorized2.wav</option>
+                    <option value="13">uncategorized3.wav</option>
+                    <option value="14">uncategorized4.wav</option>
+                    <option value="15">uncategorized5.wav</option>
+                    <option value="16">uncategorized6.wav</option>
+                    <option value="17">uncategorized7.wav</option>
+                    <option value="17">unsure.wav</option>
+                </select>
+       
+                <input id="submitSound" type="button" value="Submit" />
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-left">
                             Locomotion
                         </h3>
                         <div id="container">
-                            <canvas id="canvas" width="700" height="700">
+                            <canvas id="canvas" width="500" height="480">
                                 This text is displayed if your browser does not support HTML5 Canvas.
                             </canvas>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <h3>HEAD</h3>
@@ -70,6 +94,8 @@
                         <textarea id="log" cols=50 rows=2 disabled></textarea>
 
                     </div>
+
+
 
                     <h3> Map</h3>
 
@@ -119,9 +145,13 @@
         $("#flapOff").click(() => {
             sock.send("C");
         });
+        $("#submitSound").click(() => {
+            sock.send($("#sound :selected").text());
+            console.log($("#sound :selected").text());
+        });
         $("#send").click(() => {
             sock.send($("#msg").val());
-            $("#msg").val("");
+          //  $("#msg").val("");
         });
         
 
