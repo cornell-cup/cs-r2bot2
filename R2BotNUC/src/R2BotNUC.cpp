@@ -82,6 +82,12 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		std::cout << "No RFID serial port specified." << std::endl;
 	}
+	if (!(args["lidar-serial-port"].empty())) {
+		sensors["R2 LIDAR"] = std::make_shared<RFIDSensor>(args["lidar-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No LIDAR serial port specified." << std::endl;
+	}
 
 	return sensors;
 }
