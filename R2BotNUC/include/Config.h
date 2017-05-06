@@ -1,6 +1,7 @@
 #ifndef _R2BOT_CONFIG
 #define _R2BOT_CONFIG
 
+#define NOMINMAX
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #define DEBUG_PRINTS
