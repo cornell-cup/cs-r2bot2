@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Sensor\LidarSensor.cpp" />
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\HeadFlapController.cpp" />
     <ClCompile Include="src\HeadSensor.cpp" />
+    <ClCompile Include="src\IMUSensor.cpp" />
     <ClCompile Include="src\Job.cpp" />
     <ClCompile Include="src\JobHandler.cpp" />
     <ClCompile Include="src\LidarSensor.cpp" />
@@ -39,8 +39,6 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
-    <ClInclude Include="include\Data\LidarData.h" />
-    <ClInclude Include="include\Sensor\LidarSensor.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -72,11 +70,16 @@
     <ClInclude Include="include\Sensor\RFIDSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
+    <ClInclude Include="include\Data\LidarData.h" />
+    <ClInclude Include="include\Sensor\LidarSensor.h" />
+    <ClInclude Include="include\Data\IMUData.h" />
+    <ClInclude Include="include\Sensor\IMUSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="templates\compass.js" />
     <None Include="templates\database.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>

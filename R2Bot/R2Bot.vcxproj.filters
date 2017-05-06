@@ -81,12 +81,15 @@
     <ClCompile Include="src\SoundController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Sensor\LidarSensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\LidarSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\IMUSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="src\R2Databases.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -143,9 +146,6 @@
     <ClInclude Include="include\JobHandler\R2Databases.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
-    <ClInclude Include="src\R2Databases.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Data\HeadData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
@@ -171,7 +171,7 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler\SafetyHandler.h">
-      <Filter>Header Files\Sensor</Filter>
+      <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\Controller\SoundController.h">
       <Filter>Header Files\Controller</Filter>
@@ -180,6 +180,12 @@
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\LidarData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\IMUSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\IMUData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
@@ -200,6 +206,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="templates\map.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\compass.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -65,6 +65,8 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 		std::cout << "No motor port specified." << std::endl;
 	}
 
+	controllers["SOUND"] = std::make_shared<SoundController>();
+
 	return controllers;
 }
 
