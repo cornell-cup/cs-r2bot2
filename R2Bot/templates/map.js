@@ -18,6 +18,7 @@ function drawMap(dist) {
 
     //splitting up array of sensor data and creating dictionary of sensor:sensorData
     var n = dist.split("\n");
+    console.log(n);
 
     var dict = {};
     for (var i = 0; i < n.length; i++) {

@@ -61,6 +61,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
 	}
 	else {
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM3", 9600);
 		std::cout << "No ultrasound serial port specified." << std::endl;
 	}
 
@@ -128,8 +129,8 @@ deque<Job> initializeJobs(smap<string>& args) {
 }
 
 /** Initialize background jobs */
-deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
-	deque<JobHandler> jobs;
+deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
+	deque<ptr<JobHandler>> jobs;
 
 	// Data forwarding handler
 	smap<ptr<Controller>> routes;
@@ -139,7 +140,8 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>
 		routes["ULTRASOUND"] = controllers["UDP PI"];
 		routes["PI"] = controllers["UDP PI"];
 	}
-	jobs.push_back(ForwardHandler(routes));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
 
 	return jobs;
 }
@@ -155,7 +157,7 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
 	ptr<JobHandler> currentJob;
-	deque<JobHandler> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
+	deque<ptr<JobHandler>> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
 
 	//TODO: method arg should be sql command stored in a char
 
@@ -185,7 +187,7 @@ int main(int argc, char *argv[]) {
 
 		// Run background jobs
 		for (auto itr : bgJobs) {
-			itr.execute(jobQueue, data, outputs);
+			(*itr).execute(jobQueue, data, outputs);
 		}
 
 		// Send output data to controllers

@@ -17,6 +17,8 @@
 #include <unordered_set>
 
 class R2Server : public Sensor, public JobHandler {
+private:
+	static bool registered;
 protected:
 	crow::SimpleApp app;
 	std::mutex mtx;

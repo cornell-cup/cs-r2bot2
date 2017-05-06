@@ -17,8 +17,8 @@ bool HeadFlapController::ping() {
 void HeadFlapController::sendData(ControllerData& data) {
 	if (conn->isConnected()) {
 		auto result = data.find("FLAP");
-		auto flapData = result->second;
 		if (result != data.end()) {
+			auto flapData = result->second;
 			ptr<string> fdata = std::static_pointer_cast<string>(flapData);
 			string command = *fdata;
 			R2Protocol::Packet params = { DEVICE_NAME, "FLAP", "", vector<uint8_t>(command.begin(), command.end()) };

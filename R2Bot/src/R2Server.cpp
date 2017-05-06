@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include "crow_all.h"
+#include <regex>
 
 #include "Data/GamepadData.h"
 #include "Data/HeadData.h"
@@ -59,7 +60,13 @@ static string MimeTypeFromString(const string& str) {
 	}
 }
 
-R2Server::R2Server(int port) {
+bool R2Server::registered = JobHandler::RegisterJobHandler("r2-server", [](string command) {
+	//return (ptr<JobHandler>) std::make_shared<R2Server>(stoi(command));
+	return std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080));
+});
+
+
+R2Server::R2Server(int port):JobHandler(), Sensor() {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
 		.onopen([&](crow::websocket::connection& conn) {
@@ -136,20 +143,21 @@ R2Server::R2Server(int port) {
 		std::lock_guard<std::mutex> _(mtx);
 
 		manualInput = data;
+		std::cout << manualInput << std::endl;
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
 				std::cout << data << std::endl;
 			}
 			else {
-				std::cout << ultrasoundInput << std::endl;
+				std::cout << ultrasoundInput << "ultrasound" << ultrasoundInput.length() << std::endl;
 				if (ultrasoundInput.length() != 0) {
 					u->send_binary(ultrasoundInput);
 				}
 				if (imuDirection.length() != 0) {
 					u->send_binary("I" + imuDirection);
 				}
-				u->send_binary("U2SENSOR,11.5");
+			//	u->send_binary("U2SENSOR,11.5");
 			}
 		}
 	});
@@ -225,6 +233,7 @@ void R2Server::fillData(SensorData& sensorData) {
 			sensorData["HEAD"] = data;
 		}
 		else if (manualInput == "O" || manualInput == "C") {
+		//	std::cout << "are we sending correct" << std::endl;
 			sensorData["FLAP"] = std::make_shared<string>(manualInput);
 		}
 		else if (manualInput == "Get Head Angle") {
@@ -238,16 +247,21 @@ void R2Server::fillData(SensorData& sensorData) {
 }
 
 void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
-	auto result = data.find("ULTRASOUND");
-	if (result != data.end()) {
-		ultrasoundInput += result->first;
-		string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance);
-		ultrasoundInput += string(",");
-		ultrasoundInput += inches;
-		ultrasoundInput += string("\n");
+	//std::cout << "EXECUTING" << std::endl;
+	for (int i = 1; i <= 7; i++) {
+		auto result = data.find("U" + std::to_string(i) + "SENSOR");
+		if (result != data.end()) {
+			ultrasoundInput += result->first;
+			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance);
+			ultrasoundInput += string(",");
+			ultrasoundInput += inches;
+			ultrasoundInput += string("\n");	
+			std::cout << ultrasoundInput << std::endl;
+		}
 	}
-	result = data.find("FLAP");
+	auto result = data.find("FLAP");
 	if (result != data.end()) {
+		std::cout << outputs["FLAP"] << "this is sensordata" << std::endl;
 		outputs["FLAP"] = result->second;
 	}
 	result = data.find("HEAD");

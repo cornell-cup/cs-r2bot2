@@ -107,7 +107,6 @@
     </div>
     <script src="joystick.js"></script>
     <script src="map.js"></script>
-    <script src="compass.js"></script>
     <script>
         var sock = new WebSocket("ws://" + location.host + "/wsm");
         sock.binaryType = "arraybuffer";
@@ -127,6 +126,8 @@
         sock.onmessage = function (e) {
             if (e.data) {
                 var data = arrayBufferToString(e.data);
+
+                console.log(data);
                 if (data[0] == "U") {
                     drawMap(data);
                     drawBoard();
