@@ -75,12 +75,9 @@
     <ClCompile Include="src\HeadFlapController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="src\RFIDSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
->>>>>>> de7dedfadb391b01a5c771423077b1dd74cbbb56
     <ClCompile Include="src\SoundController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

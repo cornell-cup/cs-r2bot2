@@ -37,6 +37,7 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
+    <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Controller.h" />
@@ -67,7 +68,6 @@
     <ClInclude Include="include\Sensor\RFIDSensor.h" />
     <ClInclude Include="include\Sensor\UDPServerSensor.h" />
     <ClInclude Include="include\Sensor\UltrasoundSensor.h" />
-    <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">
