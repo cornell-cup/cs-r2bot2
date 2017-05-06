@@ -225,6 +225,9 @@ void R2Server::fillData(SensorData& sensorData) {
 		else if (manualInput == "Get Head Angle") {
 			sensorData["HEAD"] = std::make_shared<string>("G");
 		}
+		else if (manualInput.substr(0,1) == "S") {
+			sensorData["SOUND"] = std::make_shared<string>(manualInput.substr(1));
+		}
 	}
 }
 
@@ -264,5 +267,9 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 	if (result != outputs.end()) {
 		ptr<string> u = std::static_pointer_cast<string>(result->second);
 		userList = *u;
+	}
+	result = data.find("SOUND");
+	if (result != data.end()) {
+		outputs["SOUND"] = result->second;
 	}
 }
