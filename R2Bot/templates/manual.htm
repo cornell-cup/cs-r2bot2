@@ -100,7 +100,7 @@
                     <h3> Map</h3>
 
                     <canvas id="main" height="301" width="301 "></canvas>
-                    <canvas id="compass" height="100" width="100"></canvas>
+                    <img id="compass" src="compass.png" height="100" width="100" />
                 </div>
 
         </div>
@@ -127,12 +127,13 @@
         sock.onmessage = function (e) {
             if (e.data) {
                 var data = arrayBufferToString(e.data);
-                if (data.substr(0, 1) == "U") {
+                if (data[0] == "U") {
                     drawMap(data);
                     drawBoard();
                 }
-                else if (data.substr(0, 1) == "I") {
-                    
+                else if (data[0] == "I") {
+                    idata = parseFloat(data.substr(1)) * -1;
+                    $("compass").css("transform", "rotate(" + idata + "deg)");
                 }
             }
         }
@@ -173,6 +174,11 @@
     <style>
         #main {
             margin-bottom: 75px;
+        }
+
+        .compass{
+            -webkit-transform-origin: 50% 50%; /* Chrome, Safari, Opera */
+            transform-origin: 50% 50%;
         }
     </style>
 </body>

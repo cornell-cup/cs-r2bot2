@@ -4,7 +4,7 @@
 #include "Global.h"
 
 typedef struct {
-	int xDirection;
+	float xDirection;
 } IMUData;
 
 #endif

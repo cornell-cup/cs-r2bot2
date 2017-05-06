@@ -24,6 +24,11 @@ protected:
 	string homeInput;
 	string manualInput;
 	string ultrasoundInput;
+	string drawerC;
+	string drawerRFID;
+	string toolInv;
+	string userList;
+	string imuDirection;
 public:
 	R2Server(int port);
 	virtual ~R2Server();
@@ -35,7 +40,7 @@ public:
 	virtual bool ping();
 
 	/** Add data from the sensor */
-	virtual void fillData(smap<ptr<void>>& sensorData);
+	virtual void fillData(SensorData& sensorData);
 
 	/** Runs the job handler's actions */
 	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);

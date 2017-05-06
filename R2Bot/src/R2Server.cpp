@@ -6,6 +6,12 @@
 
 #include "Data/GamepadData.h"
 #include "Data/HeadData.h"
+#include "Data/DrawerCommand.h"
+#include "Data/RFIDData.h"
+#include "Data/IMUData.h"
+#include "Data/LidarData.h"
+#include "Data/HeadData.h"
+#include "Data/UltrasoundData.h"
 #include <string>
 #include <vector>
 
@@ -53,10 +59,6 @@ static string MimeTypeFromString(const string& str) {
 	}
 }
 
-string drawerC;
-string RFID;
-string toolInv;
-string userList;
 R2Server::R2Server(int port) {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
@@ -105,8 +107,8 @@ R2Server::R2Server(int port) {
 				if (drawerC.length() != 0) {
 					u->send_binary("2" + drawerC);
 				}
-				if (RFID.length() != 0) {
-					u->send_binary("3" + RFID);
+				if (drawerRFID.length() != 0) {
+					u->send_binary("3" + drawerRFID);
 				}
 				if (toolInv.length() != 0) {
 					u->send_binary("T"+toolInv);
@@ -143,6 +145,9 @@ R2Server::R2Server(int port) {
 				std::cout << ultrasoundInput << std::endl;
 				if (ultrasoundInput.length() != 0) {
 					u->send_binary(ultrasoundInput);
+				}
+				if (imuDirection.length() != 0) {
+					u->send_binary("I" + imuDirection);
 				}
 				u->send_binary("U2SENSOR,11.5");
 			}
@@ -229,15 +234,16 @@ void R2Server::fillData(SensorData& sensorData) {
 			sensorData["SOUND"] = std::make_shared<string>(manualInput.substr(1));
 		}
 	}
+
 }
 
 void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	auto result = data.find("ULTRASOUND");
 	if (result != data.end()) {
 		ultrasoundInput += result->first;
-		ptr<string> inches = std::static_pointer_cast<string>(result->second);
+		string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance);
 		ultrasoundInput += string(",");
-		ultrasoundInput += *inches;
+		ultrasoundInput += inches;
 		ultrasoundInput += string("\n");
 	}
 	result = data.find("FLAP");
@@ -250,13 +256,11 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 	}
 	result = outputs.find("DRAWERCOMMAND");
 	if (result != outputs.end()) {
-		ptr<string> c = std::static_pointer_cast<string>(result->second);
-		drawerC = *c;
+		drawerC = std::static_pointer_cast<DrawerCommand>(result->second)->state;
 	}
 	result = data.find("RFID");
 	if (result != data.end()) {
-		ptr<string> r = std::static_pointer_cast<string>(result->second);
-		RFID = *r;
+		drawerRFID = std::static_pointer_cast<RFIDData>(result->second)->ID;
 	}
 	result = outputs.find("TOOLS");
 	if (result != outputs.end()) {
@@ -271,5 +275,9 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 	result = data.find("SOUND");
 	if (result != data.end()) {
 		outputs["SOUND"] = result->second;
+	}
+	result = data.find("IMU");
+	if (result != data.end()) {
+		imuDirection = std::to_string(std::static_pointer_cast<IMUData>(result->second)->xDirection);
 	}
 }

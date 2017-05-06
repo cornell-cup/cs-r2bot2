@@ -79,7 +79,6 @@
     <None Include="templates\camera.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="templates\compass.js" />
     <None Include="templates\database.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -94,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="templates\ccrt-logo.png" />
+    <Image Include="templates\compass.png" />
     <Image Include="templates\favicon-16x16.png" />
     <Image Include="templates\favicon-32x32.png" />
     <Image Include="templates\favicon.ico" />

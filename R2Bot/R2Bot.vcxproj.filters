@@ -208,9 +208,6 @@
     <None Include="templates\map.js">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="templates\compass.js">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="templates\ccrt-logo.png">
@@ -223,6 +220,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="templates\favicon-32x32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="templates\compass.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

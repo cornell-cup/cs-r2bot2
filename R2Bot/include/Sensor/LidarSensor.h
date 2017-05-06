@@ -4,8 +4,8 @@
 #include <mutex>
 #include "Global.h"
 #include "Sensor.h"
-#include "../lidar/sdk/sdk//include/rplidar.h"
 #include "SerialPort.h"
+#include "rplidar.h"
 #include "R2Protocol.hpp"
 
 #define NODE_COUNT 360 * 2
