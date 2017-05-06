@@ -16,6 +16,8 @@ ManualInputsHandler::~ManualInputsHandler() {
 }
 
 void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+	auto now = std::chrono::high_resolution_clock::now();
+
 	// Handle gamepad joystick inputs
 	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
@@ -34,10 +36,14 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, Controller
 		output->rightMotor = r;
 		outputs["MOTOR"] = output;
 	}
-	else {
+	else if (std::chrono::duration_cast<std::chrono::milliseconds>(lastActivity - now).count() > 500) {
+		// Stop motors if no data has been received in half a second
 		ptr<MotorData> output = std::make_shared<MotorData>();
 		output->leftMotor = 0;
 		output->rightMotor = 0;
 		outputs["MOTOR"] = output;
 	}
+
+	// Note acitivity
+	lastActivity = now;
 }

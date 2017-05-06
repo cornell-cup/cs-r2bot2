@@ -5,13 +5,13 @@
 #include "Controller.h"
 
 class SoundController : public Controller {
-protected:
 
 public:
 	SoundController();
 	virtual ~SoundController();
-
+	
 	virtual bool ping();
+
 	virtual void sendData(ControllerData& data);
 };
 
