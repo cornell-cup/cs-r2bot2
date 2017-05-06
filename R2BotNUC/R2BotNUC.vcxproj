@@ -109,7 +109,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Winmm.lib;Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-gd-1_63.lib;libboost_date_time-vc140-mt-gd-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -144,7 +144,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Winmm.lib;Ws2_32.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,6 +161,7 @@
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
     <ClCompile Include="..\R2Bot\src\RFIDSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
+    <ClCompile Include="..\R2Bot\src\SoundController.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPServerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\UltrasoundSensor.cpp" />
