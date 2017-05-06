@@ -5,6 +5,7 @@
 #include "Controller.h"
 
 class SoundController : public Controller {
+
 public:
 	SoundController();
 	virtual ~SoundController();

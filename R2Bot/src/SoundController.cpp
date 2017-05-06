@@ -1,16 +1,17 @@
 #include "Controller/SoundController.h"
-#include "Data/SoundData.h"
-
 #ifdef _WIN32
 #	include <Windows.h>
+#else
+#	include <unistd.h>
+#	include <stdlib.h>
 #endif
 
+#include "R2Protocol.hpp"
+#include <cstring>
+#include <thread>
+
 SoundController::SoundController() : Controller("Sound Controller") {
-#ifdef _WIN32
 	printf("Sound controller connected\n");
-#else
-	printf("Sound controller unsupported\n");
-#endif
 }
 
 SoundController::~SoundController() {
@@ -23,10 +24,19 @@ bool SoundController::ping() {
 void SoundController::sendData(ControllerData& data) {
 	auto result = data.find("SOUND");
 	if (result != data.end()) {
-		ptr<SoundData> s = std::static_pointer_cast<SoundData>(result->second);
-		printf("Playing sound: %s\n", s->file.c_str());
+		ptr<string> s = std::static_pointer_cast<string>(result->second);
+		string path = "../R2Bot/templates/sounds/" + *s;
 #ifdef _WIN32
-		PlaySound(s->file.c_str(), NULL, SND_FILENAME | SND_ASYNC);
-#endif
+		std::wstring wpath = std::wstring(path.begin(), path.end());
+		PlaySound(wpath.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+#else
+		std::thread sound([data]() {
+			execlp("/usr/bin/aplay", " ", path.c_str(), NULL);		//Execute file: file, arguments (1 or more strings followed by NULL)
+			_exit(0);
+			printf("Playing sound: %s\n", s);
+			}
+		);
+		sound.detach();
+#endif	
 	}
 }

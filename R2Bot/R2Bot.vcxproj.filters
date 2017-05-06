@@ -75,9 +75,21 @@
     <ClCompile Include="src\HeadFlapController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RFIDSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\SoundController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LidarSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IMUSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="src\R2Databases.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -94,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="include\Job.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Sensor\UDPServerSensor.h">
-      <Filter>Header Files\Sensor</Filter>
     </ClInclude>
     <ClInclude Include="include\Controller\MotorController.h">
       <Filter>Header Files\Controller</Filter>
@@ -128,9 +137,6 @@
     <ClInclude Include="include\Sensor\DrawerSensor.h">
       <Filter>Header Files\Sensor</Filter>
     </ClInclude>
-    <ClInclude Include="include\JobHandler\SafetyHandler.h">
-      <Filter>Header Files\JobHandler</Filter>
-    </ClInclude>
     <ClInclude Include="include\Data\UltrasoundData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
@@ -139,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="include\JobHandler\R2Databases.h">
       <Filter>Header Files\JobHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\R2Databases.cpp">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Data\HeadData.h">
       <Filter>Header Files\Data</Filter>
@@ -152,10 +155,37 @@
     <ClInclude Include="include\Controller\HeadFlapController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="include\Sensor\RFIDSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\RFIDData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\DrawerData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\UDPServerSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\DrawerCommand.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\SafetyHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
     <ClInclude Include="include\Controller\SoundController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="include\Data\SoundData.h">
+    <ClInclude Include="include\Sensor\LidarSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\LidarData.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sensor\IMUSensor.h">
+      <Filter>Header Files\Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Data\IMUData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
@@ -176,6 +206,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="templates\map.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="templates\compass.js">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

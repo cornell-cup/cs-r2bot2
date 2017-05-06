@@ -37,6 +37,9 @@ void initializeWSA() {
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
 #include "Sensor/HeadSensor.h"
+#include "Sensor/RFIDSensor.h"
+#include "Sensor/LidarSensor.h"
+#include "Sensor/IMUSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -73,6 +76,26 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	}
 	else {
 		std::cout << "No head serial port specified." << std::endl;
+	}
+
+	if (!(args["rfid-serial-port"].empty())) {
+		sensors["R2 RFID"] = std::make_shared<RFIDSensor>(args["rfid-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No RFID serial port specified." << std::endl;
+	}
+	if (!(args["lidar-serial-port"].empty())) {
+		sensors["R2 LIDAR"] = std::make_shared<LidarSensor>(args["lidar-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No LIDAR serial port specified." << std::endl;
+	}
+
+	if (!(args["imu-serial-port"].empty())) {
+		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No IMU serial port specified." << std::endl;
 	}
 
 	return sensors;

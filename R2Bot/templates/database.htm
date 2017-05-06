@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-    <title>Bootstrap 3, from LayoutIt!</title>
+    <title>Tools and Users Databases</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col-md-12">
             <h3 class="text-center">
-                Tool Database
+                Tools and Users Databases
             </h3>
             <ul class="nav nav-tabs">
                 <li>
@@ -35,29 +35,14 @@
                 <li class="active">
                     <a href="database.htm">Database</a>
                 </li>
-                <li class="dropdown pull-right">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Action</a>
-                        </li>
-                        <li>
-                            <a href="#">Another action</a>
-                        </li>
-                        <li>
-                            <a href="#">Something else here</a>
-                        </li>
-                        <li class="divider">
-                        </li>
-                        <li>
-                            <a href="#">Separated link</a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
-			<div id="toolsDatabase">
-
-            </div>
+            <br />
+            <p>Drawer State</p>
+            <input id="drawerState" type="text" disabled />
+            <p>RIFD</p>
+            <input id="RFIDID" type="text" disabled />
+			<div id="toolsDatabase"></div>
+            <div id="usersDatabase"></div>
 		</div>
 	</div>
         <script>
@@ -82,68 +67,104 @@
 
             sock.onmessage = function (e) {
                 if (e.data) {
-                    rows = [];
-                    cols = [];
-                    dict = {};
                     rows = arrayBufferToString(e.data);
-                    rows = rows.substring(0, rows.length - 1).split("@");
-                    for (var i = 0; i < rows.length; i++) {
-                        col = rows[i].split("|");
-                        for (var j = 0; j < col.length; j++) {
-                            cols.push(col[j])
+                    identifier = rows.substring(0, 1);
+                    text = rows.substring(1);
+                    if (identifier == "T" || identifier == "U") {
+                        rows = [];
+                        cols = [];
+                        dict = {};
+                        rows = rows.substring(1, rows.length - 1).split("@");
+                        for (var i = 0; i < rows.length; i++) {
+                            col = rows[i].split("|");
+                            for (var j = 0; j < col.length; j++) {
+                                cols.push(col[j])
+                            }
+                        }
+                        for (var i = 0; i < cols.length; i++) {
+                            dict = insertIntoDic(dict, cols[i].split(",")[0], cols[i].split(",")[1]);
                         }
                     }
-                    for (var i = 0; i < cols.length; i++) {
-                        dict = insertIntoDic(dict, cols[i].split(",")[0], cols[i].split(",")[1]);
+
+
+                    function insertIntoDic(dictionary, key, value) {
+                        // If key is not initialized or some bad structure
+                        if (!dictionary[key] || !(dictionary[key] instanceof Array)) {
+                            dictionary[key] = [];
+                        }
+                        // All arguments, exept first push as valuses to the dictonary
+                        dictionary[key] = dictionary[key].concat(Array.prototype.slice.call(arguments, 2));
+                        return dictionary;
                     }
-                }
 
-
-                function insertIntoDic(dictionary, key, value) {
-                    // If key is not initialized or some bad structure
-                    if (!dictionary[key] || !(dictionary[key] instanceof Array)) {
-                        dictionary[key] = [];
+                    function arrayBufferToString(buffer) {
+                        var arr = new Uint8Array(buffer);
+                        var str = String.fromCharCode.apply(String, arr);
+                        if (/[\u0080-\uffff]/.test(str)) {
+                            throw new Error("this string seems to contain (still encoded) multibytes");
+                        }
+                        return str;
                     }
-                    // All arguments, exept first push as valuses to the dictonary
-                    dictionary[key] = dictionary[key].concat(Array.prototype.slice.call(arguments, 2));
-                    return dictionary;
-                }
 
-                function arrayBufferToString(buffer) {
-                    var arr = new Uint8Array(buffer);
-                    var str = String.fromCharCode.apply(String, arr);
-                    if (/[\u0080-\uffff]/.test(str)) {
-                        throw new Error("this string seems to contain (still encoded) multibytes");
+                    var html = "";
+                    html += "<div class='panel panel-default'>";
+                    html += "<div class='panel-heading'>";
+                    html += "<h3 class='panel-title'>";
+                    if (identifier == "T") {
+                        html += "<span>Tools Database</span>";
                     }
-                    return str;
-                }
-
-                var html = "";
-                html += "<div class='panel panel-default'>";
-                html += "<div class='panel-heading'>";
-                html += "<h3 class='panel-title'>";
-                html += "<span>Tools Database</span>";
-                html += "</h3>";
-                html += "</div>";
-                html += "<div class='panel-body'>";
-                html += "<table class='table table-default table-striped'>";
-                html += "<thead class='inverse'><tr>";
-                for (var key in dict) {
-                    html += "<td>" + key + "</td>";
-                }
-                html += "</tr></thead>";
-                for (var i = 0; i < rows.length; i++) {
-                    html += "<tr>";
+                    else if (identifier == "U") {
+                        html += "<span>Users Database</span>";
+                    }
+                    html += "</h3>";
+                    html += "</div>";
+                    html += "<div class='panel-body'>";
+                    html += "<table class='table table-default table-striped'>";
+                    html += "<thead class='inverse'><tr>";
                     for (var key in dict) {
-                        html += "<td>" + dict[key][i] + "</td>";
+                        html += "<td>" + key + "</td>";
                     }
-                    html += "</tr>";
+                    html += "</tr></thead>";
+                    for (var i = 0; i < rows.length; i++) {
+                        html += "<tr>";
+                        for (var key in dict) {
+                            html += "<td>" + dict[key][i] + "</td>";
+                        }
+                        html += "</tr>";
+                    }
+                    html += "</table>";
+                    html += "</div>";
+                    html += "</div>";
+                    if (identifier == "T") {
+                        $("#toolsDatabase").html(html);
+                    }
+                    else if (identifier == "U") {
+                        $("#usersDatabase").html(html);
+                    }
                 }
-                html += "</table>";
-                html += "</div>";
-                html += "</div>";
-                $("#toolsDatabase").html(html);
+
+                /* 
+                    0: HEAD manual input angle
+                    1: HEAD get angle
+                    2: DRAWERS state
+                    3: DRAWERS RFID ID
+                    4: HEAD manual flap state where 0 is OFF and 1 is ON
+                */
+
+                else if (identifier == "2") {
+                    if (text == "C" || text == "T") {
+                        $("#drawerState").val("Drawers: Closed\n");
+                    }
+                    else if (text == "O") {
+                        $("#drawerState").val("Drawers: Open\n");
+                    }
+                }
+
+                else if (identifier == "3") {
+                    $("#RFIDID").val(text + "\n");
+                }
             }
+
         </script>
         <style>
             .inverse {

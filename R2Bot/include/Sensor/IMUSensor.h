@@ -1,5 +1,5 @@
-#ifndef _R2BOT_ULTRASOUND_SENSOR
-#define _R2BOT_ULTRASOUND_SENSOR
+#ifndef _R2BOT_IMU_SENSOR
+#define _R2BOT_IMU_SENSOR
 
 #include "Global.h"
 #include "R2Protocol.hpp"
@@ -8,13 +8,13 @@
 
 #include <mutex>
 
-class UltrasoundSensor : public Sensor {
+class IMUSensor : public Sensor {
 protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
-	UltrasoundSensor(string port, int baudrate);
-	~UltrasoundSensor();
+	IMUSensor(string port, int baudrate);
+	~IMUSensor();
 
 	bool ping();
 

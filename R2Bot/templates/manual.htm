@@ -37,67 +37,77 @@
                     <li>
                         <a href="database.htm">Database</a>
                     </li>
-                    <li class="dropdown pull-right">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
-
+                <br />
+                <select id="sound">
+                    <option value="1">acknowledge4.wav</option>
+                    <option value="2">anxious.wav</option>
+                    <option value="3">cheerful.wav</option>
+                    <option value="4">excited1.wav</option>
+                    <option value="5">laughing.wav</option>
+                    <option value="6">panic.wav</option>
+                    <option value="7">playful.wav</option>
+                    <option value="8">proud.wav</option>
+                    <option value="2">sad1.wav</option>
+                    <option value="9">scanning2.wav</option>
+                    <option value="10">scream.wav</option>
+                    <option value="11">uncategorized1.wav</option>
+                    <option value="12">uncategorized2.wav</option>
+                    <option value="13">uncategorized3.wav</option>
+                    <option value="14">uncategorized4.wav</option>
+                    <option value="15">uncategorized5.wav</option>
+                    <option value="16">uncategorized6.wav</option>
+                    <option value="17">uncategorized7.wav</option>
+                    <option value="17">unsure.wav</option>
+                </select>
+       
+                <input id="submitSound" type="button" value="Submit" />
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-left">
                             Locomotion
                         </h3>
                         <div id="container">
-                            <canvas id="canvas" width="700" height="700">
+                            <canvas id="canvas" width="500" height="480">
                                 This text is displayed if your browser does not support HTML5 Canvas.
                             </canvas>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>
-                            Head Rotation
-                        </h3>
-                        
-                        <button type="button" class="btn btn-default">
-                            Left
+                    <div class="col-md-6">
+                        <h3>HEAD</h3>
+                        <button id="flapOn">
+                            Flap OPEN
                         </button>
-                        <button type="button" class="btn btn-default">
-                            Right
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            Stop
-                        </button>
+                        <button id="flapOff">
+                            Flap CLOSE
+                        </button> <br /> <br />
+                        <input size="52" id="msg" type="text" placeholder="Use L or R{#}, where # is time in ms or P{#} where # is in degrees" />
+                        <button id="send">
+                            Send
+                        </button><BR> <br />
+                        <button id="getHeadAngle">
+                            Get Head Angle
+                        </button> <br /> <br />
+                        <textarea id="log" cols=50 rows=2 disabled></textarea>
+
                     </div>
+
+
+
+                    <h3> Map</h3>
+
+                    <canvas id="main" height="301" width="301 "></canvas>
+                    <canvas id="compass" height="100" width="100"></canvas>
                 </div>
-
-                <h3> Map</h3>
-
-                <canvas id="main" height="301" width="301 "></canvas>
-
-            </div>
 
         </div>
     </div>
     <script src="joystick.js"></script>
     <script src="map.js"></script>
+    <script src="compass.js"></script>
     <script>
         var sock = new WebSocket("ws://" + location.host + "/wsm");
         sock.binaryType = "arraybuffer";
@@ -116,11 +126,48 @@
         }
         sock.onmessage = function (e) {
             if (e.data) {
-                drawMap(e.data);
-                drawBoard();
+                var data = arrayBufferToString(e.data);
+                if (data.substr(0, 1) == "U") {
+                    drawMap(data);
+                    drawBoard();
+                }
+                else if (data.substr(0, 1) == "I") {
+                    
+                }
             }
         }
+        $("#msg").keypress(function (e) {
+            if (e.which == 13) {
+                sock.send($("#msg").val());
+                $("#msg").val("");
+                $("#log").val(time + "\t" + $("#msg").val() + "\n" + $("#log").val());
+            }
+        });
+        $("#getHeadAngle").click(() => {
+            sock.send("Get Head Angle");
+        });
+        $("#flapOn").click(() => {
+            sock.send("O");
+        });
+        $("#flapOff").click(() => {
+            sock.send("C");
+        });
+        $("#submitSound").click(() => {
+            sock.send($("#sound :selected").text());
+            console.log($("#sound :selected").text());
+        });
+        $("#send").click(() => {
+            sock.send($("#msg").val());
+        });
         
+        function arrayBufferToString(buffer) {
+            var arr = new Uint8Array(buffer);
+            var str = String.fromCharCode.apply(String, arr);
+            if (/[\u0080-\uffff]/.test(str)) {
+                throw new Error("this string seems to contain (still encoded) multibytes");
+            }
+            return str;
+        }
 
     </script>
     <style>
