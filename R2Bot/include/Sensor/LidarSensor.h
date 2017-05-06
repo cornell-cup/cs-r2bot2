@@ -4,7 +4,7 @@
 #include <mutex>
 #include "Global.h"
 #include "Sensor.h"
-#include "../lidar/rplidar.h"
+#include "../lidar/sdk/sdk//include/rplidar.h"
 #include "SerialPort.h"
 #include "R2Protocol.hpp"
 
