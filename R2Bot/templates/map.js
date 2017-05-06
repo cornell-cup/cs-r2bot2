@@ -12,19 +12,9 @@ function zeros(dimensions) {
 
 var mctx = document.getElementById('main').getContext('2d');
 
-function arrayBufferToString(buffer) {
-    var arr = new Uint8Array(buffer);
-    var str = String.fromCharCode.apply(String, arr);
-    if (/[\u0080-\uffff]/.test(str)) {
-        throw new Error("this string seems to contain (still encoded) multibytes");
-    }
-    return str;
-}
-
-function drawMap(data) {
+function drawMap(dist) {
     var map = zeros([30, 30]);
 
-    var dist = arrayBufferToString(data);
 
     //splitting up array of sensor data and creating dictionary of sensor:sensorData
     var n = dist.split("\n");

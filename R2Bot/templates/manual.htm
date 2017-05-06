@@ -100,13 +100,14 @@
                     <h3> Map</h3>
 
                     <canvas id="main" height="301" width="301 "></canvas>
-
+                    <canvas id="compass" height="100" width="100"></canvas>
                 </div>
 
         </div>
     </div>
     <script src="joystick.js"></script>
     <script src="map.js"></script>
+    <script src="compass.js"></script>
     <script>
         var sock = new WebSocket("ws://" + location.host + "/wsm");
         sock.binaryType = "arraybuffer";
@@ -125,8 +126,15 @@
         }
         sock.onmessage = function (e) {
             if (e.data) {
-                drawMap(e.data);
-                drawBoard();
+                var data = arrayBufferToString(e.data);
+                if (data.substr(0, 1) == "U") {
+                    drawMap(data);
+                    drawBoard();
+                }
+                else if (data.substr(0, 1) == "I") {
+                    compassOuter();
+                    compass(data.substr(1));
+                }
             }
         }
         $("#msg").keypress(function (e) {
@@ -151,9 +159,16 @@
         });
         $("#send").click(() => {
             sock.send($("#msg").val());
-          //  $("#msg").val("");
         });
         
+        function arrayBufferToString(buffer) {
+            var arr = new Uint8Array(buffer);
+            var str = String.fromCharCode.apply(String, arr);
+            if (/[\u0080-\uffff]/.test(str)) {
+                throw new Error("this string seems to contain (still encoded) multibytes");
+            }
+            return str;
+        }
 
     </script>
     <style>
