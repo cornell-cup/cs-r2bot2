@@ -40,6 +40,7 @@ void initializeWSA() {
 #include "Sensor/RFIDSensor.h"
 #include "Sensor/LidarSensor.h"
 #include "Sensor/IMUSensor.h"
+#include "Sensor/PowerSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -50,19 +51,13 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
-	if (args.find("r2-server-port") != args.end()) {
-		sensors["R2 SERVER"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
-	}
-	else {
-		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
-	}
 
-	if (!(args["ultrasound-serial-port"].empty())) {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600);
+	if (!(args["ultrasound-serial-port"].empty() && args["ultrasound-serial-port2"].empty())) {
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600, args["ultrasound-serial-port2"].c_str(), 9600);
 	}
 	else {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM3", 9600);
-		std::cout << "No ultrasound serial port specified." << std::endl;
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM7", 9600, "COM8", 9600);
+		std::cout << "No ultrasound serial port(s) specified." << std::endl;
 	}
 
 	if (!(args["drawer-serial-port"].empty())) {
@@ -83,6 +78,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 RFID"] = std::make_shared<RFIDSensor>(args["rfid-serial-port"].c_str(), 9600);
 	}
 	else {
+		//sensors["R2 RFID"] = std::make_shared<RFIDSensor>("COM4", 9600);
 		std::cout << "No RFID serial port specified." << std::endl;
 	}
 	if (!(args["lidar-serial-port"].empty())) {
@@ -96,7 +92,15 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
 	}
 	else {
+		//sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
 		std::cout << "No IMU serial port specified." << std::endl;
+	}
+
+	if (!(args["power-serial-port"].empty())) {
+		sensors["R2 POWER"] = std::make_shared<PowerSensor>(args["power-serial-port"].c_str(), 9600);
+	}
+	else {
+		std::cout << "No power serial port specified." << std::endl;
 	}
 
 	return sensors;
@@ -115,6 +119,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 		controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>(args["head-flap-serial-port"].c_str(), 9600);
 	}
 	else {
+		//controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>("COM4", 9600);
 		std::cout << "No head flap serial port specified." << std::endl;
 	}
 

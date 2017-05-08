@@ -4,7 +4,7 @@
 #include "Global.h"
 
 typedef struct {
-	int ID;
+	string ID;
 } RFIDData;
 
 #endif

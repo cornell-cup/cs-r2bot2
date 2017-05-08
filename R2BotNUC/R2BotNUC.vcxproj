@@ -161,6 +161,7 @@
     <ClCompile Include="..\R2Bot\src\LidarSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
+    <ClCompile Include="..\R2Bot\src\PowerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Databases.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
     <ClCompile Include="..\R2Bot\src\RFIDSensor.cpp" />

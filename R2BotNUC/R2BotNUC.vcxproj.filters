@@ -78,6 +78,9 @@
     <ClCompile Include="..\R2Bot\src\LidarSensor.cpp">
       <Filter>Source Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\R2Bot\src\PowerSensor.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">

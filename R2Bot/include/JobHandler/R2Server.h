@@ -25,12 +25,7 @@ protected:
 	std::unordered_set<crow::websocket::connection*> users;
 	string homeInput;
 	string manualInput;
-	string ultrasoundInput;
-	string drawerC;
-	string drawerRFID;
-	string toolInv;
-	string userList;
-	string imuDirection;
+
 public:
 	R2Server(int port);
 	virtual ~R2Server();

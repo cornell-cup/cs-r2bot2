@@ -61,11 +61,17 @@ static string MimeTypeFromString(const string& str) {
 }
 
 bool R2Server::registered = JobHandler::RegisterJobHandler("r2-server", [](string command) {
-	//return (ptr<JobHandler>) std::make_shared<R2Server>(stoi(command));
 	return std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080));
 });
 
-
+string homeInput;
+string manualInput;
+string ultrasoundInput;
+string drawerC;
+string drawerRFID;
+string toolInv;
+string userList;
+string imuDirection;
 R2Server::R2Server(int port):JobHandler(), Sensor() {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
@@ -150,9 +156,10 @@ R2Server::R2Server(int port):JobHandler(), Sensor() {
 				std::cout << data << std::endl;
 			}
 			else {
-				std::cout << ultrasoundInput << "ultrasound" << ultrasoundInput.length() << std::endl;
 				if (ultrasoundInput.length() != 0) {
+					std::cout << ultrasoundInput << std::endl;
 					u->send_binary(ultrasoundInput);
+					ultrasoundInput = "";
 				}
 				if (imuDirection.length() != 0) {
 					u->send_binary("I" + imuDirection);
@@ -248,20 +255,31 @@ void R2Server::fillData(SensorData& sensorData) {
 
 void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	//std::cout << "EXECUTING" << std::endl;
-	for (int i = 1; i <= 7; i++) {
-		auto result = data.find("U" + std::to_string(i) + "SENSOR");
-		if (result != data.end()) {
-			ultrasoundInput += result->first;
-			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance);
+	auto result = data.find("ULTRASOUNDB");
+	if (result != data.end()) {
+		for (int i = 1; i <= 7; i++) {
+			ultrasoundInput += "U" + std::to_string(i) + "SENSOR";
+			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance[i-1]);
 			ultrasoundInput += string(",");
 			ultrasoundInput += inches;
-			ultrasoundInput += string("\n");	
-			std::cout << ultrasoundInput << std::endl;
+			ultrasoundInput += "|";
 		}
 	}
-	auto result = data.find("FLAP");
+
+	result = data.find("ULTRASOUNDF");
 	if (result != data.end()) {
-		std::cout << outputs["FLAP"] << "this is sensordata" << std::endl;
+		for (int i = 8; i <= 14; i++) {
+			ultrasoundInput += "U" + std::to_string(i) + "SENSOR";
+			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance[i - 8]);
+			std::cout << inches << "\n";
+			ultrasoundInput += string(",");
+			ultrasoundInput += inches;
+			ultrasoundInput += "|";
+		}
+	}
+
+	result = data.find("FLAP");
+	if (result != data.end()) {
 		outputs["FLAP"] = result->second;
 	}
 	result = data.find("HEAD");

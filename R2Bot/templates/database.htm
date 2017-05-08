@@ -39,7 +39,7 @@
             <br />
             <p>Drawer State</p>
             <input id="drawerState" type="text" disabled />
-            <p>RIFD</p>
+            <p>RFID</p>
             <input id="RFIDID" type="text" disabled />
 			<div id="toolsDatabase"></div>
             <div id="usersDatabase"></div>
@@ -84,87 +84,86 @@
                         for (var i = 0; i < cols.length; i++) {
                             dict = insertIntoDic(dict, cols[i].split(",")[0], cols[i].split(",")[1]);
                         }
-                    }
 
 
-                    function insertIntoDic(dictionary, key, value) {
-                        // If key is not initialized or some bad structure
-                        if (!dictionary[key] || !(dictionary[key] instanceof Array)) {
-                            dictionary[key] = [];
+                        var html = "";
+                        html += "<div class='panel panel-default'>";
+                        html += "<div class='panel-heading'>";
+                        html += "<h3 class='panel-title'>";
+                        if (identifier == "T") {
+                            html += "<span>Tools Database</span>";
                         }
-                        // All arguments, exept first push as valuses to the dictonary
-                        dictionary[key] = dictionary[key].concat(Array.prototype.slice.call(arguments, 2));
-                        return dictionary;
-                    }
-
-                    function arrayBufferToString(buffer) {
-                        var arr = new Uint8Array(buffer);
-                        var str = String.fromCharCode.apply(String, arr);
-                        if (/[\u0080-\uffff]/.test(str)) {
-                            throw new Error("this string seems to contain (still encoded) multibytes");
+                        else if (identifier == "U") {
+                            html += "<span>Users Database</span>";
                         }
-                        return str;
-                    }
-
-                    var html = "";
-                    html += "<div class='panel panel-default'>";
-                    html += "<div class='panel-heading'>";
-                    html += "<h3 class='panel-title'>";
-                    if (identifier == "T") {
-                        html += "<span>Tools Database</span>";
-                    }
-                    else if (identifier == "U") {
-                        html += "<span>Users Database</span>";
-                    }
-                    html += "</h3>";
-                    html += "</div>";
-                    html += "<div class='panel-body'>";
-                    html += "<table class='table table-default table-striped'>";
-                    html += "<thead class='inverse'><tr>";
-                    for (var key in dict) {
-                        html += "<td>" + key + "</td>";
-                    }
-                    html += "</tr></thead>";
-                    for (var i = 0; i < rows.length; i++) {
-                        html += "<tr>";
+                        html += "</h3>";
+                        html += "</div>";
+                        html += "<div class='panel-body'>";
+                        html += "<table class='table table-default table-striped'>";
+                        html += "<thead class='inverse'><tr>";
                         for (var key in dict) {
-                            html += "<td>" + dict[key][i] + "</td>";
+                            html += "<td>" + key + "</td>";
                         }
-                        html += "</tr>";
+                        html += "</tr></thead>";
+                        for (var i = 0; i < rows.length; i++) {
+                            html += "<tr>";
+                            for (var key in dict) {
+                                html += "<td>" + dict[key][i] + "</td>";
+                            }
+                            html += "</tr>";
+                        }
+                        html += "</table>";
+                        html += "</div>";
+                        html += "</div>";
+                        if (identifier == "T") {
+                            $("#toolsDatabase").html(html);
+                        }
+                        else if (identifier == "U") {
+                            $("#usersDatabase").html(html);
+                        }
                     }
-                    html += "</table>";
-                    html += "</div>";
-                    html += "</div>";
-                    if (identifier == "T") {
-                        $("#toolsDatabase").html(html);
+
+
+                        /* 
+                            0: HEAD manual input angle
+                            1: HEAD get angle
+                            2: DRAWERS state
+                            3: DRAWERS RFID ID
+                            4: HEAD manual flap state where 0 is OFF and 1 is ON
+                        */
+
+                    else if (identifier == "2") {
+                        if (text == "C" || text == "T") {
+                            $("#drawerState").val("Drawers: Closed\n");
+                        }
+                        else if (text == "O") {
+                            $("#drawerState").val("Drawers: Open\n");
+                        }
                     }
-                    else if (identifier == "U") {
-                        $("#usersDatabase").html(html);
+
+                    else if (identifier == "3") {
+                        $("#RFIDID").val(text + "\n");
                     }
                 }
-
-                /* 
-                    0: HEAD manual input angle
-                    1: HEAD get angle
-                    2: DRAWERS state
-                    3: DRAWERS RFID ID
-                    4: HEAD manual flap state where 0 is OFF and 1 is ON
-                */
-
-                else if (identifier == "2") {
-                    if (text == "C" || text == "T") {
-                        $("#drawerState").val("Drawers: Closed\n");
+                function insertIntoDic(dictionary, key, value) {
+                    // If key is not initialized or some bad structure
+                    if (!dictionary[key] || !(dictionary[key] instanceof Array)) {
+                        dictionary[key] = [];
                     }
-                    else if (text == "O") {
-                        $("#drawerState").val("Drawers: Open\n");
-                    }
+                    // All arguments, exept first push as valuses to the dictonary
+                    dictionary[key] = dictionary[key].concat(Array.prototype.slice.call(arguments, 2));
+                    return dictionary;
                 }
 
-                else if (identifier == "3") {
-                    $("#RFIDID").val(text + "\n");
+                function arrayBufferToString(buffer) {
+                    var arr = new Uint8Array(buffer);
+                    var str = String.fromCharCode.apply(String, arr);
+                    if (/[\u0080-\uffff]/.test(str)) {
+                        throw new Error("this string seems to contain (still encoded) multibytes");
+                    }
+                    return str;
                 }
             }
-
         </script>
         <style>
             .inverse {

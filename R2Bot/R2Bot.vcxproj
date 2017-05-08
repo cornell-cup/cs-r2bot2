@@ -31,6 +31,7 @@
     <ClCompile Include="src\LidarSensor.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
+    <ClCompile Include="src\PowerSensor.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\RFIDSensor.cpp" />
     <ClCompile Include="src\SafetyHandler.cpp" />
@@ -39,6 +40,8 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
+    <ClInclude Include="include\Data\PowerData.h" />
+    <ClInclude Include="include\Sensor\PowerSensor.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>

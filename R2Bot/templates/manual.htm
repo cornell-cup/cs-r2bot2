@@ -96,11 +96,11 @@
                     </div>
 
 
-
-                    <h3> Map</h3>
-
-                    <canvas id="main" height="301" width="301 "></canvas>
+                    
+                    <h3> Map</h3><br />
                     <img id="compass" src="compass.png" height="100" width="100" />
+                    <br />
+                    <canvas id="main" height="301" width="301 "></canvas>
                 </div>
 
         </div>
@@ -115,7 +115,7 @@
 
             setInterval(function () {
                 sock.send((dataCoordX / rad).toString() + " " + (dataCoordY / rad).toString());
-            }, 300);
+            }, 200);
         }
         sock.onerror = (e) => {
             console.log('error', e)
@@ -126,18 +126,17 @@
         sock.onmessage = function (e) {
             if (e.data) {
                 var data = arrayBufferToString(e.data);
-
-                console.log(data);
-                if (data[0] == "U") {
+                if (data[0] == "U")
+                    //console.log(data);
                     drawMap(data);
-                    drawBoard();
                 }
                 else if (data[0] == "I") {
                     idata = parseFloat(data.substr(1)) * -1;
-                    $("compass").css("transform", "rotate(" + idata + "deg)");
+                    $("#compass").css("transform", "rotate(" + idata + "deg)");
                 }
-            }
+            drawBoard();
         }
+
         $("#msg").keypress(function (e) {
             if (e.which == 13) {
                 sock.send($("#msg").val());

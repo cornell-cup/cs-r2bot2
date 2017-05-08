@@ -26,16 +26,15 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 		std::vector<uint8_t> input(data, data + bytesRead);
 		int32_t read;
 		ptr<RFIDData> rdata = std::make_shared<RFIDData>();
-
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
-			if (params.source.c_str() == "RFID") {
-				rdata->ID = std::atof((char *)params.data.data());
+			if (params.source == "RFID") {
+				string r(params.data.begin(), params.data.end());
+				rdata->ID = r;
+				std::vector<uint8_t> newinput(input.begin() + read, input.end());
+				newinput.swap(input);
+				sensorData["RFID"] = rdata;
+				printf("RFID: %s\n", rdata->ID);
 			}
-			rdata->ID = std::atof((char *)params.data.data());
-			std::vector<uint8_t> newinput(input.begin() + read, input.end());
-			newinput.swap(input);
-			sensorData["RFID"] = rdata;
-			printf("RFID: %f\n", rdata->ID);
 		}
 	}
 }

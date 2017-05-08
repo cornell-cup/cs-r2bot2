@@ -125,8 +125,8 @@ void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& ou
 			int four = std::static_pointer_cast<DrawerData>(inven->second)->tool4;
 			int five = std::static_pointer_cast<DrawerData>(inven->second)->tool5;
 			string invV = std::to_string(zero) + "," + std::to_string(one) + "," + std::to_string(two) + "," + std::to_string(three) + "," + std::to_string(four) + "," + std::to_string(five) + ",";
-			string rfids = std::to_string((std::static_pointer_cast<RFIDData>(rfid->second)->ID));
-			string total = rfids + "," + invV;
+			string rfids = (std::static_pointer_cast<RFIDData>(rfid->second)->ID);
+			string total = sqlCommand("INSERT", database, "TOOLS") + rfids + "," + invV + ")";
 			sql = (char*)total.c_str(); //add on data
 
 			char dbArray[] = ".db";

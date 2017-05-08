@@ -10,23 +10,24 @@ function zeros(dimensions) {
     return array;
 }
 
-var mctx = document.getElementById('main').getContext('2d');
-
+var canvas1 = document.getElementById('main');
+var mctx = canvas1.getContext('2d');
+var dict = {};
 function drawMap(dist) {
     var map = zeros([30, 30]);
-
-
+    mctx.clearRect(0, 0, 301, 301);
     //splitting up array of sensor data and creating dictionary of sensor:sensorData
-    var n = dist.split("\n");
-    console.log(n);
+    var n = dist.split("|");
+    //console.log(n);
 
-    var dict = {};
     for (var i = 0; i < n.length; i++) {
         var split = n[i].split(',');
-        if (parseFloat(split[1]) <= 20.0) {
+        console.log(n[i]);
+        if (parseFloat(split[1]) <= 20.0 && parseFloat(split[1]) > 4) {
             dict[split[0]] = parseFloat(split[1]) / 2;
         }
     }
+    console.log(dict);
     //storing values in sensor and distance 
     for (var key in dict) {
         var sensor = key;
@@ -53,6 +54,46 @@ function drawMap(dist) {
                 mctx.fillStyle = 'Green';
                 mctx.fillRect(j * 10, i * 10, 10, 10);
             }
+            if (map[i][j] == 5) {
+                mctx.fillStyle = 'DarkBlue';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 6) {
+                mctx.fillStyle = 'Pink';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 7) {
+                mctx.fillStyle = 'Aquamarine';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 8) {
+                mctx.fillStyle = 'Beige';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 9) {
+                mctx.fillStyle = 'Coral';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 10) {
+                mctx.fillStyle = 'Crimson';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 11) {
+                mctx.fillStyle = 'MediumOrchid';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 12) {
+                mctx.fillStyle = 'PaleVioletRed';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 13) {
+                mctx.fillStyle = 'Tomato';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
+            if (map[i][j] == 14) {
+                mctx.fillStyle = 'SkyBlue';
+                mctx.fillRect(j * 10, i * 10, 10, 10);
+            }
 
         }
     }
@@ -61,7 +102,6 @@ function drawMap(dist) {
         //R2 position = map[15][15]
 
         var centerAngle = angle;
-        console.log("ca" + centerAngle);
         for (var i = 0; i < 4; i++) { //going counterclockwise
             var xComponent = Math.floor(distance * Math.cos(centerAngle));
             var yComponent = Math.floor(distance * Math.sin(centerAngle));
@@ -89,7 +129,40 @@ function drawMap(dist) {
             case "U3SENSOR":
                 color = 4;
                 break;
-        }
+            case "U4SENSOR":
+                color = 5;
+                break;
+            case "U5SENSOR":
+                color = 6;
+                break;
+            case "U6SENSOR":
+                color = 7;
+                break;
+            case "U7SENSOR":
+                color = 8;
+                break;
+            case "U8SENSOR":
+                color = 9;
+                break;
+            case "U9SENSOR":
+                color = 10;
+                break;
+            case "U10SENSOR":
+                color = 11;
+                break;
+            case "U11SENSOR":
+                color = 12;
+                break;
+            case "U12SENSOR":
+                color = 13;
+                break;
+            case "U13SENSOR":
+                color = 14;
+                break;
+            case "U14SENSOR":
+                color = 15;
+                break;
+            }
 
         return color;
     }
@@ -97,13 +170,46 @@ function drawMap(dist) {
         var angle = 0;
         switch (sensor) {
             case "U1SENSOR":
-                angle = 90;
+                angle = 25;
                 break;
             case "U2SENSOR":
-                angle = 67.5;
+                angle = 50;
                 break;
             case "U3SENSOR":
-                angle = 112.5;
+                angle = 75;
+                break;
+            case "U4SENSOR":
+                angle = 100;
+                break;
+            case "U5SENSOR":
+                angle = 125;
+                break;
+            case "U6SENSOR":
+                angle = 150;
+                break;
+            case "U7SENSOR":
+                angle = 175;
+                break;
+            case "U8SENSOR":
+                angle = 200;
+                break;
+            case "U9SENSOR":
+                angle = 225;
+                break;
+            case "U10SENSOR":
+                angle = 250;
+                break;
+            case "U11SENSOR":
+                angle = 275;
+                break;
+            case "U12SENSOR":
+                angle = 300;
+                break;
+            case "U13SENSOR":
+                angle = 325;
+                break;
+            case "U14SENSOR":
+                angle = 350;
                 break;
         }
 
@@ -117,10 +223,6 @@ function drawBoard() {
         mctx.lineTo(0.5 + x + 0, 300 + 0);
     }
 
-    for (var x = 0; x <= 301; x += 30) {
-        ctx.moveTo(0, 0.5 + x + 0);
-        ctx.lineTo(300 + 0, 0.5 + x + 0);
-    }
     for (var x = 0; x <= 301; x += 10) {
         mctx.moveTo(0, 0.5 + x + 0);
         mctx.lineTo(300 + 0, 0.5 + x + 0);

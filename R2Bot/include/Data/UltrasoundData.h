@@ -2,9 +2,10 @@
 #define _R2BOT_ULTRASOUND_DATA
 
 #include "Global.h"
+#include <vector>
 
 typedef struct {
-	float distance;
+	std::vector<float> distance;
 } UltrasoundData;
 
 #endif
