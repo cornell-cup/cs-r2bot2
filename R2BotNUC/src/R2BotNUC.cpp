@@ -40,7 +40,7 @@ void initializeWSA() {
 #include "Sensor/RFIDSensor.h"
 #include "Sensor/LidarSensor.h"
 #include "Sensor/IMUSensor.h"
-#include "Sensor/PowerSensor.h"
+#include "Sensor/PowerHandler.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -92,12 +92,12 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
 	}
 	else {
-		sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
+		//sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
 		std::cout << "No IMU serial port specified." << std::endl;
 	}
 
 	if (!(args["power-serial-port"].empty())) {
-		sensors["R2 POWER"] = std::make_shared<PowerSensor>(args["power-serial-port"].c_str(), 9600);
+		sensors["R2 POWER"] = std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No power serial port specified." << std::endl;
