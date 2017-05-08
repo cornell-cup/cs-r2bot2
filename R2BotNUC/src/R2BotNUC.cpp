@@ -52,43 +52,43 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
 
-	if (!(args["ultrasound-serial-port"].empty() && args["ultrasound-serial-port2"].empty())) {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600, args["ultrasound-serial-port2"].c_str(), 9600);
+	if (args.find("ultrasound-front-serial-port") != args.end() && args.find("ultrasound-back-serial-port") != args.end()) {
+		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-front-serial-port"].c_str(), 9600, args["ultrasound-back-serial-port"].c_str(), 9600);
 	}
 	else {
 		//sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM7", 9600, "COM8", 9600);
 		std::cout << "No ultrasound serial port(s) specified." << std::endl;
 	}
 
-	if (!(args["drawer-serial-port"].empty())) {
+	if (args.find("drawer-serial-port") != args.end()) {
 		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-serial-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No drawer serial port specified." << std::endl;
 	}
 
-	if (!(args["head-serial-port"].empty())) {
+	if (args.find("head-serial-port") != args.end()) {
 		sensors["R2 HEAD"] = std::make_shared<HeadSensor>(args["head-serial-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No head serial port specified." << std::endl;
 	}
 
-	if (!(args["rfid-serial-port"].empty())) {
+	if (args.find("rfid-serial-port") != args.end()) {
 		sensors["R2 RFID"] = std::make_shared<RFIDSensor>(args["rfid-serial-port"].c_str(), 9600);
 	}
 	else {
 		//sensors["R2 RFID"] = std::make_shared<RFIDSensor>("COM4", 9600);
 		std::cout << "No RFID serial port specified." << std::endl;
 	}
-	if (!(args["lidar-serial-port"].empty())) {
+	if (args.find("lidar-serial-port") != args.end()) {
 		sensors["R2 LIDAR"] = std::make_shared<LidarSensor>(args["lidar-serial-port"].c_str(), 9600);
 	}
 	else {
 		std::cout << "No LIDAR serial port specified." << std::endl;
 	}
 
-	if (!(args["imu-serial-port"].empty())) {
+	if (args.find("imu-serial-port") != args.end()) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
 	}
 	else {
@@ -96,7 +96,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		std::cout << "No IMU serial port specified." << std::endl;
 	}
 
-	if (!(args["power-serial-port"].empty())) {
+	if (args.find("power-serial-port") != args.end()) {
 		sensors["R2 POWER"] = std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600);
 	}
 	else {
@@ -115,7 +115,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
 	}
-	if (!(args["head-flap-serial-port"].empty())) {
+	if (args.find("head-flap-serial-port") != args.end()) {
 		controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>(args["head-flap-serial-port"].c_str(), 9600);
 	}
 	else {
