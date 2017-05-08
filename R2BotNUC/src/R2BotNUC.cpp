@@ -56,7 +56,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-serial-port"].c_str(), 9600, args["ultrasound-serial-port2"].c_str(), 9600);
 	}
 	else {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM7", 9600, "COM8", 9600);
+		//sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM7", 9600, "COM8", 9600);
 		std::cout << "No ultrasound serial port(s) specified." << std::endl;
 	}
 
@@ -92,7 +92,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
 	}
 	else {
-		//sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
+		sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
 		std::cout << "No IMU serial port specified." << std::endl;
 	}
 

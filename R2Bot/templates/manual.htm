@@ -126,7 +126,7 @@
         sock.onmessage = function (e) {
             if (e.data) {
                 var data = arrayBufferToString(e.data);
-                if (data[0] == "U")
+                if (data[0] == "U") {
                     //console.log(data);
                     drawMap(data);
                 }
@@ -134,7 +134,8 @@
                     idata = parseFloat(data.substr(1)) * -1;
                     $("#compass").css("transform", "rotate(" + idata + "deg)");
                 }
-            drawBoard();
+                drawBoard();
+            }
         }
 
         $("#msg").keypress(function (e) {
@@ -176,7 +177,7 @@
             margin-bottom: 75px;
         }
 
-        .compass{
+        #compass{
             -webkit-transform-origin: 50% 50%; /* Chrome, Safari, Opera */
             transform-origin: 50% 50%;
         }

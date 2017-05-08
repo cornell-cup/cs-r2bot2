@@ -37,7 +37,7 @@ void IMUSensor::fillData(SensorData& sensorData) {
 		ptr<IMUData> idata = std::make_shared<IMUData>();
 		string imuData(input.begin(), input.end());
 		string tImuData = rtrim(imuData);
-		if (tImuData.length() > 4) {
+		if (tImuData.length() != 0) {
 			idata->xDirection = std::stof(tImuData);
 			sensorData["IMU"] = idata;
 			printf("IMU X Position: %f\n", idata->xDirection);
