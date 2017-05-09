@@ -2,8 +2,10 @@
 #include "Data/PowerData.h"
 #include "Data/MotorData.h"
 #include <iostream>
-#include "Windows.h"
-#include "Winreg.h"
+#ifdef _WIN32
+	#include "Windows.h"
+	#include "Winreg.h"
+#endif
 
 PowerHandler::PowerHandler(string port, int baudrate) : Sensor("Power Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Power sensor connected to port %s\n", port.c_str());
@@ -99,7 +101,9 @@ void PowerHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& o
 			if (v <= 25 && c >= 15) {
 				motordata->leftMotor = 0;
 				motordata->rightMotor = 0;
+#ifdef _WIN32
 				InitiateSystemShutdown(NULL, NULL, 5, TRUE, FALSE);
+#endif	
 			}
 		}
 	}
