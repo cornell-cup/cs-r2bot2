@@ -155,6 +155,8 @@
     <ClCompile Include="..\R2Bot\src\FakeMotorController.cpp" />
     <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadFlapController.cpp" />
+    <ClCompile Include="..\R2Bot\src\HeadFlapHandler.cpp" />
+    <ClCompile Include="..\R2Bot\src\HeadHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\IMUSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\Job.cpp" />
@@ -169,6 +171,7 @@
     <ClCompile Include="..\R2Bot\src\SafetyHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
     <ClCompile Include="..\R2Bot\src\SoundController.cpp" />
+    <ClCompile Include="..\R2Bot\src\SoundHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />
     <ClCompile Include="..\R2Bot\src\UDPServerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\UltrasoundSensor.cpp" />

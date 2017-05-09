@@ -24,6 +24,8 @@
     <ClCompile Include="src\FakeMotorController.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\HeadFlapController.cpp" />
+    <ClCompile Include="src\HeadFlapHandler.cpp" />
+    <ClCompile Include="src\HeadHandler.cpp" />
     <ClCompile Include="src\HeadSensor.cpp" />
     <ClCompile Include="src\IMUSensor.cpp" />
     <ClCompile Include="src\Job.cpp" />
@@ -37,9 +39,13 @@
     <ClCompile Include="src\SafetyHandler.cpp" />
     <ClCompile Include="src\Sensor.cpp" />
     <ClCompile Include="src\SoundController.cpp" />
+    <ClCompile Include="src\SoundHandler.cpp" />
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
+    <ClInclude Include="include\JobHandler\HeadFlapHandler.h" />
+    <ClInclude Include="include\JobHandler\HeadHandler.h" />
+    <ClInclude Include="include\JobHandler\SoundHandler.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -74,7 +80,7 @@
     <ClInclude Include="include\Data\LidarData.h" />
     <ClInclude Include="include\Sensor\LidarSensor.h" />
     <ClInclude Include="include\Data\IMUData.h" />
-    <ClInclude Include="include\Sensor\IMUSensor.h" />    
+    <ClInclude Include="include\Sensor\IMUSensor.h" />
     <ClInclude Include="include\Data\PowerData.h" />
     <ClInclude Include="include\JobHandler\PowerHandler.h" />
   </ItemGroup>

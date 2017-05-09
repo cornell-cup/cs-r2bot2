@@ -84,6 +84,15 @@
     <ClCompile Include="..\R2Bot\src\PowerHandler.cpp">
       <Filter>Source Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\R2Bot\src\HeadFlapHandler.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\HeadHandler.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\SoundHandler.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
