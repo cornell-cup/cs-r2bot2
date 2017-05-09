@@ -6,6 +6,7 @@
 typedef struct {
 	int angle;
 	int time;
+	char command;
 } HeadData;
 
 #endif

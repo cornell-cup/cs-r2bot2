@@ -16,7 +16,7 @@ HeadHandler::~HeadHandler() {
 
 void HeadHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	auto result = data.find("HEAD");
-	if (result != data.end() && homeInput == "Get Head Angle") {
+	if (result != data.end()) {
 		outputs["HEAD"] = result->second;
 	}
 }

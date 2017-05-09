@@ -45,8 +45,22 @@ void HeadSensor::sendData(ControllerData& data) {
 		auto result = data.find("HEAD");
 		auto headData = result->second;
 		if (result != data.end()) {
-			ptr<string> type = std::static_pointer_cast<string>(headData);
-			string command = *type;
+			string command;
+			ptr<HeadData> type = std::static_pointer_cast<HeadData>(headData);
+			char commandType = type->command;
+			if (commandType == 'L' || commandType == 'R'){
+				if (type->time != 0) {
+					command = commandType + std::to_string(type->time);
+				}
+			}
+			else if (commandType == 'G') {
+				command = commandType;
+			}
+			else if (commandType == 'P') {
+				if (type->angle != 0) {
+					command = commandType + std::to_string(type->angle);
+				}
+			}
 			R2Protocol::Packet params = { DEVICE_NAME, "HEAD", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);

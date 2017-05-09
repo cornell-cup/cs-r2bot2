@@ -66,21 +66,43 @@ int main(int argc, char** argv) {
 		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 14);
 		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 14);
 		printf("%f %f\n", normLX, normLY);
+		bool leftButton = state.Gamepad.bLeftTrigger;
+		bool rightButton = state.Gamepad.bRightTrigger;
 
 		// Send these values over UDP
 		if (client.isConnected()) {
-			GamepadData g = { normLX, normLY };
-			uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
-			memcpy(buffer, &g, sizeof(GamepadData));
-			std::vector<uint8_t> output;
-			R2Protocol::Packet params;
-			params.source = "GAMEPAD";
-			params.destination = "PI";
-			params.id = "";
-			params.data = std::vector<uint8_t>(buffer, buffer + sizeof(GamepadData));
-			R2Protocol::encode(params, output);
-			client.write((char *) output.data(), (unsigned int) output.size());
-			free(buffer);
+			if (normLX != 0 && normLY != 0) {
+				ptr<GamepadData> g = std::make_shared<GamepadData>();
+				g->x = normLX;
+				g->y = normLY;
+				uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
+				memcpy(buffer, &g, sizeof(GamepadData));
+				std::vector<uint8_t> output;
+				R2Protocol::Packet params;
+				params.source = "GAMEPAD";
+				params.destination = "PI";
+				params.id = "";
+				params.data = std::vector<uint8_t>(buffer, buffer + sizeof(GamepadData));
+				R2Protocol::encode(params, output);
+				client.write((char *)output.data(), (unsigned int)output.size());
+				free(buffer);
+			}
+			if (leftButton || rightButton) {
+				ptr<GamepadData> g = std::make_shared<GamepadData>();
+				g->lb = leftButton;
+				g->rb = rightButton;
+				uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
+				memcpy(buffer, &g, sizeof(GamepadData));
+				std::vector<uint8_t> output;
+				R2Protocol::Packet params;
+				params.source = "GAMEPAD";
+				params.destination = "PI";
+				params.id = "";
+				params.data = std::vector<uint8_t>(buffer, buffer + sizeof(GamepadData));
+				R2Protocol::encode(params, output);
+				client.write((char *)output.data(), (unsigned int)output.size());
+				free(buffer);
+			}
 		}
 
 		// Wait

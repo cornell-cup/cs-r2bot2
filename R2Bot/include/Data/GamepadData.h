@@ -5,6 +5,7 @@
 
 typedef struct {
 	float x, y;
+	bool lb, rb;
 } GamepadData;
 
 #endif

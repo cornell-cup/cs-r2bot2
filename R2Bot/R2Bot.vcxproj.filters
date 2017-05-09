@@ -232,9 +232,6 @@
     <ClInclude Include="src\R2Databases.cpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Controller.h">
-      <Filter>Header Files\PathPlanning</Filter>
-    </ClInclude>
     <ClInclude Include="include\PathPlanning\Coord.h">
       <Filter>Header Files\PathPlanning</Filter>
     </ClInclude>
@@ -249,6 +246,9 @@
     </ClInclude>
     <ClInclude Include="include\PathPlanning\Path.h">
       <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Controller.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
