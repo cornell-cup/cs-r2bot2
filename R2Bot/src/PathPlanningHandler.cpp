@@ -31,6 +31,7 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 			g.addObstacle(newObs);
 		}
 		path = shortPath.calcPath(&g);
+		track = 0;
 	}
 	else {
 		Coord moveTo = path.path[track];
