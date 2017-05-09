@@ -2,9 +2,16 @@
 #include <cmath>
 using namespace std;
 
+bool PathPlanningHandler::registered = JobHandler::RegisterJobHandler("path-planning", [](string command) {
+	return (ptr<JobHandler>) std::make_shared<PathPlanningHandler>();
+});
+
 PathPlanningHandler::PathPlanningHandler()
 {
-
+	g = Grid(1000, 1000, 13, 13, 13, 0);
+	shortPath = Dijkstra(500, 500);
+	path = Path();
+	track = 0;
 }
 
 PathPlanningHandler::PathPlanningHandler(float w, float h, float scal, float startx, float starty, float startAngle, float goalx, float goaly)
