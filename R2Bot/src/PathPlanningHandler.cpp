@@ -32,15 +32,18 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 	Obstacle newObs;
 	auto usInfo = data.find("ULTRASOUNDF");
 	if (usInfo != data.end()) {
+		//Add obstacle information to grid
 		for (int i = 1; i <= 7; i++) {
 			float inches = static_pointer_cast<UltrasoundData>(usInfo->second)->distance[i - 1];
 			newObs = Obstacle(g.R2Pos.x, g.R2Pos.y, g.r2Angle, 3.14159265/4, inches);
 			g.addObstacle(newObs);
 		}
+		//Recalculate path
 		path = shortPath.calcPath(&g);
 		track = 0;
 	}
-	else {
+	else if(track < path.path.size()){
+		//Extract next coordinate from shortest path and calculate motor commands
 		Coord moveTo = path.path[track];
 		float xdist = moveTo.x - g.R2Pos.x;
 		float ydist = moveTo.y - g.R2Pos.y;
@@ -54,6 +57,13 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 		output->leftMotor = l;
 		output->rightMotor = r;
 		outputs["MOTOR"] = output;
-		
 	}
+	else {
+		//Stop motors if no path or goal reached
+		ptr<MotorData> output = std::make_shared<MotorData>();
+		output->leftMotor = 0;
+		output->rightMotor = 0;
+		outputs["MOTOR"] = output;
+	}
+
 }
