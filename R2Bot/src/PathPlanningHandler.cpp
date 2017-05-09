@@ -8,7 +8,7 @@ bool PathPlanningHandler::registered = JobHandler::RegisterJobHandler("path-plan
 
 PathPlanningHandler::PathPlanningHandler()
 {
-	g = Grid(1000, 1000, 13, 13, 13, 0);
+	g = Grid(1000, 1000, 15, 13, 13, 0);
 	shortPath = Dijkstra(500, 500);
 	path = Path();
 	track = 0;
