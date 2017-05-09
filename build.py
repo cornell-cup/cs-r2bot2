@@ -21,6 +21,7 @@ LIB_INC_FOLDER = [
     "-I", "lib/cs-r2-protocol/src",
     "-I", "lib/opencv3/opencv/build/include",
     "-I", "lib/sqlite",
+    "-I", "lib/rplidar/sdk/sdk/include",
 ] + (
     ["-I", "/mingw64/include"] if IS_MSYS else []
 )

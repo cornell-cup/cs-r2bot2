@@ -32,10 +32,10 @@ void SoundController::sendData(ControllerData& data) {
 		std::wstring wpath = std::wstring(path.begin(), path.end());
 		PlaySound(wpath.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 #else
-		std::thread sound([data]() {
+		std::thread sound([path]() {
 			execlp("/usr/bin/aplay", " ", path.c_str(), NULL);		//Execute file: file, arguments (1 or more strings followed by NULL)
 			_exit(0);
-			printf("Playing sound: %s\n", s);
+			printf("Playing sound: %s\n", path.c_str());
 			}
 		);
 		sound.detach();

@@ -1,8 +1,9 @@
 #ifndef _R2BOT_LIDAR_SENSOR
 #define _R2BOT_LIDAR_SENSOR
 
-#include <mutex>
 #include "Global.h"
+#include <mutex>
+#include <thread>
 #include "Sensor.h"
 #include "SerialPort.h"
 #include "rplidar.h"
