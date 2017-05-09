@@ -98,21 +98,21 @@ function drawMap(dist) {
         }
     }
 
-    function findEdge(distance, angle, sensor) {
+    function findEdge(distance, displacement, sensor) {
         //R2 position = map[15][15]
 
-        var centerAngle = angle;
+        var centerAngle = 90;
         for (var i = 0; i < 4; i++) { //going counterclockwise
             var xComponent = Math.floor(distance * Math.cos(centerAngle));
             var yComponent = Math.floor(distance * Math.sin(centerAngle));
-            map[15 - yComponent][15 + xComponent] = getColor(sensor);
+            map[15 - yComponent + displacmement[1]][15 + xComponent + displacement[0]] = getColor(sensor);
             centerAngle += 5 * Math.PI / 180;
         }
-
+        var angle = 90;
         for (var i = 0; i < 4; i++) { //going clockwise
             var xComponent = Math.floor(distance * Math.cos(angle));
             var yComponent = Math.floor(distance * Math.sin(angle));
-            map[15 - yComponent][15 + xComponent] = getColor(sensor);
+            map[15 - yComponent + displacmement[1]][15 + xComponent + displacement[0]] = getColor(sensor);
             angle -= 5 * Math.PI / 180;
         }
         //column, row
@@ -167,53 +167,59 @@ function drawMap(dist) {
         return color;
     }
     function getAngle(sensor) {
-        var angle = 0;
+        var displacement = [];
         switch (sensor) {
-            case "U1SENSOR":
-                angle = 25;
-                break;
-            case "U2SENSOR":
-                angle = 50;
-                break;
-            case "U3SENSOR":
-                angle = 75;
-                break;
-            case "U4SENSOR":
-                angle = 100;
-                break;
-            case "U5SENSOR":
-                angle = 125;
-                break;
-            case "U6SENSOR":
-                angle = 150;
-                break;
-            case "U7SENSOR":
-                angle = 175;
-                break;
+            // [X,Y]
+            //front sensors
             case "U8SENSOR":
-                angle = 200;
+                displacement = [5.11811, 1.77165];
                 break;
             case "U9SENSOR":
-                angle = 225;
+                displacement = [0.0,0.0];
                 break;
             case "U10SENSOR":
-                angle = 250;
+                displacement = [-5.11811, 1.77165];
                 break;
             case "U11SENSOR":
-                angle = 275;
+                displacement = [4.527559, 1.77165];
                 break;
             case "U12SENSOR":
-                angle = 300;
+                displacement = [0.0,0.0];
                 break;
             case "U13SENSOR":
-                angle = 325;
+                displacement = [-5.11811, 1.77165];
                 break;
+                //dead
             case "U14SENSOR":
-                angle = 350;
+                displacement = [0,0];
+                break;
+
+                //back sensors
+            case "U1SENSOR":
+                displacement = [-6.003937,-3.54331];
+                break;
+            case "U2SENSOR":
+                displacement = [6.003937,-3.54331];
+                break;
+            case "U3SENSOR":
+                displacement = [-3.93701,0.393701];
+                break;
+            case "U4SENSOR":
+                displacement = [3.93701, 0.393701];
+                break;
+            case "U5SENSOR":
+                displacement = [-5.90551, -3.54331];
+                break;
+            case "U6SENSOR":
+                displacement = [5.90551, -3.54331];
+                break;
+                //dead
+            case "U7SENSOR":
+                displacement = [0,0];
                 break;
         }
 
-        return angle;
+        return displacement;
     }
 }
 
