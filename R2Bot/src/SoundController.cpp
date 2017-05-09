@@ -9,6 +9,7 @@
 #include "R2Protocol.hpp"
 #include <cstring>
 #include <thread>
+#include <iostream>
 
 SoundController::SoundController() : Controller("Sound Controller") {
 	printf("Sound controller connected\n");
@@ -26,14 +27,15 @@ void SoundController::sendData(ControllerData& data) {
 	if (result != data.end()) {
 		ptr<string> s = std::static_pointer_cast<string>(result->second);
 		string path = "../R2Bot/templates/sounds/" + *s;
+		std::cout << "Sound: " + path << std::endl;
 #ifdef _WIN32
 		std::wstring wpath = std::wstring(path.begin(), path.end());
 		PlaySound(wpath.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 #else
-		std::thread sound([data]() {
+		std::thread sound([path]() {
 			execlp("/usr/bin/aplay", " ", path.c_str(), NULL);		//Execute file: file, arguments (1 or more strings followed by NULL)
 			_exit(0);
-			printf("Playing sound: %s\n", s);
+			printf("Playing sound: %s\n", path.c_str());
 			}
 		);
 		sound.detach();

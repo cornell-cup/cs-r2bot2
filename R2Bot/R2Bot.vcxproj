@@ -37,7 +37,7 @@
     <ClCompile Include="src\LidarSensor.cpp" />
     <ClCompile Include="src\ManualInputsHandler.cpp" />
     <ClCompile Include="src\MotorController.cpp" />
-    <ClCompile Include="src\PowerSensor.cpp" />
+    <ClCompile Include="src\PowerHandler.cpp" />
     <ClCompile Include="src\R2Server.cpp" />
     <ClCompile Include="src\RFIDSensor.cpp" />
     <ClCompile Include="src\SafetyHandler.cpp" />
@@ -88,7 +88,9 @@
     <ClInclude Include="include\Data\LidarData.h" />
     <ClInclude Include="include\Sensor\LidarSensor.h" />
     <ClInclude Include="include\Data\IMUData.h" />
-    <ClInclude Include="include\Sensor\IMUSensor.h" />
+    <ClInclude Include="include\Sensor\IMUSensor.h" />    
+    <ClInclude Include="include\Data\PowerData.h" />
+    <ClInclude Include="include\JobHandler\PowerHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">

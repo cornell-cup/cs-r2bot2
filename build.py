@@ -21,13 +21,18 @@ LIB_INC_FOLDER = [
     "-I", "lib/cs-r2-protocol/src",
     "-I", "lib/opencv3/opencv/build/include",
     "-I", "lib/sqlite",
+    "-I", "lib/rplidar/sdk/sdk/include",
 ] + (
     ["-I", "/mingw64/include"] if IS_MSYS else []
 )
+LIB_FOLDER = [
+    "-L", "lib/rplidar/sdk/output/Linux/Release",
+]
 LIBS = [
     "-lboost_system",
     "-lboost_date_time",
     "-lsqlite3",
+    "-lrplidar_sdk",
 ]
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
@@ -80,6 +85,6 @@ if __name__ == "__main__":
         objects = p.map(partial_compile, sources)
 
     # Build the binary
-    args = [CC] + CFLAGS + objects + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
+    args = [CC] + CFLAGS + objects + LIB_FOLDER + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
     print("Executing {}".format(args))
     subprocess.check_output(args)

@@ -1,19 +1,28 @@
-#include "Sensor/PowerSensor.h"
+#include "JobHandler/PowerHandler.h"
 #include "Data/PowerData.h"
+#include "Data/MotorData.h"
 #include <iostream>
+#ifdef _WIN32
+	#include "Windows.h"
+	#include "Winreg.h"
+#endif
 
-PowerSensor::PowerSensor(string port, int baudrate) : Sensor("Power Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
+PowerHandler::PowerHandler(string port, int baudrate) : Sensor("Power Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Power sensor connected to port %s\n", port.c_str());
 }
 
-PowerSensor::~PowerSensor() {
+PowerHandler::~PowerHandler() {
 }
 
-bool PowerSensor::ping() {
+string PowerHandler::getName() {
+	return "R2 Server";
+}
+
+bool PowerHandler::ping() {
 	return conn->isConnected() == 1;
 }
 
-void PowerSensor::fillData(SensorData& sensorData) {
+void PowerHandler::fillData(SensorData& sensorData) {
 	if (conn->isConnected()) {
 		char data[256];
 		int bytesRead = conn->read(data, 256);
@@ -30,6 +39,7 @@ void PowerSensor::fillData(SensorData& sensorData) {
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
 			if (params.source == "POWER") {
 				string powerData = (char *)params.data.data();
+				powerData = powerData + "|";
 				string delimiter = "|";
 				size_t pos = 0;
 				std::string token;
@@ -64,18 +74,37 @@ void PowerSensor::fillData(SensorData& sensorData) {
 	}
 }
 
-void PowerSensor::sendData(ControllerData& data) {
+void PowerHandler::sendData(ControllerData& data) {
 	if (conn->isConnected()) {
 		auto result = data.find("POWER");
-		auto powerQuery = result->second;
+		auto powerData = result->second;
 		if (result != data.end()) {
-			ptr<string> type = std::static_pointer_cast<string>(powerQuery);
+			ptr<string> type = std::static_pointer_cast<string>(powerData);
 			string command = *type;
 			R2Protocol::Packet params = { DEVICE_NAME, "POWER", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
-			printf("Power: %s\n", command.c_str());
+			printf("POWER: %s\n", command.c_str());
 			conn->write((char *)output.data(), (unsigned int)output.size());
+		}
+	}
+}
+
+void PowerHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+	if (conn->isConnected()) {
+		auto result = data.find("POWER");
+		auto motor = outputs.find("MOTOR");
+		if (result != data.end() && motor != data.end()) {
+			float v = std::static_pointer_cast<PowerData>(result->second)->voltage;
+			float c = std::static_pointer_cast<PowerData>(result->second)->batteryCapacity;
+			auto motordata = std::static_pointer_cast<MotorData>(motor->second);
+			if (v <= 25 && c >= 15) {
+				motordata->leftMotor = 0;
+				motordata->rightMotor = 0;
+#ifdef _WIN32
+				InitiateSystemShutdown(NULL, NULL, 5, TRUE, FALSE);
+#endif	
+			}
 		}
 	}
 }

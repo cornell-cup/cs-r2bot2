@@ -35,9 +35,11 @@ void SafetyHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& 
 		}
 		else {
 			auto ultrasounddata = std::static_pointer_cast<UltrasoundData>(ultrasound->second);
-			if (ultrasounddata->distance < 12.0f && (motordata->leftMotor > 0 || motordata->rightMotor > 0)) {
-				motordata->leftMotor = 0;
-				motordata->rightMotor = 0;
+			for (int i = 0; i < 14; i++) {
+				if (ultrasounddata->distance[i] < 12.0f && (motordata->leftMotor > 0 || motordata->rightMotor > 0)) {
+					motordata->leftMotor = 0;
+					motordata->rightMotor = 0;
+				}
 			}
 		}
 	}

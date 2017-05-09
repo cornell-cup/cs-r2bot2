@@ -23,8 +23,6 @@ protected:
 	crow::SimpleApp app;
 	std::mutex mtx;
 	std::unordered_set<crow::websocket::connection*> users;
-	string homeInput;
-	string manualInput;
 
 public:
 	R2Server(int port);

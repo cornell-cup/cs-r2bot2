@@ -4,7 +4,8 @@
 #include <algorithm>
 
 using namespace rp::standalone::rplidar;
-
+using std::min;
+using std::max;
 
 LidarSensor::LidarSensor(string port, int baudrate) : Sensor("Lidar Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Lidar Sensor connected to port %s\n", port.c_str());
