@@ -42,10 +42,12 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 		float angle = atan2(ydist, xdist) - g.r2Angle;
 		int l = (int)(radius * cos(angle));
 		int r = (int)(radius * sin(angle));
+		track++;
+		g.updatePos(moveTo.x, moveTo.y);
 		ptr<MotorData> output = std::make_shared<MotorData>();
 		output->leftMotor = l;
 		output->rightMotor = r;
 		outputs["MOTOR"] = output;
-		track++;
+		
 	}
 }
