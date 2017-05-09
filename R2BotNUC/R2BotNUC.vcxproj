@@ -151,9 +151,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\R2Bot\src\Controller.cpp" />
+    <ClCompile Include="..\R2Bot\src\Coord.cpp" />
+    <ClCompile Include="..\R2Bot\src\Dijkstra.cpp" />
     <ClCompile Include="..\R2Bot\src\DrawerSensor.cpp" />
     <ClCompile Include="..\R2Bot\src\FakeMotorController.cpp" />
     <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
+    <ClCompile Include="..\R2Bot\src\Grid.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadFlapController.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadFlapHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\HeadHandler.cpp" />
@@ -165,6 +168,9 @@
     <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
     <ClInclude Include="..\R2Bot\src\R2Databases.cpp" />
+    <ClCompile Include="..\R2Bot\src\Obstacle.cpp" />
+    <ClCompile Include="..\R2Bot\src\Path.cpp" />
+    <ClCompile Include="..\R2Bot\src\PathPlanningHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\PowerHandler.cpp" />
     <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
     <ClCompile Include="..\R2Bot\src\RFIDSensor.cpp" />

@@ -93,6 +93,24 @@
     <ClCompile Include="..\R2Bot\src\SoundHandler.cpp">
       <Filter>Source Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\R2Bot\src\Coord.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\Dijkstra.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\Grid.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\Obstacle.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\Path.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\R2Bot\src\PathPlanningHandler.cpp">
+      <Filter>Source Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">

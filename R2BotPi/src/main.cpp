@@ -15,6 +15,7 @@
 #include "Controller/UDPClientController.h"
 #include "Controller/FakeMotorController.h"
 #include "Controller/MotorController.h"
+#include "Controller/SoundController.h"
 #include "JobHandler/ManualInputsHandler.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
@@ -39,8 +40,8 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
 
-	if (args.find("ultrasound-com-port") != args.end()) {
-		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600);
+	if (args.find("ultrasound-com-port") != args.end() && args.find("ultrasound-com-port2") != args.end()) {
+		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600, args["ultrasound-com-port2"], B9600);
 	}
 	else {
 		std::cout << "No ultrasound port specified." << std::endl;

@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Coord.cpp" />
+    <ClCompile Include="src\Dijkstra.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\Obstacle.cpp" />
+    <ClCompile Include="src\Path.cpp" />
+    <ClCompile Include="src\PathPlanningHandler.cpp" />
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
@@ -43,9 +49,6 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
-    <ClInclude Include="include\JobHandler\HeadFlapHandler.h" />
-    <ClInclude Include="include\JobHandler\HeadHandler.h" />
-    <ClInclude Include="include\JobHandler\SoundHandler.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -81,8 +84,15 @@
     <ClInclude Include="include\Sensor\LidarSensor.h" />
     <ClInclude Include="include\Data\IMUData.h" />
     <ClInclude Include="include\Sensor\IMUSensor.h" />
-    <ClInclude Include="include\Data\PowerData.h" />
-    <ClInclude Include="include\JobHandler\PowerHandler.h" />
+    <ClInclude Include="include\JobHandler\HeadFlapHandler.h" />
+    <ClInclude Include="include\JobHandler\HeadHandler.h" />
+    <ClInclude Include="include\JobHandler\SoundHandler.h" />
+    <ClInclude Include="include\PathPlanning\Coord.h" />
+    <ClInclude Include="include\PathPlanning\Dijkstra.h" />
+    <ClInclude Include="include\PathPlanning\Grid.h" />
+    <ClInclude Include="include\PathPlanning\Obstacle.h" />
+    <ClInclude Include="include\PathPlanning\Path.h" />
+    <ClInclude Include="include\JobHandler\PathPlanningHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="templates\camera.htm">

@@ -24,6 +24,9 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{a2252f4d-9592-4241-ae8d-e80d6c9ce180}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PathPlanning">
+      <UniqueIdentifier>{120c5b59-674d-4177-88ab-351ecf068238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controller.cpp">
@@ -98,12 +101,27 @@
     <ClCompile Include="src\SoundHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Dijkstra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Coord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Obstacle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PathPlanningHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler.h">
@@ -199,7 +217,7 @@
     <ClInclude Include="include\Data\PowerData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="include\JobHandler\PowerHandler.h">
+    <ClInclude Include="include\JobHandler\PathPlanningHandler.h">
       <Filter>Header Files\JobHandler</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler\SoundHandler.h">
@@ -213,6 +231,24 @@
     </ClInclude>
     <ClInclude Include="src\R2Databases.cpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Controller.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Coord.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Dijkstra.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Grid.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Obstacle.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Path.h">
+      <Filter>Header Files\PathPlanning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
