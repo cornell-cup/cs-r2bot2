@@ -133,6 +133,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 deque<Job> initializeJobs(smap<string>& args) {
 	deque<Job> jobs;
 	jobs.push_back(Job("manual-inputs"));
+	jobs.push_back(Job("path-planning"));
 	return jobs;
 }
 
