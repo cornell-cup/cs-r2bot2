@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Coord.cpp" />
+    <ClCompile Include="Dijkstra.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Path.cpp" />
+    <ClCompile Include="PathPlanningHandler.cpp" />
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
@@ -40,8 +46,14 @@
     <ClCompile Include="src\UDPClientController.cpp" />
     <ClCompile Include="src\UDPServerSensor.cpp" />
     <ClCompile Include="src\UltrasoundSensor.cpp" />
+    <ClInclude Include="Coord.h" />
+    <ClInclude Include="Dijkstra.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="include\Data\PowerData.h" />
     <ClInclude Include="include\Sensor\PowerSensor.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="PathPlanningHandler.h" />
     <ClInclude Include="src\R2Databases.cpp" />
   </ItemGroup>
   <ItemGroup>
