@@ -1,5 +1,5 @@
 #include "JobHandler/PathPlanningHandler.h"
-
+#include <cmath>
 using namespace std;
 
 PathPlanningHandler::PathPlanningHandler()

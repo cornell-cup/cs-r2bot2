@@ -91,24 +91,24 @@ deque<Job> initializeJobs(smap<string>& args) {
 }
 
 /** Initialize background jobs */
-deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
+deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
 #ifdef DEBUG_PRINT
 	printf("*** Initializing background jobs\n");
 #endif
 
-	deque<JobHandler> jobs;
+	deque<ptr<JobHandler>> jobs;
 	if (args.find("disable-safety") != args.end()) {
 		printf("WARNING: DISABLING MOTOR SAFETY\n");
 	}
 	else {
-		jobs.push_back(SafetyHandler());
+		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
 	}
 
 	smap<ptr<Controller>> routes;
 	if (controllers.find("UDP NUC") != controllers.end()) {
 		routes["PICAMERA"] = controllers["UDP NUC"];
 	}
-	jobs.push_back(ForwardHandler(routes));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
 	smap<ptr<Controller>> controllers = initializeControllers(args);
 	deque<Job> jobQueue = initializeJobs(args);
 	ptr<JobHandler> currentJob;
-	deque<JobHandler> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
+	deque<ptr<JobHandler>> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
 
 	//TODO: method arg should be sql command stored in a char
 
@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
 		printf("** Executing background jobs\n");
 #endif
 		for (auto itr : bgJobs) {
-			itr.execute(jobQueue, data, outputs);
+			(*itr).execute(jobQueue, data, outputs);
 		}
 
 		// Send output data to controllers
