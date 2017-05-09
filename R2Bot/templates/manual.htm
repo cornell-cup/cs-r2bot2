@@ -155,7 +155,7 @@
             sock.send("C");
         });
         $("#submitSound").click(() => {
-            sock.send($("#sound :selected").text());
+            sock.send("S"+$("#sound :selected").text());
             console.log($("#sound :selected").text());
         });
         $("#send").click(() => {

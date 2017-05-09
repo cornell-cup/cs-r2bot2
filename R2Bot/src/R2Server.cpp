@@ -147,9 +147,8 @@ R2Server::R2Server(int port):JobHandler(), Sensor() {
 	})
 		.onmessage([&](crow::websocket::connection& /*conn*/, const std::string& data, bool is_binary) {
 		std::lock_guard<std::mutex> _(mtx);
-
 		manualInput = data;
-		std::cout << manualInput << std::endl;
+
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
@@ -164,7 +163,6 @@ R2Server::R2Server(int port):JobHandler(), Sensor() {
 				if (imuDirection.length() != 0) {
 					u->send_binary("I" + imuDirection);
 				}
-			//	u->send_binary("U2SENSOR,11.5");
 			}
 		}
 	});
@@ -240,7 +238,6 @@ void R2Server::fillData(SensorData& sensorData) {
 			sensorData["HEAD"] = data;
 		}
 		else if (manualInput == "O" || manualInput == "C") {
-		//	std::cout << "are we sending correct" << std::endl;
 			sensorData["FLAP"] = std::make_shared<string>(manualInput);
 		}
 		else if (manualInput == "Get Head Angle") {

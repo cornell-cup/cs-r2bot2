@@ -31,8 +31,10 @@ void initializeWSA() {
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
 #include "Controller/HeadFlapController.h"
+#include "Controller/SoundController.h"
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
+#include "JobHandler/PowerHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
@@ -40,7 +42,6 @@ void initializeWSA() {
 #include "Sensor/RFIDSensor.h"
 #include "Sensor/LidarSensor.h"
 #include "Sensor/IMUSensor.h"
-#include "Sensor/PowerHandler.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -92,15 +93,8 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
 	}
 	else {
-		//sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
+		sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
 		std::cout << "No IMU serial port specified." << std::endl;
-	}
-
-	if (args.find("power-serial-port") != args.end()) {
-		sensors["R2 POWER"] = std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600);
-	}
-	else {
-		std::cout << "No power serial port specified." << std::endl;
 	}
 
 	return sensors;
@@ -122,6 +116,8 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 		//controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>("COM4", 9600);
 		std::cout << "No head flap serial port specified." << std::endl;
 	}
+
+	controllers["R2 SOUND"] = std::make_shared<SoundController>();
 
 	return controllers;
 }
@@ -147,7 +143,13 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 	}
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
-
+	sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
+	if (args.find("power-serial-port") != args.end()) {
+		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600)));
+	}
+	else {
+		std::cout << "No power serial port specified." << std::endl;
+	}
 	return jobs;
 }
 
