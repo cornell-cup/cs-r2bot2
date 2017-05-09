@@ -33,7 +33,7 @@ void RFIDSensor::fillData(SensorData& sensorData) {
 				std::vector<uint8_t> newinput(input.begin() + read, input.end());
 				newinput.swap(input);
 				sensorData["RFID"] = rdata;
-				printf("RFID: %s\n", rdata->ID);
+				printf("RFID: %s\n", rdata->ID.c_str());
 			}
 		}
 	}
