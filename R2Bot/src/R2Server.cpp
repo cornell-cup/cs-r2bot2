@@ -64,8 +64,6 @@ bool R2Server::registered = JobHandler::RegisterJobHandler("r2-server", [](strin
 	return std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080));
 });
 
-string homeInput;
-string manualInput;
 string ultrasoundInput;
 string drawerC;
 string drawerRFID;
@@ -275,14 +273,6 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 		}
 	}
 
-	result = data.find("FLAP");
-	if (result != data.end()) {
-		outputs["FLAP"] = result->second;
-	}
-	result = data.find("HEAD");
-	if (result != data.end() && homeInput == "Get Head Angle") {
-		outputs["HEAD"] = result->second;
-	}
 	result = outputs.find("DRAWERCOMMAND");
 	if (result != outputs.end()) {
 		drawerC = std::static_pointer_cast<DrawerCommand>(result->second)->state;
@@ -300,10 +290,6 @@ void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outpu
 	if (result != outputs.end()) {
 		ptr<string> u = std::static_pointer_cast<string>(result->second);
 		userList = *u;
-	}
-	result = data.find("SOUND");
-	if (result != data.end()) {
-		outputs["SOUND"] = result->second;
 	}
 	result = data.find("IMU");
 	if (result != data.end()) {

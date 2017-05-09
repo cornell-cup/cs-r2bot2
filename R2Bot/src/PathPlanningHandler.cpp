@@ -1,4 +1,4 @@
-#include "PathPlanningHandler.h"
+#include "JobHandler/PathPlanningHandler.h"
 
 using namespace std;
 
@@ -33,8 +33,6 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 		path = shortPath.calcPath(&g);
 	}
 	else {
-		int l;
-		int r;
 		Coord moveTo = path.path[track];
 		float xdist = moveTo.x - g.R2Pos.x;
 		float ydist = moveTo.y - g.R2Pos.y;

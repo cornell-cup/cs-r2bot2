@@ -35,6 +35,9 @@ void initializeWSA() {
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "JobHandler/PowerHandler.h"
+#include "JobHandler/SoundHandler.h"
+#include "JobHandler/HeadHandler.h"
+#include "JobHandler/HeadFlapHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
@@ -143,6 +146,9 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 	}
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
 	sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
 	if (args.find("power-serial-port") != args.end()) {
 		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600)));

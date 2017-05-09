@@ -21,98 +21,107 @@
     <Filter Include="Header Files\Data">
       <UniqueIdentifier>{cbe5e291-1826-4b62-b6b9-e4c60304b545}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a2252f4d-9592-4241-ae8d-e80d6c9ce180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PathPlanning">
+      <UniqueIdentifier>{120c5b59-674d-4177-88ab-351ecf068238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\JobHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Job.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UDPServerSensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UDPClientController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ManualInputsHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ForwardHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MotorController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\R2Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\UltrasoundSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DrawerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SafetyHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\FakeMotorController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\HeadSensor.cpp">
+    <ClCompile Include="src\ForwardHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\HeadFlapController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RFIDSensor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SoundController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LidarSensor.cpp">
+    <ClCompile Include="src\HeadSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\IMUSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="src\R2Databases.cpp">
+    <ClCompile Include="src\Job.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="src\JobHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LidarSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManualInputsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\PowerHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dijkstra.cpp">
+    <ClCompile Include="src\R2Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Path.cpp">
+    <ClCompile Include="src\RFIDSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Coord.cpp">
+    <ClCompile Include="src\SafetyHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
+    <ClCompile Include="src\Sensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
+    <ClCompile Include="src\SoundController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PathPlanningHandler.cpp">
+    <ClCompile Include="src\UDPClientController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UDPServerSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UltrasoundSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeadHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeadFlapHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Dijkstra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Coord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Obstacle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PathPlanningHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\JobHandler.h">
@@ -208,23 +217,38 @@
     <ClInclude Include="include\Data\PowerData.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Dijkstra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Path.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Coord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PathPlanningHandler.h">
+    <ClInclude Include="include\JobHandler\PathPlanningHandler.h">
       <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\SoundHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\HeadFlapHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\JobHandler\HeadHandler.h">
+      <Filter>Header Files\JobHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\R2Databases.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Controller.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Coord.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Dijkstra.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Grid.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Obstacle.h">
+      <Filter>Header Files\PathPlanning</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\Path.h">
+      <Filter>Header Files\PathPlanning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

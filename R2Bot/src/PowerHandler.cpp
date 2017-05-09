@@ -96,9 +96,11 @@ void PowerHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& o
 		auto motor = outputs.find("MOTOR");
 		if (result != data.end() && motor != data.end()) {
 			float v = std::static_pointer_cast<PowerData>(result->second)->voltage;
-			float c = std::static_pointer_cast<PowerData>(result->second)->batteryCapacity;
 			auto motordata = std::static_pointer_cast<MotorData>(motor->second);
-			if (v <= 25 && c >= 15) {
+			if (v <= 25 && v > 24) {
+				outputs["SOUND"] = std::make_shared<string>("panic.wav");
+			}
+			if (v <= 24) {
 				motordata->leftMotor = 0;
 				motordata->rightMotor = 0;
 #ifdef _WIN32

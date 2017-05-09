@@ -20,6 +20,9 @@
 #include "JobHandler/ForwardHandler.h"
 #include "JobHandler/R2Server.h"
 #include "JobHandler/SafetyHandler.h"
+#include "JobHandler/HeadHandler.h"
+#include "JobHandler/HeadFlapHandler.h"
+#include "JobHandler/SoundHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 
@@ -106,6 +109,9 @@ deque<JobHandler> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>
 		routes["PICAMERA"] = controllers["UDP NUC"];
 	}
 	jobs.push_back(ForwardHandler(routes));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
+	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
 	return jobs;
 }
 

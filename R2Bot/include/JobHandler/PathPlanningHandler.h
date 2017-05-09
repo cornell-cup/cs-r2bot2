@@ -1,12 +1,11 @@
-#pragma once
 #ifndef _PATH_PLANNING_HANDLER_HANDLER
 #define _PATH_PLANNING_HANDLER_HANDLER
 
 #include "JobHandler.h"
 #include "Data/UltrasoundData.h"
-#include "Grid.h"
-#include "Dijkstra.h"
-#include "Path.h"
+#include "PathPlanning/Grid.h"
+#include "PathPlanning/Dijkstra.h"
+#include "PathPlanning/Path.h"
 #include "Data/MotorData.h"
 
 class PathPlanningHandler : public JobHandler
