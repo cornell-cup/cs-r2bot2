@@ -12,9 +12,9 @@ private:
 	static bool registered;
 protected:
 	/* A map of output data routes */
-	smap<ptr<Controller>> routes;
+	smap<pair<string, size_t>> routes;
 public:
-	ForwardHandler(smap<ptr<Controller>>& routes);
+	ForwardHandler(smap<pair<string, size_t>>& routes);
 	virtual ~ForwardHandler();
 
 	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);

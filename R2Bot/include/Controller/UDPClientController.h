@@ -8,9 +8,10 @@
 
 class UDPClientController : public Controller {
 protected:
+	string destination;
 	ptr<UDPSocketClient> client;
 public:
-	UDPClientController(string host, int port);
+	UDPClientController(string destination, string host, int port);
 	virtual ~UDPClientController();
 
 	virtual bool ping();

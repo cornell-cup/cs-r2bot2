@@ -13,7 +13,7 @@ protected:
 	ptr<UDPSocketServer> server;
 	std::mutex dataMutex;
 	smap<ptr<void>> dataReceived;
-	smap<R2Protocol::Packet> dataToForward;
+	smap<vector<R2Protocol::Packet>> dataToForward;
 public:
 	UDPServerSensor(string port, int baudrate);
 	~UDPServerSensor();

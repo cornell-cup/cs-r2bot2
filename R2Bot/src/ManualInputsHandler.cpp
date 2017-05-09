@@ -24,7 +24,6 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, Controller
 	auto gamepad = data.find("GAMEPAD");
 	if (gamepad != data.end()) {
 		auto gamepaddata = std::static_pointer_cast<GamepadData>(gamepad->second);
-		if (gamepaddata->x != 0 && gamepaddata->y != 0) {
 			// Compute tank drive voltages
 			float radius = std::sqrt(std::pow(gamepaddata->x, 2) + std::pow(gamepaddata->y, 2));
 			float angle = std::atan2(gamepaddata->y, gamepaddata->x);
@@ -38,18 +37,16 @@ void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, Controller
 			output->leftMotor = l;
 			output->rightMotor = r;
 			outputs["MOTOR"] = output;
-		}
-		else if (gamepaddata->lb || gamepaddata->rb) {
-			ptr<HeadData> output = std::make_shared<HeadData>();
-			output->time = 10;
+
+			ptr<HeadData> outputH = std::make_shared<HeadData>();
+			outputH->time = 10;
 			if (gamepaddata->lb) {
-				output->command = 'L';
+				outputH->command = 'L';
 			}
 			else if (gamepaddata->rb) {
-				output->command = 'R';
+				outputH->command = 'R';
 			}
-			outputs["HEAD"] = output;
-		}
+			outputs["HEAD"] = outputH;
 	}
 	else if (std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() > 500) {
 		// Stop motors if no data has been received in half a second

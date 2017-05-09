@@ -20,7 +20,7 @@ dataMutex(), dataReceived(), dataToForward() {
 		}
 		else {
 			// Data should be forwarded
-			dataToForward[params.destination] = params;
+			dataToForward[params.destination].push_back(params);
 		}
 	});
 

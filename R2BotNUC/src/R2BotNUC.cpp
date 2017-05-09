@@ -45,6 +45,9 @@ void initializeWSA() {
 #include "Sensor/RFIDSensor.h"
 #include "Sensor/LidarSensor.h"
 #include "Sensor/IMUSensor.h"
+#include "Data/MotorData.h"
+#include "Data/UltrasoundData.h"
+#include "Data/DrawerData.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -75,6 +78,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 HEAD"] = std::make_shared<HeadSensor>(args["head-serial-port"].c_str(), 9600);
 	}
 	else {
+		sensors["R2 HEAD"] = std::make_shared<HeadSensor>("COM11", 9600);
 		std::cout << "No head serial port specified." << std::endl;
 	}
 
@@ -107,7 +111,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	smap<ptr<Controller>> controllers;
 	if (args.find("udp-pi-ip") != args.end() && args.find("udp-pi-port") != args.end()) {
-		controllers["UDP PI"] = std::make_shared<UDPClientController>(args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
+		controllers["UDP PI"] = std::make_shared<UDPClientController>("UDP PI", args["udp-pi-ip"], atoi(args["udp-pi-port"].c_str()));
 	}
 	else {
 		std::cout << "No UDP Pi ip or port specified." << std::endl;
@@ -137,12 +141,12 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 	deque<ptr<JobHandler>> jobs;
 
 	// Data forwarding handler
-	smap<ptr<Controller>> routes;
+	smap<pair<string, size_t>> routes;
 	if (controllers.find("UDP PI") != controllers.end()) {
-		routes["MOTOR"] = controllers["UDP PI"];
-		routes["DRAWER"] = controllers["UDP PI"];
-		routes["ULTRASOUND"] = controllers["UDP PI"];
-		routes["PI"] = controllers["UDP PI"];
+		routes["MOTOR"] = std::make_pair("UDP PI", sizeof(MotorData));
+		routes["DRAWER"] = std::make_pair("UDP PI", sizeof(DrawerData));
+		routes["ULTRASOUND"] = std::make_pair("UDP PI", sizeof(UltrasoundData));
+		routes["PI"] = std::make_pair("UDP PI", 0);
 	}
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
