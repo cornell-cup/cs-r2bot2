@@ -4,11 +4,12 @@
 #include "Global.h"
 #include "R2Protocol.hpp"
 #include "Sensor.h"
+#include "Controller.h"
 #include "SerialPort.h"
 
 #include <mutex>
 
-class HeadSensor : public Sensor {
+class HeadSensor : public Controller, public Sensor {
 protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;

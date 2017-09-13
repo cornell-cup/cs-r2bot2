@@ -2,7 +2,7 @@
 #include "Data/HeadData.h"
 #include <iostream>
 
-HeadSensor::HeadSensor(string port, int baudrate) : Sensor("Head Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
+HeadSensor::HeadSensor(string port, int baudrate) : Controller("Head Controller"), Sensor("Head Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Head connected to port %s\n", port.c_str());
 }
 
