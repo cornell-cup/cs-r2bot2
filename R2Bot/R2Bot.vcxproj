@@ -92,6 +92,7 @@
     <ClCompile Include="src\DrawerSensor.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
+    <ClCompile Include="src\Global.cpp" />
     <ClCompile Include="src\Grid.cpp" />
     <ClCompile Include="src\HeadFlapController.cpp" />
     <ClCompile Include="src\HeadFlapHandler.cpp" />

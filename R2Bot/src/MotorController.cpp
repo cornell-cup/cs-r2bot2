@@ -36,7 +36,7 @@ void MotorController::sendData(ControllerData& data) {
 			int rightMotor = max(min(m->rightMotor, MOTOR_MAX_SPEED), -MOTOR_MAX_SPEED);
 			// Pack values into 12 bytes
 			string command = string("M1") + _pad(leftMotor, 4) + string("M2") + _pad(rightMotor, 4);
-			R2Protocol::Packet params = { DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
+			R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "MOTOR", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
 			printf("Motors: %d %d\n", m->leftMotor, m->rightMotor);

@@ -38,7 +38,7 @@ void DrawerSensor::fillData(SensorData& sensorData) {
 			std::vector<uint8_t> newinput(input.begin() + read, input.end());
 			newinput.swap(input);
 			sensorData["DRAWER"] = ddata;
-			printf("DRAWER: %f\n", ddata->tool0);
+			printf("DRAWER: %d\n", ddata->tool0);
 		}
 	}
 }
@@ -54,7 +54,7 @@ void DrawerSensor::sendData(ControllerData& data) {
 				string command = "O";
 				cdata->state = command;
 				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
-				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
 				vector<uint8_t> output;
 				R2Protocol::encode(params, output);
 				printf("User authenticed. Open drawer.\n");
@@ -68,7 +68,7 @@ void DrawerSensor::sendData(ControllerData& data) {
 				string command = "C";
 				cdata->state = command;
 				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
-				R2Protocol::Packet params = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
 				vector<uint8_t> output;
 				R2Protocol::encode(params, output);
 				printf("User authenticed. Close drawer.\n");
@@ -79,7 +79,7 @@ void DrawerSensor::sendData(ControllerData& data) {
 				command = "T";
 				cdata->state = command;
 				data["DRAWERCOMMAND"] = std::make_shared<string>(command);
-				R2Protocol::Packet params2 = { DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
+				R2Protocol::Packet params2 = { R2Bot::DEVICE_NAME, "DRAWER1", "", vector<uint8_t>(command.begin(), command.end()) };
 				vector<uint8_t> output2;
 				R2Protocol::encode(params2, output2);
 				printf("Tool inventory updated.\n");

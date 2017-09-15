@@ -50,4 +50,9 @@ inline smap<string> parseArguments(int argc, char ** argv) {
 	return args;
 }
 
+class R2Bot {
+public:
+	static string DEVICE_NAME;
+};
+
 #endif

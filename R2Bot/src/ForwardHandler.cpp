@@ -33,7 +33,7 @@ void ForwardHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData&
 			size_t data_len = route->second.second;
 			uint8_t * dataptr = (uint8_t *)(itr.second.get());
 			vector<uint8_t> data(dataptr, dataptr + data_len);
-			R2Protocol::Packet packet = { DEVICE_NAME, itr.first, "OUTPUT", data };
+			R2Protocol::Packet packet = { R2Bot::DEVICE_NAME, itr.first, "OUTPUT", data };
 			forwardData->data[destination].push_back(packet);
 		}
 	}

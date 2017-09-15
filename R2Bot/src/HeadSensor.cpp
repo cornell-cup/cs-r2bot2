@@ -29,9 +29,9 @@ void HeadSensor::fillData(SensorData& sensorData) {
 
 		if ((read = R2Protocol::decode(input, params, 1)) >= 0) {
 			if (params.source == "HEAD") {
-				hdata->angle = std::atof((char *)params.data.data());
+				hdata->angle = static_cast<int>(std::atof((char *)params.data.data()));
 			}
-			hdata->angle = std::atof((char *)params.data.data());
+			hdata->angle = static_cast<int>(std::atof((char *)params.data.data()));
 			std::vector<uint8_t> newinput(input.begin() + read, input.end());
 			newinput.swap(input);
 			sensorData["HEAD"] = hdata;
@@ -61,7 +61,7 @@ void HeadSensor::sendData(ControllerData& data) {
 					command = commandType + std::to_string(type->angle);
 				}
 			}
-			R2Protocol::Packet params = { DEVICE_NAME, "HEAD", "", vector<uint8_t>(command.begin(), command.end()) };
+			R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "HEAD", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
 			printf("Head: %s\n", command.c_str());

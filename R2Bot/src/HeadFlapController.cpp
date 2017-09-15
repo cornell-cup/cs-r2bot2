@@ -21,7 +21,7 @@ void HeadFlapController::sendData(ControllerData& data) {
 			auto flapData = result->second;
 			ptr<string> fdata = std::static_pointer_cast<string>(flapData);
 			string command = *fdata;
-			R2Protocol::Packet params = { DEVICE_NAME, "FLAP", "", vector<uint8_t>(command.begin(), command.end()) };
+			R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "FLAP", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
 			printf("Flap: %s\n", command == "C" ? "Close" : "Open");

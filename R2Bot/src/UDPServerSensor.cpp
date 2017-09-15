@@ -12,7 +12,7 @@ dataMutex(), dataReceived(), dataToForward() {
 		R2Protocol::decode(input, params);
 
 		std::lock_guard<std::mutex> lock(dataMutex);
-		if (params.destination == DEVICE_NAME) {
+		if (params.destination == R2Bot::DEVICE_NAME) {
 			// Data is sent here
 			ptr<void> data(malloc(params.data.size()), free);
 			std::memcpy(data.get(), params.data.data(), params.data.size());

@@ -57,8 +57,8 @@ void LidarSensor::fillData(SensorData& sensorData) {
 	ptr<LidarData> ldata = std::make_shared<LidarData>();
 	std::lock_guard<std::mutex> lock(dataMutex);
 
-	unsigned int l = min(angles.size(), distances.size());
-	for (int i = 0; i < l; i++) {
+	unsigned int l = static_cast<unsigned int>(min(angles.size(), distances.size()));
+	for (unsigned int i = 0; i < l; i++) {
 		ldata->angles.push_back(angles[i]);
 		ldata->distances.push_back(distances[i]);
 	}

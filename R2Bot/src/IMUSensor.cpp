@@ -33,7 +33,6 @@ void IMUSensor::fillData(SensorData& sensorData) {
 		}
 		std::lock_guard<std::mutex> lock(dataMutex);
 		std::vector<uint8_t> input(data, data + bytesRead);
-		int32_t read;
 		ptr<IMUData> idata = std::make_shared<IMUData>();
 		string imuData(input.begin(), input.end());
 		string tImuData = rtrim(imuData);

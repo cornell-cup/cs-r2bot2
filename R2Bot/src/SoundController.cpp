@@ -29,8 +29,8 @@ void SoundController::sendData(ControllerData& data) {
 		string path = "../R2Bot/templates/sounds/" + *s;
 		std::cout << "Sound: " + path << std::endl;
 #ifdef _WIN32
-		std::wstring wpath = std::wstring(path.begin(), path.end());
-		PlaySound(wpath.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+		//std::wstring wpath = std::wstring(path.begin(), path.end());
+		PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
 #else
 		std::thread sound([path]() {
 			execlp("/usr/bin/aplay", " ", path.c_str(), NULL);		//Execute file: file, arguments (1 or more strings followed by NULL)

@@ -81,7 +81,7 @@ void PowerHandler::sendData(ControllerData& data) {
 		if (result != data.end()) {
 			ptr<string> type = std::static_pointer_cast<string>(powerData);
 			string command = *type;
-			R2Protocol::Packet params = { DEVICE_NAME, "POWER", "", vector<uint8_t>(command.begin(), command.end()) };
+			R2Protocol::Packet params = { R2Bot::DEVICE_NAME, "POWER", "", vector<uint8_t>(command.begin(), command.end()) };
 			vector<uint8_t> output;
 			R2Protocol::encode(params, output);
 			printf("POWER: %s\n", command.c_str());
