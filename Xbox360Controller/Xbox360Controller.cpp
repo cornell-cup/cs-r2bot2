@@ -66,8 +66,8 @@ int main(int argc, char** argv) {
 		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 14);
 		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 14);
 		printf("%f %f\n", normLX, normLY);
-		bool leftButton = state.Gamepad.bLeftTrigger;
-		bool rightButton = state.Gamepad.bRightTrigger;
+		bool leftButton = state.Gamepad.bLeftTrigger != 0;
+		bool rightButton = state.Gamepad.bRightTrigger != 0;
 
 		// Send these values over UDP
 		if (client.isConnected()) {

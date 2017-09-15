@@ -15,7 +15,7 @@ Obstacle::Obstacle(float r2Posx, float r2Posy, float angleFromE, float angleRang
 {
 	float xpos = r2Posx + sin(angleFromE)*dist;
 	float ypos = r2Posy + cos(angleFromE)*dist;
-	float angle = (3.141592653 / 2) - angleFromE;
+	float angle = (3.141592653f / 2.f) - angleFromE;
 	float borderlineWidth = 2* tan(angleRangeSensors/2) * dist;
 	float height = 0;
 	float width = 0;

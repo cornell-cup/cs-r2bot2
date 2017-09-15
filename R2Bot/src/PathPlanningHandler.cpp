@@ -35,7 +35,7 @@ void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, Controlle
 		//Add obstacle information to grid
 		for (int i = 1; i <= 7; i++) {
 			float inches = static_pointer_cast<UltrasoundData>(usInfo->second)->distance[i - 1];
-			newObs = Obstacle(g.R2Pos.x, g.R2Pos.y, g.r2Angle, 3.14159265/4, inches);
+			newObs = Obstacle(g.R2Pos.x, g.R2Pos.y, g.r2Angle, 3.14159265f/4.f, inches);
 			g.addObstacle(newObs);
 		}
 		//Recalculate path

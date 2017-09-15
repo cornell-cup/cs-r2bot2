@@ -12,6 +12,7 @@ class PathPlanningHandler : public JobHandler
 {
 
 private:
+	static bool registered;
 	Grid g;
 	Dijkstra shortPath;
 	Path path;

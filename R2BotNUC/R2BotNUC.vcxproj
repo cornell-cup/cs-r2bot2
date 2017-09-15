@@ -84,6 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -146,45 +147,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Winmm.lib;Ws2_32.lib;RPLidar.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Winmm.lib;Ws2_32.lib;R2Bot.lib;RPLidar.lib;urlmon.lib;sqlite3.lib;libboost_system-vc140-mt-1_63.lib;libboost_date_time-vc140-mt-1_63.lib;C:\Program Files\Microsoft SDKs\Kinect\v1.8\lib\amd64\Kinect10.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\lidar\tools\win32;$(SolutionDir)lib\boost_1_63_0\lib64-msvc-14.0;$(SolutionDir)lib\sqlite;$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\R2Bot\src\Controller.cpp" />
-    <ClCompile Include="..\R2Bot\src\Coord.cpp" />
-    <ClCompile Include="..\R2Bot\src\Dijkstra.cpp" />
-    <ClCompile Include="..\R2Bot\src\DrawerSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\FakeMotorController.cpp" />
-    <ClCompile Include="..\R2Bot\src\ForwardHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\Grid.cpp" />
-    <ClCompile Include="..\R2Bot\src\HeadFlapController.cpp" />
-    <ClCompile Include="..\R2Bot\src\HeadFlapHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\HeadHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\HeadSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\IMUSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\Job.cpp" />
-    <ClCompile Include="..\R2Bot\src\JobHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\LidarSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\ManualInputsHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\MotorController.cpp" />
-    <ClInclude Include="..\R2Bot\src\R2Databases.cpp" />
-    <ClCompile Include="..\R2Bot\src\Obstacle.cpp" />
-    <ClCompile Include="..\R2Bot\src\Path.cpp" />
-    <ClCompile Include="..\R2Bot\src\PathPlanningHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\PowerHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\R2Server.cpp" />
-    <ClCompile Include="..\R2Bot\src\RFIDSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\SafetyHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\Sensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\SoundController.cpp" />
-    <ClCompile Include="..\R2Bot\src\SoundHandler.cpp" />
-    <ClCompile Include="..\R2Bot\src\UDPClientController.cpp" />
-    <ClCompile Include="..\R2Bot\src\UDPServerSensor.cpp" />
-    <ClCompile Include="..\R2Bot\src\UltrasoundSensor.cpp" />
     <ClCompile Include="src\R2BotNUC.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\Config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
