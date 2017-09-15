@@ -52,7 +52,21 @@ inline smap<string> parseArguments(int argc, char ** argv) {
 
 class R2Bot {
 public:
-	static string DEVICE_NAME;
+	static std::string DEVICE_NAME;
+
+	static const int LEVEL_FATAL = 0;
+	static const int LEVEL_ERROR = 10;
+	static const int LEVEL_WARN = 20;
+	static const int LEVEL_INFO = 30;
+	static const int LEVEL_DEBUG = 40;
+	static const int LEVEL_TRACE = 50;
+
+	static int LOG_LEVEL;
+	static std::string LOG_FILTER;
+
+	static void log(int level, std::string topic, std::string message);
+	static void setLogFilter(std::string topic);
+	static void setLogLevel(int level);
 };
 
 #endif
