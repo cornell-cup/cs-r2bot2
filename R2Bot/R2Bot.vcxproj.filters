@@ -29,27 +29,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Controller.cpp" />
-    <ClCompile Include="src\DrawerSensor.cpp" />
-    <ClCompile Include="src\FakeMotorController.cpp" />
-    <ClCompile Include="src\ForwardHandler.cpp" />
-    <ClCompile Include="src\HeadFlapController.cpp" />
-    <ClCompile Include="src\HeadSensor.cpp" />
-    <ClCompile Include="src\IMUSensor.cpp" />
-    <ClCompile Include="src\Job.cpp" />
-    <ClCompile Include="src\JobHandler.cpp" />
-    <ClCompile Include="src\LidarSensor.cpp" />
-    <ClCompile Include="src\ManualInputsHandler.cpp" />
-    <ClCompile Include="src\MotorController.cpp" />
-    <ClCompile Include="src\PowerHandler.cpp" />
-    <ClCompile Include="src\R2Server.cpp" />
-    <ClCompile Include="src\RFIDSensor.cpp" />
-    <ClCompile Include="src\SafetyHandler.cpp" />
-    <ClCompile Include="src\Sensor.cpp" />
-    <ClCompile Include="src\SoundController.cpp" />
-    <ClCompile Include="src\UDPClientController.cpp" />
-    <ClCompile Include="src\UDPServerSensor.cpp" />
-    <ClCompile Include="src\UltrasoundSensor.cpp" />
     <ClCompile Include="src\PowerHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,6 +123,69 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Global.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UltrasoundSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DrawerSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FakeMotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForwardHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeadFlapController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeadSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IMUSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Job.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JobHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LidarSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManualInputsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MotorController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PowerHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\R2Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RFIDSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SafetyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UDPClientController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UDPServerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -271,7 +313,6 @@
     <ClInclude Include="include\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\R2Databases.cpp" />
     <ClInclude Include="include\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
