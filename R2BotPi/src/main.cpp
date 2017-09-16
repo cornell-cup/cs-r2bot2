@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <iostream>
+#include <deque>
+#include <string>
 #include <thread>
 #include <unordered_map>
 #include <cmath>
@@ -25,6 +27,10 @@
 #include "JobHandler/SoundHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
+
+using std::deque;
+using std::string;
+using std::vector;
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -58,7 +64,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 
 	smap<ptr<Controller>> controllers;
 	if (args.find("udp-nuc-ip") != args.end() && args.find("udp-nuc-port") != args.end()) {
-		controllers["UDP NUC"] = std::make_shared<UDPClientController>(args["udp-nuc-ip"], atoi(args["udp-nuc-port"].c_str()));
+		controllers["UDP NUC"] = std::make_shared<UDPClientController>("UDP NUC", args["udp-nuc-ip"], atoi(args["udp-nuc-port"].c_str()));
 	}
 	else {
 		std::cout << "No UDP NUC ip or port specified." << std::endl;

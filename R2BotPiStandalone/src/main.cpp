@@ -1,11 +1,13 @@
 #include "Global.h"
 
+#include <deque>
 #include <vector>
 #include <iostream>
 #include <thread>
 #include <unordered_map>
 #include <cmath>
 #include <chrono>
+#include <string>
 
 #include "Controller.h"
 #include "Job.h"
@@ -18,6 +20,10 @@
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
+
+using std::string;
+using std::vector;
+using std::deque;
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -79,7 +85,7 @@ int main(int argc, char *argv[]) {
   // Data forwarding handler
   smap<ptr<Controller>> routes;
   routes["PICAMERA"] = controllers["UDP NUC"];
-  ForwardHandler forwardHandler(routes);
+  //ForwardHandler forwardHandler(routes);
 
   //maintainUsers(); //USER DATABASE STUFF
 
@@ -92,7 +98,7 @@ int main(int argc, char *argv[]) {
     SensorData data;
     for (auto itr : sensors) {
       ptr<Sensor> sensor = itr.second;
-      sensor->getData(data);
+      sensor->fillData(data);
     }
     // Execute current jobs
     if (!currentJob) {
