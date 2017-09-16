@@ -8,13 +8,14 @@
 #include "SerialPort.h"
 
 #include <mutex>
+#include <string>
 
 class HeadSensor : public Controller, public Sensor {
 protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
-	HeadSensor(string port, int baudrate);
+	HeadSensor(std::string port, int baudrate);
 	~HeadSensor();
 
 	bool ping();

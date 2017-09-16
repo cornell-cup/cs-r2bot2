@@ -5,12 +5,14 @@
 #include "Controller.h"
 #include "SerialPort.h"
 
+#include <string>
+
 class HeadFlapController : public Controller {
 protected:
 	ptr<SerialPort> conn;
 
 public:
-	HeadFlapController(string port, int baudrate);
+	HeadFlapController(std::string port, int baudrate);
 	virtual ~HeadFlapController();
 
 	virtual bool ping();

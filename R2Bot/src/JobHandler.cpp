@@ -1,5 +1,10 @@
 #include "JobHandler.h"
 
+#include <deque>
+#include <string>
+
+using std::string;
+
 smap<JobHandlerParser>& JobHandler::JobHandlers() {
 	static smap<JobHandlerParser> handlers;
 	return handlers;
@@ -30,5 +35,5 @@ JobHandler::JobHandler() {
 JobHandler::~JobHandler() {
 }
 
-void JobHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void JobHandler::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 }

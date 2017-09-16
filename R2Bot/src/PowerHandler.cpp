@@ -7,6 +7,13 @@
 	#include "Winreg.h"
 #endif
 
+#include <deque>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
+
 PowerHandler::PowerHandler(string port, int baudrate) : Sensor("Power Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Power sensor connected to port %s\n", port.c_str());
 }
@@ -90,7 +97,7 @@ void PowerHandler::sendData(ControllerData& data) {
 	}
 }
 
-void PowerHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void PowerHandler::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	if (conn->isConnected()) {
 		auto result = data.find("POWER");
 		auto motor = outputs.find("MOTOR");

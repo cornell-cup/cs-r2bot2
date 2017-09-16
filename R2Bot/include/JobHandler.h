@@ -7,11 +7,13 @@
 #include "Job.h"
 #include "Sensor.h"
 
+#include <deque>
 #include <memory>
+#include <string>
 
 class JobHandler;
 
-typedef ptr<JobHandler>(*JobHandlerParser)(string);
+typedef ptr<JobHandler>(*JobHandlerParser)(std::string);
 
 class JobHandler {
 private:
@@ -22,16 +24,16 @@ protected:
 	static smap<JobHandlerParser>& JobHandlers();
 public:
 	/** Register this job handler for running jobs */
-	static bool RegisterJobHandler(string handlerName, JobHandlerParser parser);
+	static bool RegisterJobHandler(std::string handlerName, JobHandlerParser parser);
 
 	/** Get a job handler by command */
-	static ptr<JobHandler> GetJobHandler(string command);
+	static ptr<JobHandler> GetJobHandler(std::string command);
 
 	JobHandler();
 	virtual ~JobHandler();
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

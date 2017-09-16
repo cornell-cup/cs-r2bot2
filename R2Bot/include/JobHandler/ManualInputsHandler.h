@@ -5,6 +5,7 @@
 #include "JobHandler.h"
 
 #include <chrono>
+#include <deque>
 
 class ManualInputsHandler : public JobHandler {
 private:
@@ -18,7 +19,7 @@ public:
 	ManualInputsHandler();
 	virtual ~ManualInputsHandler();
 
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

@@ -14,6 +14,8 @@
 
 #include "crow_all.h"
 
+#include <deque>
+#include <string>
 #include <unordered_set>
 
 class R2Server : public Sensor, public JobHandler {
@@ -23,8 +25,8 @@ protected:
 	crow::SimpleApp app;
 	std::mutex mtx;
 	std::unordered_set<crow::websocket::connection*> users;
-	string manualInput;
-	string homeInput;
+	std::string manualInput;
+	std::string homeInput;
 
 public:
 	R2Server(int port);
@@ -40,7 +42,7 @@ public:
 	virtual void fillData(SensorData& sensorData);
 
 	/** Runs the job handler's actions */
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

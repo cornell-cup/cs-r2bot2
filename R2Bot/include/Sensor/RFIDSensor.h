@@ -7,13 +7,14 @@
 #include "SerialPort.h"
 
 #include <mutex>
+#include <string>
 
 class RFIDSensor : public Sensor {
 protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
-	RFIDSensor(string port, int baudrate);
+	RFIDSensor(std::string port, int baudrate);
 	~RFIDSensor();
 
 	bool ping();

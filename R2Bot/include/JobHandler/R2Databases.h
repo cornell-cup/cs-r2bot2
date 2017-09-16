@@ -13,26 +13,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sqlite3.h>
-#include <vector>
-#include <string>
 
+#include <deque>
 #include <iostream>
+#include <string>
+#include <vector>
 
-static vector<string> entries;
+static std::vector<std::string> entries;
 
 class R2Databases : public JobHandler {
 private:
 	sqlite3 *db;
 	const char* sql;
 	const char* data = "Callback function called";
-	string database;
-	string table;
+	std::string database;
+	std::string table;
 public:
-	R2Databases(string database, string table);
+	R2Databases(std::string database, std::string table);
 	virtual ~R2Databases();
-	string getName();
+	std::string getName();
 	bool ping();
 	virtual void fillData(smap<ptr<void>>& sensorData);
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 #endif

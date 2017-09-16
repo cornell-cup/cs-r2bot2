@@ -2,6 +2,10 @@
 #include "R2Protocol.hpp"
 
 #include <cstring>
+#include <string>
+
+using std::string;
+using std::vector;
 
 HeadFlapController::HeadFlapController(string port, int baudrate) : Controller("Head Flap Controller"), conn(std::make_shared<SerialPort>(port, baudrate)) {
 	printf("Head Flap connected to port %s\n", port.c_str());

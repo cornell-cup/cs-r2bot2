@@ -1,6 +1,10 @@
 #include "Sensor/RFIDSensor.h"
 #include "Data/RFIDData.h"
+
 #include <iostream>
+#include <string>
+
+using std::string;
 
 RFIDSensor::RFIDSensor(string port, int baudrate) : Sensor("RFID Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("RFID connected to port %s\n", port.c_str());

@@ -2,6 +2,13 @@
 #include "R2Protocol.hpp"
 #include "Data/ForwardData.h"
 
+#include <memory>
+
+using std::deque;
+using std::pair;
+using std::string;
+using std::vector;
+
 bool ForwardHandler::registered = JobHandler::RegisterJobHandler("forward", [](string command) {
 	smap<pair<string, size_t>> routes;
 	return (ptr<JobHandler>) std::make_shared<ForwardHandler>(routes);

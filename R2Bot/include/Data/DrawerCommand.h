@@ -3,8 +3,10 @@
 
 #include "Global.h"
 
+#include <string>
+
 typedef struct {
-	string state;
+	std::string state;
 } DrawerCommand;
 
 #endif

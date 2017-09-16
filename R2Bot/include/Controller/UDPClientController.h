@@ -6,12 +6,14 @@
 #include "R2Protocol.hpp"
 #include "UDPSocketClient.h"
 
+#include <string>
+
 class UDPClientController : public Controller {
 protected:
-	string destination;
+	std::string destination;
 	ptr<UDPSocketClient> client;
 public:
-	UDPClientController(string destination, string host, int port);
+	UDPClientController(std::string destination, std::string host, int port);
 	virtual ~UDPClientController();
 
 	virtual bool ping();

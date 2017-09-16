@@ -4,9 +4,14 @@
 
 #include <algorithm>
 #include <cstring>
+#include <string>
+#include <vector>
 
 using std::min;
 using std::max;
+using std::string;
+using std::vector;
+
 MotorController::MotorController(string port, int baudrate) : Controller("Motor Controller"), conn(std::make_shared<SerialPort>(port, baudrate)) {
 	printf("Motor connected to port %s\n", port.c_str());
 }

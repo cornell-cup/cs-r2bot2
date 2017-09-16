@@ -2,6 +2,12 @@
 #include "Data/DrawerData.h"
 #include "Data/DrawerCommand.h"
 #include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
 
 DrawerSensor::DrawerSensor(string port, int baudrate) : Sensor("Drawer Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Drawer connected to port %s\n", port.c_str());

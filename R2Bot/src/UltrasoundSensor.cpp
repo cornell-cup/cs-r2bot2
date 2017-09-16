@@ -1,6 +1,10 @@
 #include "Sensor/UltrasoundSensor.h"
 #include "Data/UltrasoundData.h"
+
 #include <iostream>
+#include <string>
+
+using std::string;
 
 UltrasoundSensor::UltrasoundSensor(string port, int baudrate, string port2, int baudrate2) : Sensor("Ultrasound Sensor"), connF(std::make_shared<SerialPort>(port, baudrate)), connB(std::make_shared<SerialPort>(port2, baudrate2)), dataMutex() {
 	printf("Ultrasound connected to port %s\n", port.c_str());

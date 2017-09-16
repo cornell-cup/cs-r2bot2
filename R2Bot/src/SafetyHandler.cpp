@@ -3,6 +3,11 @@
 #include "Data/MotorData.h"
 #include "Data/UltrasoundData.h"
 
+#include <deque>
+#include <string>
+
+using std::string;
+
 bool SafetyHandler::registered = JobHandler::RegisterJobHandler("safety", [](string command) {
 	return (ptr<JobHandler>) std::make_shared<SafetyHandler>();
 });
@@ -21,7 +26,7 @@ string SafetyHandler::_pad(int i, unsigned int l) {
 	return s + string(l - s.size(), ' ');
 }
 
-void SafetyHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void SafetyHandler::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	// Prevent motors from running if the ultrasound sensors report an object immediately ahead
 	auto motor = outputs.find("MOTOR");
 	auto ultrasound = data.find("ULTRASOUND");

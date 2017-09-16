@@ -1,6 +1,12 @@
 #include "Sensor/HeadSensor.h"
 #include "Data/HeadData.h"
+
 #include <iostream>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
 
 HeadSensor::HeadSensor(string port, int baudrate) : Controller("Head Controller"), Sensor("Head Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("Head connected to port %s\n", port.c_str());

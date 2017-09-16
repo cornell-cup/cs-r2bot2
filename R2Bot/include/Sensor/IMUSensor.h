@@ -7,13 +7,14 @@
 #include "SerialPort.h"
 
 #include <mutex>
+#include <string>
 
 class IMUSensor : public Sensor {
 protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
-	IMUSensor(string port, int baudrate);
+	IMUSensor(std::string port, int baudrate);
 	~IMUSensor();
 
 	bool ping();

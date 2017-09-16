@@ -4,19 +4,22 @@
 #include "Global.h"
 #include "JobHandler.h"
 
+#include <deque>
+#include <string>
+
 class SafetyHandler : public JobHandler {
 private:
 	/** Register this job handler */
 	static bool registered;
 
 	/** Pad an integer into a string */
-	string _pad(int i, unsigned int l);
+	std::string _pad(int i, unsigned int l);
 protected:
 public:
 	SafetyHandler();
 	virtual ~SafetyHandler();
 
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

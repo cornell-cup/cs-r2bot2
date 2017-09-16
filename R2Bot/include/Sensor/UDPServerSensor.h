@@ -7,15 +7,17 @@
 #include "UDPSocketServer.h"
 
 #include <mutex>
+#include <string>
+#include <vector>
 
 class UDPServerSensor : public Sensor {
 protected:
 	ptr<UDPSocketServer> server;
 	std::mutex dataMutex;
 	smap<ptr<void>> dataReceived;
-	smap<vector<R2Protocol::Packet>> dataToForward;
+	smap<std::vector<R2Protocol::Packet>> dataToForward;
 public:
-	UDPServerSensor(string port, int baudrate);
+	UDPServerSensor(std::string port, int baudrate);
 	~UDPServerSensor();
 
 	bool ping();

@@ -13,8 +13,12 @@
 #include "Data/LidarData.h"
 #include "Data/HeadData.h"
 #include "Data/UltrasoundData.h"
+
 #include <string>
 #include <vector>
+
+using std::string;
+using std::vector;
 
 // Read in a file and return a string containing the byte array input
 static string readIn(string fileName) {
@@ -251,7 +255,7 @@ void R2Server::fillData(SensorData& sensorData) {
 
 }
 
-void R2Server::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void R2Server::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	//std::cout << "EXECUTING" << std::endl;
 	auto result = data.find("ULTRASOUNDB");
 	if (result != data.end()) {

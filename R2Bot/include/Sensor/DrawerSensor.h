@@ -7,6 +7,7 @@
 #include "SerialPort.h"
 
 #include <mutex>
+#include <string>
 
 class DrawerSensor : public Sensor {
 protected:
@@ -16,7 +17,7 @@ protected:
 	smap<R2Protocol::Packet> dataToForward;
 public:
 	bool drawerState;
-	DrawerSensor(string port, int baudrate);
+	DrawerSensor(std::string port, int baudrate);
 	~DrawerSensor();
 
 	bool ping();

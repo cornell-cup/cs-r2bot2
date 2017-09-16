@@ -1,11 +1,17 @@
 #include "Global.h"
 
-#include <vector>
+#include <chrono>
+#include <cmath>
+#include <deque>
 #include <iostream>
+#include <string>
 #include <thread>
 #include <unordered_map>
-#include <cmath>
-#include <chrono>
+#include <vector>
+
+using std::deque;
+using std::string;
+using std::vector;
 
 #ifdef _WIN32
 #ifndef _CRT_SECURE_NO_WARNINGS
@@ -144,7 +150,7 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 	deque<ptr<JobHandler>> jobs;
 
 	// Data forwarding handler
-	smap<pair<string, size_t>> routes;
+	smap<std::pair<string, size_t>> routes;
 	if (controllers.find("UDP PI") != controllers.end()) {
 		routes["MOTOR"] = std::make_pair("UDP PI", sizeof(MotorData));
 		routes["DRAWER"] = std::make_pair("UDP PI", sizeof(DrawerData));

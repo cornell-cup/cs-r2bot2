@@ -10,6 +10,9 @@
 #include <cstring>
 #include <thread>
 #include <iostream>
+#include <string>
+
+using std::string;
 
 SoundController::SoundController() : Controller("Sound Controller") {
 	printf("Sound controller connected\n");

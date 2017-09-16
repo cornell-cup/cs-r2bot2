@@ -4,7 +4,11 @@
 #include "Data/HeadData.h"
 
 #include <cmath>
+#include <deque>
+#include <string>
+
 #define M_PI 3.14159265358979323846
+using std::string;
 
 bool ManualInputsHandler::registered = JobHandler::RegisterJobHandler("manual-inputs", [](string command) {
 	return (ptr<JobHandler>) std::make_shared<ManualInputsHandler>();
@@ -16,7 +20,7 @@ ManualInputsHandler::ManualInputsHandler(): JobHandler() {
 ManualInputsHandler::~ManualInputsHandler() {
 }
 
-void ManualInputsHandler::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void ManualInputsHandler::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	auto now = std::chrono::steady_clock::now();
 	auto diff = lastActivity - now;
 

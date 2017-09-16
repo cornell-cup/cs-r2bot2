@@ -12,9 +12,9 @@ protected:
 	ptr<SerialPort> conn;
 
 	/** Pad an integer into a string */
-	static string _pad(int i, unsigned int l);
+	static std::string _pad(int i, unsigned int l);
 public:
-	MotorController(string port, int baudrate);
+	MotorController(std::string port, int baudrate);
 	virtual ~MotorController();
 
 	virtual bool ping();

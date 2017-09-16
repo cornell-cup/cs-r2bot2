@@ -6,21 +6,14 @@
 #include <deque>
 #include <memory>
 #include <queue>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
-using std::deque;
-using std::queue;
-using std::pair;
-using std::shared_ptr;
-using std::string;
-using std::unordered_map;
-using std::vector;
-
 /** Pointer */
-template<typename T> using ptr = shared_ptr<T>;
+template<typename T> using ptr = std::shared_ptr<T>;
 /** String => Class Pointer Map */
-template<typename T> using smap = unordered_map<string, T>;
+template<typename T> using smap = std::unordered_map<std::string, T>;
 /** Sensor Data map<string, pair<ptr<void>, size_t>> */
 typedef smap<ptr<void>> SensorData;
 /** Controller Data map<string, pair<ptr<void>, size_t>> */
@@ -31,11 +24,11 @@ typedef smap<ptr<void>> ControllerData;
 #endif
 
 /** Parse arguments as {--boolean | --key value} pairs */
-inline smap<string> parseArguments(int argc, char ** argv) {
-	smap<string> args;
-	string key;
+inline smap<std::string> parseArguments(int argc, char ** argv) {
+	smap<std::string> args;
+	std::string key;
 	for (int i = 0; i < argc; i++) {
-		string part(argv[i]);
+		std::string part(argv[i]);
 		if (part.substr(0, 2) == "--") {
 			if (key.length() > 0) { // Argument is present
 				args[key] = "";

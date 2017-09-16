@@ -2,6 +2,9 @@
 #include "Data/ForwardData.h"
 
 #include <cstring>
+#include <string>
+
+using std::string;
 
 UDPServerSensor::UDPServerSensor(string host, int port) : Sensor("UDP Server"), server(std::make_shared<UDPSocketServer>(host, port)),
 dataMutex(), dataReceived(), dataToForward() {

@@ -4,6 +4,8 @@
 #include "Global.h"
 #include "JobHandler.h"
 
+#include <deque>
+
 class HeadFlapHandler : public JobHandler {
 private:
 	/** Register this job handler */
@@ -13,7 +15,7 @@ public:
 	HeadFlapHandler();
 	virtual ~HeadFlapHandler();
 
-	virtual void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

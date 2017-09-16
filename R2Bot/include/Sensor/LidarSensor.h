@@ -2,12 +2,14 @@
 #define _R2BOT_LIDAR_SENSOR
 
 #include "Global.h"
-#include <mutex>
-#include <thread>
 #include "Sensor.h"
 #include "SerialPort.h"
 #include "rplidar.h"
 #include "R2Protocol.hpp"
+
+#include <mutex>
+#include <string>
+#include <thread>
 
 #define NODE_COUNT 360 * 2
 class LidarSensor : public Sensor {
@@ -21,7 +23,7 @@ protected:
 	std::vector<double>distances;
 	ptr<SerialPort> conn;
 public:
-	LidarSensor(string port, int baudrate);
+	LidarSensor(std::string port, int baudrate);
 	~LidarSensor();
 
 	bool ping();

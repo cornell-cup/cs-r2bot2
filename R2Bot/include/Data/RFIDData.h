@@ -3,8 +3,10 @@
 
 #include "Global.h"
 
+#include <string>
+
 typedef struct {
-	string ID;
+	std::string ID;
 } RFIDData;
 
 #endif

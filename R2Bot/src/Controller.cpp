@@ -1,6 +1,10 @@
 #include "Controller.h"
 
-Controller::Controller(std::string controllerName) : name(controllerName)
+#include <string>
+
+using std::string;
+
+Controller::Controller(string controllerName) : name(controllerName)
 {
 }
 
@@ -8,7 +12,7 @@ Controller::~Controller()
 {
 }
 
-std::string Controller::getName()
+string Controller::getName()
 {
 	return name;
 }

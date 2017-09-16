@@ -3,6 +3,12 @@
 #include "Data/RFIDData.h"
 #include "Data/DrawerCommand.h"
 
+#include <deque>
+#include <string>
+#include <vector>
+
+using std::string;
+using std::vector;
 
 static int callback(void *data, int argc, char **argv, char **azColName) {
 	entries.clear();
@@ -81,7 +87,7 @@ bool R2Databases::ping() {
 
 void R2Databases::fillData(smap<ptr<void>>& sensorData) {}
 
-void R2Databases::execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
+void R2Databases::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	char * sql;
 	string sqlLite;
 	entries.clear();

@@ -7,6 +7,7 @@
 #include "SerialPort.h"
 
 #include <mutex>
+#include <string>
 
 class UltrasoundSensor : public Sensor {
 protected:
@@ -14,7 +15,7 @@ protected:
 	ptr<SerialPort> connF;
 	ptr<SerialPort> connB;
 public:
-	UltrasoundSensor(string port, int baudrate, string port2, int baudrate2);
+	UltrasoundSensor(std::string port, int baudrate, std::string port2, int baudrate2);
 	~UltrasoundSensor();
 
 	bool ping();

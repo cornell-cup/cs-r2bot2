@@ -5,7 +5,7 @@
 #include "R2Protocol.hpp"
 
 typedef struct {
-	smap<vector<R2Protocol::Packet>> data;
+	smap<std::vector<R2Protocol::Packet>> data;
 } ForwardData;
 
 #endif

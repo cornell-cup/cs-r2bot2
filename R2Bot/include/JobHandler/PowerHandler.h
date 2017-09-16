@@ -6,7 +6,9 @@
 #include "JobHandler.h"
 #include "SerialPort.h"
 
+#include <deque>
 #include <mutex>
+#include <string>
 
 class PowerHandler : public Sensor, public JobHandler{
 private:
@@ -15,7 +17,7 @@ protected:
 	std::mutex dataMutex;
 	ptr<SerialPort> conn;
 public:
-	PowerHandler(string port, int baudrate);
+	PowerHandler(std::string port, int baudrate);
 	~PowerHandler();
 
 	std::string getName();
@@ -23,7 +25,7 @@ public:
 
 	void fillData(SensorData& sensorData);
 	void sendData(ControllerData& controllerData);
-	void execute(deque<Job>& jobs, SensorData& data, ControllerData& outputs);
+	void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };
 
 #endif

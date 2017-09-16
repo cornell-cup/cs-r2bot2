@@ -5,6 +5,9 @@
 #include <functional> 
 #include <cctype>
 #include <locale>
+#include <string>
+
+using std::string;
 
 IMUSensor::IMUSensor(string port, int baudrate) : Sensor("IMU Sensor"), conn(std::make_shared<SerialPort>(port, baudrate)), dataMutex() {
 	printf("IMU sensor connected to port %s\n", port.c_str());
