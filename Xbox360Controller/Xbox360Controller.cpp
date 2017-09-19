@@ -63,11 +63,11 @@ int main(int argc, char** argv) {
 		}
 
 		// Get normalized X and Y values to [-1, 1]
-		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 14);
-		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 14);
-		printf("%f %f\n", normLX, normLY);
+		float normLX = (float) state.Gamepad.sThumbLX / (float) (1 << 15);
+		float normLY = (float) state.Gamepad.sThumbLY / (float) (1 << 15);
 		bool leftButton = state.Gamepad.bLeftTrigger != 0;
 		bool rightButton = state.Gamepad.bRightTrigger != 0;
+		printf("%f %f %d %d\n", normLX, normLY, leftButton, rightButton);
 
 		// Send these values over UDP
 		if (client.isConnected()) {
@@ -75,24 +75,10 @@ int main(int argc, char** argv) {
 				ptr<GamepadData> g = std::make_shared<GamepadData>();
 				g->x = normLX;
 				g->y = normLY;
-				uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
-				memcpy(buffer, &g, sizeof(GamepadData));
-				std::vector<uint8_t> output;
-				R2Protocol::Packet params;
-				params.source = "GAMEPAD";
-				params.destination = "PI";
-				params.id = "";
-				params.data = std::vector<uint8_t>(buffer, buffer + sizeof(GamepadData));
-				R2Protocol::encode(params, output);
-				client.write((char *)output.data(), (unsigned int)output.size());
-				free(buffer);
-			}
-			if (leftButton || rightButton) {
-				ptr<GamepadData> g = std::make_shared<GamepadData>();
 				g->lb = leftButton;
 				g->rb = rightButton;
 				uint8_t * buffer = (uint8_t *)malloc(sizeof(GamepadData));
-				memcpy(buffer, &g, sizeof(GamepadData));
+				memcpy(buffer, g.get(), sizeof(GamepadData));
 				std::vector<uint8_t> output;
 				R2Protocol::Packet params;
 				params.source = "GAMEPAD";
