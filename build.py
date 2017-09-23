@@ -38,11 +38,14 @@ LIBS = [
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
 
 def compile(s, includes, library_includes, objs):
-  o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
-  args = [CC] + CFLAGS + ["-c"] + includes + library_includes + [s] + ["-o", o]
-  print("Executing {}".format(args))
-  subprocess.check_output(args)
-  return o
+  try:
+    o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
+    args = [CC] + CFLAGS + ["-c"] + includes + library_includes + [s] + ["-o", o]
+    print("Executing {}".format(args))
+    subprocess.check_output(args)
+    return o
+  except Exception:
+    return None
 
 
 if __name__ == "__main__":
@@ -64,9 +67,9 @@ if __name__ == "__main__":
 
   # Find all source files
   sources =   glob.glob("{}/*.cpp".format(SRC_FOLDER.format(CORE_NAME))) + \
-        glob.glob("{}/*.cpp".format(SRC_FOLDER.format(PROJECT_NAME)))
+      glob.glob("{}/*.cpp".format(SRC_FOLDER.format(PROJECT_NAME)))
   includes =  ["-I", INC_FOLDER.format(CORE_NAME)] + \
-        ["-I", INC_FOLDER.format(PROJECT_NAME)]
+      ["-I", INC_FOLDER.format(PROJECT_NAME)]
 
   # Compile each to objects
   # TODO Don't recompile unchanged files
@@ -75,15 +78,22 @@ if __name__ == "__main__":
   else:
     threads = multiprocessing.cpu_count()
 
-  partial_compile = partial(compile, includes=includes, library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
+  partial_compile = partial(compile, includes=includes,
+      library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
 
   if threads == 1:
     objects = map(partial_compile, sources)
   else:
     p = Pool(threads)
     objects = p.map(partial_compile, sources)
+    p.close()
+    p.join()
 
-  # Build the binary
-  args = [CC] + CFLAGS + objects + LIB_FOLDER + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
-  print("Executing {}".format(args))
-  subprocess.check_output(args)
+  if None in objects:
+    # Don't try to compile the final executable
+    print("Compilation failed")
+  else:
+    # Build the binary
+    args = [CC] + CFLAGS + objects + LIB_FOLDER + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
+    print("Executing {}".format(args))
+    subprocess.check_output(args)
