@@ -70,7 +70,6 @@ if __name__ == "__main__":
 
   # Compile each to objects
   # TODO Don't recompile unchanged files
-  #objects = list(map(lambda s: compile(s, includes, LIB_INC_FOLDER, OBJ_FOLDER), sources))
   if len(sys.argv) >= 3:
     threads = int(sys.argv[2])
   else:
