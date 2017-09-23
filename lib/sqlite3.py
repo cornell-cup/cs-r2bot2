@@ -1,4 +1,4 @@
-i# sqlite
+# sqlite
 # https://sqlite.org
 
 # SQLite is a light SQL database engine
