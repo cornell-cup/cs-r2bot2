@@ -40,9 +40,17 @@ BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
 def compile(s, includes, library_includes, objs):
   try:
     o = path.join(OBJ_FOLDER, path.basename(s)[:-4] + ".o")
-    args = [CC] + CFLAGS + ["-c"] + includes + library_includes + [s] + ["-o", o]
-    print("Executing {}".format(args))
-    subprocess.check_output(args)
+    compile = False
+    if not path.isfile(o) or path.getmtime(o) < path.getmtime(s):
+      compile = True
+
+    if compile:
+      args = [CC] + CFLAGS + ["-c"] + includes + library_includes + [s] + ["-o", o]
+      print("Executing {}".format(args))
+      subprocess.check_output(args)
+    else:
+      print("Skipping unmodified file \"{}\"".format(s))
+
     return o
   except Exception:
     return None
@@ -66,13 +74,12 @@ if __name__ == "__main__":
     os.mkdir(BIN_FOLDER)
 
   # Find all source files
-  sources =   glob.glob("{}/*.cpp".format(SRC_FOLDER.format(CORE_NAME))) + \
-      glob.glob("{}/*.cpp".format(SRC_FOLDER.format(PROJECT_NAME)))
+  sources =   glob.glob(path.join(SRC_FOLDER.format(CORE_NAME), "*.cpp")) + \
+      glob.glob(path.join(SRC_FOLDER.format(PROJECT_NAME), "*.cpp"))
   includes =  ["-I", INC_FOLDER.format(CORE_NAME)] + \
       ["-I", INC_FOLDER.format(PROJECT_NAME)]
 
   # Compile each to objects
-  # TODO Don't recompile unchanged files
   if len(sys.argv) >= 3:
     threads = int(sys.argv[2])
   else:
