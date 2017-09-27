@@ -17,6 +17,7 @@
 #include "Controller/UDPClientController.h"
 #include "Controller/MotorController.h"
 #include "JobHandler/ForwardHandler.h"
+#include "JobHandler/SafetyHandler.h"
 #include "JobHandler/R2Server.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
@@ -34,12 +35,6 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
   else {
     sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
   }
-	if (!(args["r2-server-port"].empty())) {
-		sensors["R2 SERVER"] = std::make_shared<R2Server>(atoi(args["r2-server-port"].c_str()));
-	}
-	else {
-		sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
-	}
 
   return sensors;
 }
@@ -48,7 +43,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 smap<ptr<Controller>> initializeControllers(smap<string>& args) {
   smap<ptr<Controller>> controllers;
   if (!(args["motor-com-port"].empty())) {
-    controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], 9600);
+    controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], B9600);
   }
   else {
     std::cout << "No motor ports specified." << std::endl;
@@ -65,10 +60,12 @@ deque<Job> initializeJobs(smap<string>& args) {
 }
 
 /** Initialize background jobs */
-deque<JobHandler> initializeBackgroundJobs(smap<string>& args) {
-  deque<JobHandler> jobs;
-  jobs.push_back(Job("safety"));
-  jobs.push_back(Job("forward"));
+deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>> &sensors, smap<ptr<Controller>> &controllers) {
+  deque<ptr<JobHandler>> jobs;
+  //jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
+  ptr<R2Server> server = std::make_shared<R2Server>(18080);
+  sensors["R2 SERVER"] = std::static_pointer_cast<Sensor>(server);
+  jobs.push_back(std::static_pointer_cast<JobHandler>(server));
   return jobs;
 }
 
@@ -80,59 +77,44 @@ int main(int argc, char *argv[]) {
   smap<ptr<Controller>> controllers = initializeControllers(args);
   deque<Job> jobQueue = initializeJobs(args);
   ptr<JobHandler> currentJob;
-  deque<JobHandler> bgJobs = initializeBackgroundJobs(args);
+  deque<ptr<JobHandler>> bgJobs = initializeBackgroundJobs(args, sensors, controllers);
 
   // Data forwarding handler
-  smap<ptr<Controller>> routes;
-  routes["PICAMERA"] = controllers["UDP NUC"];
-  //ForwardHandler forwardHandler(routes);
-
-  //maintainUsers(); //USER DATABASE STUFF
-
-  //TODO: method arg should be sql command stored in a char
 
   /** Main execution loop */
   while (1) {
-    //maintainTools();
-    // Collect data from sensors
-    SensorData data;
-    for (auto itr : sensors) {
-      ptr<Sensor> sensor = itr.second;
-      sensor->fillData(data);
-    }
-    // Execute current jobs
-    if (!currentJob) {
-      // Get the next job in the queue
-      if (jobQueue.size() > 0) {
-        Job nextJob = jobQueue.front();
-        jobQueue.pop_front();
-        currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
-      }
-    }
+        // Collect data from sensors
+        SensorData data;
+        for (auto itr : sensors) {
+            ptr<Sensor> sensor = itr.second;
+            sensor->fillData(data);
+        }
+        // Execute current jobs
+        if (!currentJob) {
+            // Get the next job in the queue
+            if (jobQueue.size() > 0) {
+                Job nextJob = jobQueue.front();
+                jobQueue.pop_front();
+                currentJob = JobHandler::GetJobHandler(nextJob.getHandler());
+            }
+        }
 
-    // Run the current job
-    smap<string> outputs;
-    if (currentJob) {
-      currentJob->execute(jobQueue, data, outputs);
-    }
+        // Run the current job
+        ControllerData outputs;
+        if (currentJob) {
+            currentJob->execute(jobQueue, data, outputs);
+        }
 
-    // Run background jobs
-    for (auto itr : bgJobs) {
-      itr.execute(jobQueue, data, outputs);
-    }
+        // Run background jobs
+        for (auto itr : bgJobs) {
+            (*itr).execute(jobQueue, data, outputs);
+        }
 
-    // Send output data to controllers
-    auto itr = outputs.begin();
-    while (itr != outputs.end()) {
-      auto controller = controllers.find(itr->first);
-      if (controller != controllers.end()) {
-        controller->second->sendData(itr->second);
-      }
-      else {
-        itr++;
-      }
-    }
-
+        // Send output data to controllers
+        for (auto itr : controllers) {
+            ptr<Controller> controller = itr.second;
+            controller->sendData(outputs);
+        }  
     // Sleep
     Sleep(20);
   }

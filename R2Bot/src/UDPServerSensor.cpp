@@ -1,5 +1,6 @@
 #include "Sensor/UDPServerSensor.h"
 #include "Data/ForwardData.h"
+#include "Data/GamepadData.h"
 
 #include <cstring>
 #include <string>

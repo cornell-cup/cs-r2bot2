@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-std::string R2Bot::DEVICE_NAME = "";
+std::string R2Bot::DEVICE_NAME = "PI";
 
 int R2Bot::LOG_LEVEL = R2Bot::LEVEL_INFO;
 std::string R2Bot::LOG_FILTER = "";

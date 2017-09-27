@@ -5,7 +5,7 @@
 #include "Controller.h"
 #include "SerialPort.h"
 
-#define MOTOR_MAX_SPEED 300
+#define MOTOR_MAX_SPEED 250
 
 class MotorController : public Controller {
 protected:
@@ -13,6 +13,8 @@ protected:
 
 	/** Pad an integer into a string */
 	static std::string _pad(int i, unsigned int l);
+
+    int counter;
 public:
 	MotorController(std::string port, int baudrate);
 	virtual ~MotorController();

@@ -114,7 +114,6 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 	if (controllers.find("UDP NUC") != controllers.end()) {
 		routes["PICAMERA"] = controllers["UDP NUC"];
 	}
-	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
