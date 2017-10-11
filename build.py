@@ -89,7 +89,7 @@ if __name__ == "__main__":
       library_includes=LIB_INC_FOLDER, objs=OBJ_FOLDER)
 
   if threads == 1:
-    objects = map(partial_compile, sources)
+    objects = list(map(partial_compile, sources))
   else:
     p = Pool(threads)
     objects = p.map(partial_compile, sources)
