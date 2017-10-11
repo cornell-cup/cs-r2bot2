@@ -28,5 +28,5 @@ if __name__=="__main__":
     elif "Linux" in platform.system():
         subprocess.call([ "sudo", "apt-get", "install", "-y", "libsqlite3-0", "libsqlite3-dev" ])
     elif "Darwin" in platform.system():
-        subprocess.call["brew", "install", "sqlite3"])
+        subprocess.call(["brew", "install", "sqlite3"])
     
