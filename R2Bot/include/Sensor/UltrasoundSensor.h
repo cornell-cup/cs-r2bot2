@@ -11,9 +11,9 @@
 
 class UltrasoundSensor : public Sensor {
 protected:
-	std::mutex dataMutex;
 	ptr<SerialPort> connF;
 	ptr<SerialPort> connB;
+	std::mutex dataMutex;
 public:
 	UltrasoundSensor(std::string port, int baudrate, std::string port2, int baudrate2);
 	~UltrasoundSensor();

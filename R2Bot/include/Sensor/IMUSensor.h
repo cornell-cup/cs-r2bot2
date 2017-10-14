@@ -11,8 +11,8 @@
 
 class IMUSensor : public Sensor {
 protected:
-	std::mutex dataMutex;
 	ptr<SerialPort> conn;
+	std::mutex dataMutex;
 public:
 	IMUSensor(std::string port, int baudrate);
 	~IMUSensor();
