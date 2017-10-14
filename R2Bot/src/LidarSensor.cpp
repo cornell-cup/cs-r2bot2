@@ -33,7 +33,8 @@ void LidarSensor::bg_scan() {
 
 			angles.clear();
 			distances.clear();
-			for (int i = 0; i < node_count; i++) {
+			
+			for (size_t i = 0; i < node_count; i++) {
 				double angle = (scan_nodes[i].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT) / 64.0;
 				double distance = scan_nodes[i].distance_q2 / 4000.0f;
 				int quality = scan_nodes[i].sync_quality >> RPLIDAR_RESP_MEASUREMENT_QUALITY_SHIFT;

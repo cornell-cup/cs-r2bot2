@@ -39,7 +39,6 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 				string delimiter = ",";
 				size_t pos = 0;
 				std::string token;
-				int ctr = 0;
 				while ((pos = t.find(delimiter)) != std::string::npos) {
 					token = t.substr(0, pos);
 					//std::cout << token << "\t" << stof(token) << std::endl;
@@ -80,7 +79,6 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 				string delimiter = ",";
 				size_t pos = 0;
 				std::string token;
-				int ctr = 0;
 				while ((pos = t.find(delimiter)) != std::string::npos) {
 					token = t.substr(0, pos);
 					u.push_back(stof(token));
