@@ -11,4 +11,6 @@ if __name__=="__main__":
     if "MSYS" in platform.system():
         subprocess.call([ "pacman", "-S", "mingw-w64-x86_64-opencv" ])
     elif "Linux" in platform.system():
-        # TODO Compile and build opencv
+        subprocess.call([ "git", "clone", "https://github.com/cornell-cup/deps" ])
+        subprocess.call([ "mv", "deps/opencv", "./"])
+        subprocess.call([ "rm", "-rf", "deps" ])

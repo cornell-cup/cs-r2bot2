@@ -28,11 +28,13 @@ LIB_INC_FOLDER = [
 LIB_FOLDER = [
   "-L", "lib/rplidar/sdk/output/Linux/Release",
 ]
-LIBS = [
+STATIC_LIBS = [
+  "-lrplidar_sdk",
+]
+SHARED_LIBS = [
   "-lboost_system",
   "-lboost_date_time",
   "-lsqlite3",
-  "-lrplidar_sdk",
 ]
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
@@ -101,6 +103,6 @@ if __name__ == "__main__":
     print("Compilation failed")
   else:
     # Build the binary
-    args = [CC] + CFLAGS + objects + LIB_FOLDER + LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
+    args = [CC] + CFLAGS + objects + LIB_FOLDER + ["-Bstatic"] + STATIC_LIBS + ["-Bdynamic"] + SHARED_LIBS + ["-o", path.join(BIN_FOLDER, BINARY_NAME)]
     print("Executing {}".format(args))
     subprocess.check_output(args)
