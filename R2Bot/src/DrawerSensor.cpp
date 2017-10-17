@@ -54,7 +54,7 @@ void DrawerSensor::sendData(ControllerData& data) {
 		auto result = data.find("DATABASE");
 		ptr<DrawerCommand> cdata = std::make_shared<DrawerCommand>();
 		//Not sure if this is correct but I can hope
-		bool drawerState = (data.find("DRAWERCOMMAND")->first == "C");
+		bool drawerState = (data.find("DRAWERCOMMAND")->second == std::make_shared<string>("C"));
 		if (result != data.end() && !drawerState) {
 			if (result->second) {
 				drawerState = true;
