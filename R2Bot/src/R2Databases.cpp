@@ -28,7 +28,7 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 
 string sqlCommand(string const& commandType, string database, string table) {
 
-	string sql;
+	string sql ="";
 
 	if (commandType == "INSERT") {
 		if (table == "TOOLS") {
@@ -88,7 +88,7 @@ bool R2Databases::ping() {
 void R2Databases::fillData(smap<ptr<void>>& sensorData) {}
 
 void R2Databases::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
-	char * sql;
+	char * sql = 0;
 	string sqlLite;
 	entries.clear();
 	auto inven = data.find("DRAWER");

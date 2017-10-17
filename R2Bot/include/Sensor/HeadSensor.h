@@ -12,8 +12,8 @@
 
 class HeadSensor : public Controller, public Sensor {
 protected:
-	std::mutex dataMutex;
 	ptr<SerialPort> conn;
+	std::mutex dataMutex;
 public:
 	HeadSensor(std::string port, int baudrate);
 	~HeadSensor();
