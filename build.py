@@ -22,11 +22,14 @@ LIB_INC_FOLDER = [
   "-I", "lib/opencv3/opencv/build/include",
   "-I", "lib/sqlite",
   "-I", "lib/rplidar/sdk/sdk/include",
+  "-I", "/usr/local/include"
 ] + (
   ["-I", "/mingw64/include"] if IS_MSYS else []
 )
 LIB_FOLDER = [
   "-L", "lib/rplidar/sdk/output/Linux/Release",
+  "-L", "lib/rplidar/sdk/output/Darwin/Release",
+  "-L", "/usr/local/lib",
 ]
 STATIC_LIBS = [
   "-lrplidar_sdk",

@@ -19,4 +19,8 @@ if __name__=="__main__":
         subprocess.call([ "unzip", "rplidar_sdk_v1.5.7.zip", "-d", "rplidar" ])
         subprocess.call([ "rm", "rplidar_sdk_v1.5.7.zip" ])
         subprocess.call([ "make" ], cwd="rplidar/sdk")
-
+    elif "Darwin" in platform.system():
+        subprocess.call([ "curl", "-L", "-o", "rplidar_sdk_v1.5.7.zip", "--connect-timeout", "60", "https://www.slamtec.com/download/lidar/sdk/rplidar_sdk_v1.5.7.zip" ])
+        subprocess.call([ "unzip", "rplidar_sdk_v1.5.7.zip", "-d", "rplidar" ])
+        subprocess.call([ "rm", "rplidar_sdk_v1.5.7.zip" ])
+        subprocess.call([ "make" ], cwd="rplidar/sdk")

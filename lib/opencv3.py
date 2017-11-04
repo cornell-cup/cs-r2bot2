@@ -14,3 +14,6 @@ if __name__=="__main__":
         subprocess.call([ "git", "clone", "https://github.com/cornell-cup/deps" ])
         subprocess.call([ "mv", "deps/opencv", "./"])
         subprocess.call([ "rm", "-rf", "deps" ])
+    elif "Darwin" in platform.system():
+	subprocess.call(["brew", "tap", "homebrew/science"])
+	subprocess.call(["brew", "install", "opencv3", "--with-contrib"])

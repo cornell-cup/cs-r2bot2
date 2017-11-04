@@ -12,5 +12,5 @@ import platform
 if __name__=="__main__":
     if "MSYS" in platform.system():
         subprocess.call([ "pacman", "-S", "--noconfirm", "mingw-w64-x86_64-boost" ])
-    elif "Linux" in platform.system():
-        subprocess.call([ "sudo", "apt-get", "install", "-y", "libboost-all-dev" ])
+    elif "Darwin" in platform.system():
+	subprocess.call(["brew", "install", "boost"])

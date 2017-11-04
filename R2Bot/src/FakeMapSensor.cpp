@@ -1,5 +1,5 @@
 #include "PathPlanning/FakeMapSensor.h"
-
+#include <stdlib.h>
 FakeMapSensor::FakeMapSensor()
 {
 	g = Grid(1000, 1000, 25, 10, 26, 0);
