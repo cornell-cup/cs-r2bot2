@@ -10,24 +10,19 @@ using namespace std;
 
 class Grid
 {
-
-private:
-	int r2OrigIntX;
-	int r2OrigIntY;
-
 public:
 	Grid();
 	~Grid();
-	Grid(float w, float h, float scal, float startx, float starty, float startAngle);
+	Grid(float w, float h, float scal, float startx, float starty,float startangle);
 
 	int nheight;
 	float height;
+	float r2Angle;
 	int nwidth;
 	float width;
 	float scale;
-	Coord R2Pos;
-	float r2Angle; //clockwise angle from east that r2 is currently facing
-	vector<vector<Coord>> map;
+	Coord *R2Pos;
+	vector<vector<Coord*>> map;
 	vector<Obstacle> obstacles;
 
 	void addObstacle(Obstacle obst);
@@ -36,9 +31,9 @@ public:
 
 	vector<int> intPos(float x, float y);
 
-	float distance(Coord a, Coord b);
+	float distance(Coord *a, Coord *b);
 
-	void updatePos(float x, float y);
+	void updatePos(int x, int y);
 };
 
 #endif

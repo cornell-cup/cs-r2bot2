@@ -56,6 +56,7 @@ void initializeWSA() {
 #include "Data/MotorData.h"
 #include "Data/UltrasoundData.h"
 #include "Data/DrawerData.h"
+#include "PathPlanning/FakeMapSensor.h"
 
 /** Initializes sensors */
 smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
@@ -111,7 +112,6 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
 		std::cout << "No IMU serial port specified." << std::endl;
 	}
-
 	return sensors;
 }
 
@@ -131,7 +131,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 		//controllers["R2 HEAD FLAP"] = std::make_shared<HeadFlapController>("COM4", 9600);
 		std::cout << "No head flap serial port specified." << std::endl;
 	}
-
+	 
 	controllers["R2 SOUND"] = std::make_shared<SoundController>();
 
 	return controllers;

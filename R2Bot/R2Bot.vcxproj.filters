@@ -188,6 +188,9 @@
     <ClCompile Include="src\UDPServerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FakeMapSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sensor.h">
@@ -315,6 +318,9 @@
     </ClInclude>
     <ClInclude Include="include\Config.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PathPlanning\FakeMapSensor.h">
+      <Filter>Header Files\PathPlanning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -40,6 +40,7 @@
     <ClInclude Include="include\Data\MotorData.h" />
     <ClInclude Include="include\JobHandler\R2Databases.h" />
     <ClInclude Include="include\JobHandler\SafetyHandler.h" />
+    <ClInclude Include="include\PathPlanning\FakeMapSensor.h" />
     <ClInclude Include="include\Sensor.h" />
     <ClInclude Include="include\Data\ForwardData.h" />
     <ClInclude Include="include\Data\GamepadData.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="src\Coord.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\DrawerSensor.cpp" />
+    <ClCompile Include="src\FakeMapSensor.cpp" />
     <ClCompile Include="src\FakeMotorController.cpp" />
     <ClCompile Include="src\ForwardHandler.cpp" />
     <ClCompile Include="src\Global.cpp" />

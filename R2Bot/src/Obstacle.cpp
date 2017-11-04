@@ -1,7 +1,6 @@
 #include "PathPlanning/Obstacle.h"
 #include <cmath>
 
-
 Obstacle::Obstacle()
 {
 }
@@ -16,12 +15,12 @@ Obstacle::Obstacle(float r2Posx, float r2Posy, float angleFromE, float angleRang
 	float xpos = r2Posx + sin(angleFromE)*dist;
 	float ypos = r2Posy + cos(angleFromE)*dist;
 	float angle = (3.141592653f / 2.f) - angleFromE;
-	float borderlineWidth = 2* tan(angleRangeSensors/2) * dist;
+	float borderlineWidth = 2 * tan(angleRangeSensors / 2) * dist;
 	float height = 0;
 	float width = 0;
 	width = sin(angle)*borderlineWidth;
 	height = cos(angle)*borderlineWidth;
-	if(sin(angleFromE) == 0) {
+	if (sin(angleFromE) == 0) {
 		width = 1;
 	}
 	if (sin(angleFromE) == 0) {
@@ -81,12 +80,12 @@ Obstacle::Obstacle(float r2Posx, float r2Posy, float angleFromE, float angleRang
 		right += 13.f;
 		left -= 13.f;
 	}
-	
+
 }
 
 Obstacle::Obstacle(float x, float y, float h, float w)
 {
-	top = y - h * .5f -13.f;
+	top = y - h * .5f - 13.f;
 	bottom = y + h * .5f + 13.f;
 	left = x - w * .5f - 13.f;
 	right = x + w * .5f + 13.f;
