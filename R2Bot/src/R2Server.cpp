@@ -74,7 +74,7 @@ string drawerRFID;
 string toolInv;
 string userList;
 string imuDirection;
-R2Server::R2Server(int port):JobHandler(), Sensor() {
+R2Server::R2Server(int port):Sensor(),JobHandler() {
 	CROW_ROUTE(app, "/wsc")
 		.websocket()
 		.onopen([&](crow::websocket::connection& conn) {

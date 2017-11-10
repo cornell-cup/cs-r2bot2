@@ -14,14 +14,14 @@
 #define NODE_COUNT 360 * 2
 class LidarSensor : public Sensor {
 protected:
-	rp::standalone::rplidar::RPlidarDriver * driver;
+	ptr<SerialPort> conn;
 	std::mutex dataMutex;
+	rp::standalone::rplidar::RPlidarDriver * driver;
 	std::thread bg_thread;
 	bool bg_done = false;
 	void bg_scan();
 	std::vector<double> angles;
 	std::vector<double>distances;
-	ptr<SerialPort> conn;
 public:
 	LidarSensor(std::string port, int baudrate);
 	~LidarSensor();

@@ -14,8 +14,8 @@ class PowerHandler : public Sensor, public JobHandler{
 private:
 	static bool registered;
 protected:
-	std::mutex dataMutex;
 	ptr<SerialPort> conn;
+	std::mutex dataMutex;
 public:
 	PowerHandler(std::string port, int baudrate);
 	~PowerHandler();

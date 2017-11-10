@@ -27,3 +27,6 @@ if __name__=="__main__":
         subprocess.call([ "rm", "sqlite-dll-win64-x64-3170000.zip" ])
     elif "Linux" in platform.system():
         subprocess.call([ "sudo", "apt-get", "install", "-y", "libsqlite3-0", "libsqlite3-dev" ])
+    elif "Darwin" in platform.system():
+        subprocess.call(["brew", "install", "sqlite3"])
+    
