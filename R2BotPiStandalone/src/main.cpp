@@ -70,7 +70,7 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 }
 
 int main(int argc, char *argv[]) {
-
+  R2Bot::DEVICE_NAME = "PI";
   smap<string> args = parseArguments(argc, argv);
   /** Initialization */
   smap<ptr<Sensor>> sensors = initializeSensors(args);
