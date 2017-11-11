@@ -8,7 +8,7 @@ IS_WINDOWS = "Windows" in platform.system()
 IS_MSYS = "MSYS" in platform.system()
 
 CC = "g++"
-CFLAGS = ["-pthread", "-std=c++11", "-Wall"]
+CFLAGS = ["-pthread", "-std=c++11", "-Wall", "-O2"]
 
 SRC_FOLDER = "{}/src"     # Source files
 INC_FOLDER = "{}/include" # Header files
