@@ -141,7 +141,6 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 
 int main(int argc, char *argv[]) {
 	R2Bot::DEVICE_NAME = "NUC";
-
 	smap<string> args = parseArguments(argc, argv);
 	/** Initialization */
 #ifdef _WIN32

@@ -51,6 +51,8 @@ void ManualInputsHandler::execute(std::deque<Job>& jobs, SensorData& data, Contr
 				outputH->command = 'R';
 			}
 			outputs["HEAD"] = outputH;
+
+            printf("%d %d %c\n", l, r, outputH->command);
 	}
 	else if (std::chrono::duration_cast<std::chrono::milliseconds>(diff).count() > 500) {
 		// Stop motors if no data has been received in half a second
