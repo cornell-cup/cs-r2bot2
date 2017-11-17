@@ -29,8 +29,6 @@ void initializeWSA() {
 }
 #endif
 
-#include "Global.h"
-
 #include "Controller.h"
 #include "Job.h"
 #include "JobHandler.h"
@@ -46,12 +44,13 @@ void initializeWSA() {
 #include "JobHandler/SoundHandler.h"
 #include "JobHandler/HeadHandler.h"
 #include "JobHandler/HeadFlapHandler.h"
+#include "JobHandler/SafetyHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
 #include "Sensor/DrawerSensor.h"
 #include "Sensor/HeadSensor.h"
 #include "Sensor/RFIDSensor.h"
-#include "Sensor/LidarSensor.h"
+//#include "Sensor/LidarSensor.h"
 #include "Sensor/IMUSensor.h"
 #include "Data/MotorData.h"
 #include "Data/UltrasoundData.h"
@@ -66,50 +65,11 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 	else {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
-
-	if (args.find("ultrasound-front-serial-port") != args.end() && args.find("ultrasound-back-serial-port") != args.end()) {
-		sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-front-serial-port"].c_str(), 9600, args["ultrasound-back-serial-port"].c_str(), 9600);
+	if (args.find("ultrasound-com-port") != args.end() && args.find("ultrasound-com-port2") != args.end()) {
+		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600, args["ultrasound-com-port2"], B9600);
 	}
 	else {
-		//sensors["R2 ULTRASOUND"] = std::make_shared<UltrasoundSensor>("COM7", 9600, "COM8", 9600);
-		std::cout << "No ultrasound serial port(s) specified." << std::endl;
-	}
-
-	if (args.find("drawer-serial-port") != args.end()) {
-		sensors["R2 DRAWER"] = std::make_shared<DrawerSensor>(args["drawer-serial-port"].c_str(), 9600);
-	}
-	else {
-		std::cout << "No drawer serial port specified." << std::endl;
-	}
-
-	if (args.find("head-serial-port") != args.end()) {
-		sensors["R2 HEAD"] = std::make_shared<HeadSensor>(args["head-serial-port"].c_str(), 9600);
-	}
-	else {
-		sensors["R2 HEAD"] = std::make_shared<HeadSensor>("COM11", 9600);
-		std::cout << "No head serial port specified." << std::endl;
-	}
-
-	if (args.find("rfid-serial-port") != args.end()) {
-		sensors["R2 RFID"] = std::make_shared<RFIDSensor>(args["rfid-serial-port"].c_str(), 9600);
-	}
-	else {
-		//sensors["R2 RFID"] = std::make_shared<RFIDSensor>("COM4", 9600);
-		std::cout << "No RFID serial port specified." << std::endl;
-	}
-	if (args.find("lidar-serial-port") != args.end()) {
-		sensors["R2 LIDAR"] = std::make_shared<LidarSensor>(args["lidar-serial-port"].c_str(), 9600);
-	}
-	else {
-		std::cout << "No LIDAR serial port specified." << std::endl;
-	}
-
-	if (args.find("imu-serial-port") != args.end()) {
-		sensors["R2 IMU"] = std::make_shared<IMUSensor>(args["imu-serial-port"].c_str(), 9600);
-	}
-	else {
-		sensors["R2 IMU"] = std::make_shared<IMUSensor>("COM3", 9600);
-		std::cout << "No IMU serial port specified." << std::endl;
+		std::cout << "No ultrasound port specified." << std::endl;
 	}
 
 	return sensors;
@@ -148,7 +108,12 @@ deque<Job> initializeJobs(smap<string>& args) {
 /** Initialize background jobs */
 deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>>& sensors, smap<ptr<Controller>>& controllers) {
 	deque<ptr<JobHandler>> jobs;
-
+	if (args.find("disable-safety") != args.end()) {
+		printf("WARNING: DISABLING MOTOR SAFETY\n");
+	}
+	else {
+		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
+	}
 	// Data forwarding handler
 	smap<std::pair<string, size_t>> routes;
 	if (controllers.find("UDP PI") != controllers.end()) {
@@ -158,11 +123,13 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 		routes["PI"] = std::make_pair("UDP PI", 0);
 	}
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<ForwardHandler>(routes)));
-	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
+	//jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<R2Server>(18080)));
+	ptr<R2Server> server = std::make_shared<R2Server>(18080);
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
 	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
-	sensors["R2 SERVER"] = std::make_shared<R2Server>(18080);
+	jobs.push_back(std::static_pointer_cast<JobHandler>(server));
+	sensors["R2 SERVER"] = std::static_pointer_cast<Sensor>(server);
 	if (args.find("power-serial-port") != args.end()) {
 		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<PowerHandler>(args["power-serial-port"].c_str(), 9600)));
 	}
@@ -226,4 +193,5 @@ int main(int argc, char *argv[]) {
 		// Sleep
 		Sleep(20);
 	}
+	
 }

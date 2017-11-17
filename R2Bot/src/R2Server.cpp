@@ -154,11 +154,11 @@ R2Server::R2Server(int port):Sensor(),JobHandler() {
 		for (auto u : users) {
 			if (is_binary) {
 				u->send_binary("6");
-				std::cout << data << std::endl;
+				//std::cout << data << std::endl;
 			}
 			else {
 				if (ultrasoundInput.length() != 0) {
-					std::cout << ultrasoundInput << std::endl;
+					//std::cout << ultrasoundInput << std::endl;
 					u->send_binary(ultrasoundInput);
 					ultrasoundInput = "";
 				}
@@ -265,6 +265,8 @@ void R2Server::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& 
 			ultrasoundInput += string(",");
 			ultrasoundInput += inches;
 			ultrasoundInput += "|";
+			
+			//std::cout << ultrasoundInput<< std::endl;
 		}
 	}
 
@@ -273,7 +275,7 @@ void R2Server::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& 
 		for (int i = 8; i <= 14; i++) {
 			ultrasoundInput += "U" + std::to_string(i) + "SENSOR";
 			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance[i - 8]);
-			std::cout << inches << "\n";
+			//std::cout << inches << "\n";
 			ultrasoundInput += string(",");
 			ultrasoundInput += inches;
 			ultrasoundInput += "|";
