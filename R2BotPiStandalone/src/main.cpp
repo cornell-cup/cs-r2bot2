@@ -36,6 +36,14 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
     sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
   }
 
+  if(!(args["ultrasound-com-port"].empty())){
+    sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600, "", B9600);
+  }
+  else{
+    std::cout << "No ultrasound ports specified." << std::endl;
+  }
+
+
   return sensors;
 }
 
@@ -45,7 +53,7 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
   if (!(args["motor-com-port"].empty())) {
     controllers["MOTOR"] = std::make_shared<MotorController>(args["motor-com-port"], B9600);
   }
-  else {
+  else {  
     std::cout << "No motor ports specified." << std::endl;
   }
 
