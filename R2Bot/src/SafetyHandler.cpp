@@ -29,12 +29,13 @@ string SafetyHandler::_pad(int i, unsigned int l) {
 void SafetyHandler::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs) {
 	// Prevent motors from running if the ultrasound sensors report an object immediately ahead
 	auto motor = outputs.find("MOTOR");
-	auto ultrasound = data.find("ULTRASOUND");
+	auto ultrasound = data.find("ULTRASOUNDF");
+	auto ultrasound2 = data.find("ULTRASOUNDB");
 	if (motor != outputs.end()) {
 		auto motordata = std::static_pointer_cast<MotorData>(motor->second);
-		if (ultrasound == data.end()) {
+		if (ultrasound == data.end() && ultrasound2 == data.end()) {
 			// The motor is not allowed to move without ultrasound safety
-			printf("Motor is not allowed to move without the ultrasound sensor safety\n");
+			//printf("Motor is not allowed to move without the ultrasound sensor safety\n");
 			motordata->leftMotor = 0;
 			motordata->rightMotor = 0;
 		}
