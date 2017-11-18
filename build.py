@@ -34,7 +34,9 @@ STATIC_LIBS = [
 SHARED_LIBS = [
   "-lboost_system",
   "-lboost_date_time",
+  "-lgamepad",
   "-lsqlite3",
+  "-ludev",
 ]
 
 BINARY_NAME = "{}." + ("exe" if IS_WINDOWS or IS_MSYS else "x")
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     os.mkdir(BIN_FOLDER)
 
   # Find all source files
-  sources =   glob.glob(path.join(SRC_FOLDER.format(CORE_NAME), "*.cpp")) + \
+  sources = glob.glob(path.join(SRC_FOLDER.format(CORE_NAME), "*.cpp")) + \
       glob.glob(path.join(SRC_FOLDER.format(PROJECT_NAME), "*.cpp"))
   includes =  ["-I", INC_FOLDER.format(CORE_NAME)] + \
       ["-I", INC_FOLDER.format(PROJECT_NAME)]
