@@ -70,6 +70,12 @@ deque<Job> initializeJobs(smap<string>& args) {
 /** Initialize background jobs */
 deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>> &sensors, smap<ptr<Controller>> &controllers) {
   deque<ptr<JobHandler>> jobs;
+  if (args.find("disable-safety") != args.end()) {
+		printf("WARNING: DISABLING MOTOR SAFETY\n");
+	}
+	else {
+		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
+	}
   //jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
   ptr<R2Server> server = std::make_shared<R2Server>(18080);
   sensors["R2 SERVER"] = std::static_pointer_cast<Sensor>(server);
