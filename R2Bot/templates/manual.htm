@@ -111,10 +111,14 @@
         sock.binaryType = "arraybuffer";
         sock.onopen = () => {
             console.log('open');
-
+            counter = 0
             setInterval(function () {
-                if (dataCoordX != 0 || dataCoordY != 0) {
+                if (dataCoordX != 0 || dataCoordY != 0 || counter < 5){
                     sock.send((dataCoordX / rad).toString() + " " + (dataCoordY / rad).toString());
+                    counter = 0;
+                }
+                else{
+                    counter += 1;
                 }
             }, 200);
         }
