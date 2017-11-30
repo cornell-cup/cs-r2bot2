@@ -113,7 +113,9 @@
             console.log('open');
 
             setInterval(function () {
-                sock.send((dataCoordX / rad).toString() + " " + (dataCoordY / rad).toString());
+                if (dataCoordX != 0 || dataCoordY != 0) {
+                    sock.send((dataCoordX / rad).toString() + " " + (dataCoordY / rad).toString());
+                }
             }, 200);
         }
         sock.onerror = (e) => {
