@@ -34,7 +34,7 @@ function drawMap(dist) {
         var split = n[i].split(',');
         //console.log(n[i]);
         if (parseFloat(split[1]) <= 20.0 && parseFloat(split[1]) > 4) {
-            dict[split[0]] = parseFloat(split[1]) / scale;
+            dict[split[0]] = parseFloat(split[1]) / (2*scale/100);
         }
     }
     //console.log(dict);
