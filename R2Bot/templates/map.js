@@ -10,10 +10,10 @@ function zeros(dimensions) {
     return array;
 }
 
-function setSliderText(){
+setInterval(function (){
     slider= document.getElementById("myRange").value;
     document.getElementById("sliderValue").value = slider;
-}
+},200)
 
 function getSliderValue(){
     slider= document.getElementById("myRange").value;
