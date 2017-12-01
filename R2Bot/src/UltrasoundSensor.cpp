@@ -26,7 +26,37 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 			return;
 		}
 		std::lock_guard<std::mutex> lock(dataMutex);
+
+		ptr<UltrasoundData> udata = std::make_shared<UltrasoundData>();
+		int index1 = -1;
+		int index2 = -1;
+		for (int x = bytesRead-1; x >= 0; x--) {
+			if (data[x] == '\n') {
+				index1 = x;
+				for (int y = x - 1; y >= 0; y--) {
+					if (data[y] == '\n') {
+						index2 = y;
+						break;
+					}
+				}
+				break;
+			}
+		}
+
+		float num = 0;
+		if (index1 != -1 && index2 != -1) {
+			for(int i = index2 + 1; i < index1; i++){
+				num = num * 10.f + (data[i] - '0');
+			}
+			std::vector<float> u;
+			num = num * (5.f / 1024.f) * (1.f / 0.0098f);
+			u.push_back(num);
+			udata->distance = u;
+			sensorData["ULTRASOUNDF"] = udata;	
+		}
+
 		// Decode the incoming data
+		/*
 		R2Protocol::Packet params;
 		std::vector<uint8_t> input(data, data + bytesRead);
 		int32_t read;
@@ -42,7 +72,7 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 				std::string token;
 				while ((pos = t.find(delimiter)) != std::string::npos) {
 					token = t.substr(0, pos);
-					//std::cout << token << "\t" << stof(token) << std::endl;
+					std::cout << stof(token) << std::endl;
 					u.push_back(stof(token));
 					t.erase(0, pos + delimiter.length());
 				}
@@ -58,6 +88,7 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 				}
 			}
 		}
+		*/
 	}
 	if (connB->isConnected()) {
 		char data[256];
