@@ -5,9 +5,19 @@ function zeros(dimensions) {
         array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
     }
 
-    array[15][15] = 1;
+    array[dimensions/2][dimensions/2] = 1;
 
     return array;
+}
+
+setInterval(function (){
+    slider= document.getElementById("myRange").value;
+    document.getElementById("sliderValue").value = slider;
+},200)
+
+function getSliderValue(){
+    slider= document.getElementById("myRange").value;
+    return slider;
 }
 
 var canvas1 = document.getElementById('main');
@@ -19,12 +29,12 @@ function drawMap(dist) {
     //splitting up array of sensor data and creating dictionary of sensor:sensorData
     var n = dist.split("|");
     //console.log(n);
-
+    scale = getSliderValue();
     for (var i = 0; i < n.length; i++) {
         var split = n[i].split(',');
         //console.log(n[i]);
         if (parseFloat(split[1]) <= 20.0 && parseFloat(split[1]) > 4) {
-            dict[split[0]] = parseFloat(split[1]) / 2;
+            dict[split[0]] = parseFloat(split[1]) / (2*scale/100);
         }
     }
     //console.log(dict);
