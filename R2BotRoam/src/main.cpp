@@ -27,6 +27,7 @@
 #include "JobHandler/SoundHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
+#include "JobHandler/RoamerHandler.h"
 
 using std::deque;
 using std::string;
@@ -79,9 +80,6 @@ smap<ptr<Controller>> initializeControllers(smap<string>& args) {
 	else {
 		std::cout << "No motor port specified." << std::endl;
 	}
-
-	controllers["SOUND"] = std::make_shared<SoundController>();
-
 	return controllers;
 }
 
@@ -92,7 +90,7 @@ deque<Job> initializeJobs(smap<string>& args) {
 #endif
 
 	deque<Job> jobs;
-	jobs.push_back(Job("manual-inputs"));
+	jobs.push_back(Job("roamer"));
 	return jobs;
 }
 
