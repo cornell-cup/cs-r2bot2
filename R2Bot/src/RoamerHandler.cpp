@@ -1,4 +1,7 @@
 #include "JobHandler/RoamerHandler.h"
+#include "Data/MotorData.h"
+#include <deque>
+#include <string>
 using std::string;
 
 bool RoamerHandler::registered = JobHandler::RegisterJobHandler("roamer", [](string command) {
