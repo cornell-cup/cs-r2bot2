@@ -196,6 +196,16 @@ R2Server::R2Server(int port):Sensor(),JobHandler() {
 		}
 	});
 
+	CROW_ROUTE(app, "/speech")
+		.methods("POST"_method)
+		([&](const crow::request& req){
+   		 auto body_json = crow::json::load(req.body);
+		 string incomming_speech = body_json.s();
+		 std::lock_guard<std::mutex> _(mtx);
+		 manualInput = "SP"+incomming_speech;\
+		 return 0;	
+	});
+
 	CROW_ROUTE(app, "/<string>") ([](const crow::request& req, crow::response& res, std::string str) {
 		size_t index = str.rfind('.');
 		string contentType = (index == str.size()) ? "application/octet-stream" : MimeTypeFromString(str.substr(index));
@@ -250,6 +260,9 @@ void R2Server::fillData(SensorData& sensorData) {
 		}
 		else if (manualInput.substr(0,1) == "S") {
 			sensorData["SOUND"] = std::make_shared<string>(manualInput.substr(1));
+		}
+		else if (manualInput.substr(0,2) == "SP") {
+			sensorData["SPEECH"] = std::make_shared<string>(manualInput.substr(2));
 		}
 	}
 
