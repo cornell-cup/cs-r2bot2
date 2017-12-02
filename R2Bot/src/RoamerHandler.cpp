@@ -5,12 +5,12 @@ bool RoamerHandler::registered = JobHandler::RegisterJobHandler("roamer", [](str
 	return (ptr<JobHandler>) std::make_shared<PathPlanningHandler>();
 });
 
-void PathPlanningHandler::execute(deque<Job>& jobs, SensorData & data, ControllerData & outputs)
+void PathPlanningHandler::execute(std::deque<Job>& jobs, SensorData & data, ControllerData & outputs)
 {
 	auto usInfo = data.find("ULTRASOUNDF");
 	if (usInfo != data.end()) {
 		ptr<UltrasoundData> usptr = std::static_pointer_cast<UltrasoundData>(usInfo->second);
-		vector<float> usData = usptr->distance;
+		std::vector<float> usData = usptr->distance;
 		for(int i = 0; i < usData.size(); i++){
 			if(usData.at(i) != 0.f){
 				ptr<MotorData> output = std::make_shared<MotorData>();
