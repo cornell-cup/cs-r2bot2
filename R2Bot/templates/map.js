@@ -5,7 +5,7 @@ function zeros(dimensions) {
         array.push(dimensions.length == 1 ? 0 : zeros(dimensions.slice(1)));
     }
 
-    array[dimensions/2][dimensions/2] = 1;
+    array[dimensions[0]/2][dimensions[1]/2] = 1;
 
     return array;
 }
