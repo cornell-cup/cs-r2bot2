@@ -43,7 +43,6 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
     std::cout << "No ultrasound ports specified." << std::endl;
   }
 
-
   return sensors;
 }
 
@@ -70,7 +69,7 @@ deque<Job> initializeJobs(smap<string>& args) {
 /** Initialize background jobs */
 deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sensor>> &sensors, smap<ptr<Controller>> &controllers) {
   deque<ptr<JobHandler>> jobs;
-  if (args.find("disable-safety") != args.end()) {
+  if (!(args.find("disable-safety").empty())) {
 		printf("WARNING: DISABLING MOTOR SAFETY\n");
 	}
 	else {

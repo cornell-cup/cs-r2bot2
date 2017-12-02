@@ -51,9 +51,9 @@ void UltrasoundSensor::fillData(SensorData& sensorData) {
 			std::vector<float> u;
 			num = num * (5.f / 1024.f) * (1.f / 0.0098f);
 			u.push_back(num);
-            for(int t = 0; t < 7; t++){
-                u.push_back(200.f);
-            }
+			for(int t = 0; t < 7; t++){
+				u.push_back(0.f);
+			}
 			udata->distance = u;
 			sensorData["ULTRASOUNDF"] = udata;	
 		}

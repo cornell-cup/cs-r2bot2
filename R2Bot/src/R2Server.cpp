@@ -274,7 +274,7 @@ void R2Server::execute(std::deque<Job>& jobs, SensorData& data, ControllerData& 
 	if (result != data.end()) {
 		for (int i = 8; i <= 14; i++) {
 			ultrasoundInput += "U" + std::to_string(i) + "SENSOR";
-			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance[i - 8]);
+			string inches = std::to_string(std::static_pointer_cast<UltrasoundData>(result->second)->distance[i - 1]);
 			//std::cout << inches << "\n";
 			ultrasoundInput += string(",");
 			ultrasoundInput += inches;
