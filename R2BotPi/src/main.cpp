@@ -27,6 +27,7 @@
 #include "JobHandler/SoundHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
+#include "JObHandler/RoamerHandler.h"
 
 using std::deque;
 using std::string;
@@ -92,7 +93,8 @@ deque<Job> initializeJobs(smap<string>& args) {
 #endif
 
 	deque<Job> jobs;
-	jobs.push_back(Job("manual-inputs"));
+	jobs.push_back(Job("roamer"));
+	//jobs.push_back(Job("manual-inputs"));
 	return jobs;
 }
 

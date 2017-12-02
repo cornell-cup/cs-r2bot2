@@ -127,6 +127,7 @@
                 var data = arrayBufferToString(e.data);
                 if (data[0] == "U") {
                     drawMap(data);
+		    console.log(data);
                 }
                 else if (data[0] == "I") {
                     idata = parseFloat(data.substr(1)) * -1;
