@@ -1,20 +1,21 @@
 #include "JobHandler/RoamerHandler.h"
-
+using std::string;
 
 bool RoamerHandler::registered = JobHandler::RegisterJobHandler("roamer", [](string command) {
-	return (ptr<JobHandler>) std::make_shared<PathPlanningHandler>();
+	return (ptr<JobHandler>) std::make_shared<RoamerHandler>();
 });
 
-void PathPlanningHandler::execute(std::deque<Job>& jobs, SensorData & data, ControllerData & outputs)
+void RoamerHandler::execute(std::deque<Job>& jobs, SensorData & data, ControllerData & outputs)
 {
 	auto usInfo = data.find("ULTRASOUNDF");
 	if (usInfo != data.end()) {
 		ptr<UltrasoundData> usptr = std::static_pointer_cast<UltrasoundData>(usInfo->second);
 		std::vector<float> usData = usptr->distance;
-		for(int i = 0; i < usData.size(); i++){
-			if(usData.at(i) != 0.f){
-				ptr<MotorData> output = std::make_shared<MotorData>();
-				if(usData.at(i) < 25.f){
+		for(int i = 0; i < 8; i++){
+            printf("Ultrasound: %f \n", usData[i]);
+			if(usData[i] != 0.f){
+                ptr<MotorData> output = std::make_shared<MotorData>();
+				if(usData[i] < 25.f){
 					output->leftMotor = 0;
 					output->rightMotor = 0;
 					outputs["MOTOR"] = output;

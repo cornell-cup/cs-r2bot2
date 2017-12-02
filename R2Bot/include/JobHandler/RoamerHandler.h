@@ -6,6 +6,9 @@
 #include "Data/MotorData.h"
 
 class RoamerHandler: public JobHandler{
+private:
+    static bool registered;
+
 public:
     virtual void execute(std::deque<Job>& jobs, SensorData& data, ControllerData& outputs);
 };

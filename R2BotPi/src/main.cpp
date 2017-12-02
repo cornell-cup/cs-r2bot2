@@ -27,7 +27,7 @@
 #include "JobHandler/SoundHandler.h"
 #include "Sensor/UDPServerSensor.h"
 #include "Sensor/UltrasoundSensor.h"
-#include "JObHandler/RoamerHandler.h"
+#include "JobHandler/RoamerHandler.h"
 
 using std::deque;
 using std::string;
@@ -47,7 +47,7 @@ smap<ptr<Sensor>> initializeSensors(smap<string>& args) {
 		sensors["UDP SERVER"] = std::make_shared<UDPServerSensor>("0.0.0.0", 9000);
 	}
 
-	if (args.find("ultrasound-com-port") != args.end() && args.find("ultrasound-com-port2") != args.end()) {
+	if (args.find("ultrasound-com-port") != args.end() || args.find("ultrasound-com-port2") != args.end()) {
 		sensors["ULTRASOUND"] = std::make_shared<UltrasoundSensor>(args["ultrasound-com-port"], B9600, args["ultrasound-com-port2"], B9600);
 	}
 	else {
