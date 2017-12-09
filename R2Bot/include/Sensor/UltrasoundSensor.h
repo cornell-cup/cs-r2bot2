@@ -14,6 +14,7 @@ protected:
 	ptr<SerialPort> connF;
 	ptr<SerialPort> connB;
 	std::mutex dataMutex;
+    std::string readData;
 public:
 	UltrasoundSensor(std::string port, int baudrate, std::string port2, int baudrate2);
 	~UltrasoundSensor();

@@ -105,16 +105,9 @@ deque<ptr<JobHandler>> initializeBackgroundJobs(smap<string>& args, smap<ptr<Sen
 		printf("WARNING: DISABLING MOTOR SAFETY\n");
 	}
 	else {
-		jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
+		//jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SafetyHandler>()));
 	}
 
-	smap<ptr<Controller>> routes;
-	if (controllers.find("UDP NUC") != controllers.end()) {
-		routes["PICAMERA"] = controllers["UDP NUC"];
-	}
-	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<SoundHandler>()));
-	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadHandler>()));
-	jobs.push_back(std::static_pointer_cast<JobHandler>(std::make_shared<HeadFlapHandler>()));
 	return jobs;
 }
 
