@@ -45,35 +45,37 @@ void RoamerHandler::execute(std::deque<Job>& jobs, SensorData &data, ControllerD
     output->rightMotor = 0;
     if (usInfo != data.end() && gmInfo != data.end()) {
 		ptr<UltrasoundData> usptr = std::static_pointer_cast<UltrasoundData>(usInfo->second);
-		std::vector<float> usData = usptr->distance;
-        for(int i = 0; i < 8; i++){
-			if(usData[i] != 0.f){
+        std::vector<float> usData = usptr->distance;
+        bool willCrash = false;
+        for(int i = 0; i < 4; i++){
 				if (usData[i] < 25.f){
-                    if (rb) {
-    					output->leftMotor = 100;
-    					output->rightMotor = -100;
-                    }
-                    else if (lb) {
-    					output->leftMotor = -100;
-    					output->rightMotor = 100;
-                    }
-                    else {
-                        output->leftMotor = 0;
-                        output->rightMotor = 0;
-                    }
-				}
-                else if (rb || lb) {
-					output->leftMotor = 200;
-					output->rightMotor = 200;
-				}
-                else {
-                    output->leftMotor = 0;
-                    output->rightMotor = 0;
+                    willCrash = true;
                 }
-                outputs["MOTOR"] = output;
-			} else {
-				break;
-			}
+        }
+        if(willCrash){
+            if (rb) {
+                output->leftMotor = 100;
+                output->rightMotor = -100;
+            }
+            else if (lb) {
+                output->leftMotor = -100;
+                output->rightMotor = 100;
+            }
+            else {
+                output->leftMotor = 0;
+                output->rightMotor = 0;
+            }
+        }
+        else if(rb || lb){
+            output->leftMotor = 200;
+            output->rightMotor = 200;
+        }
+        else{
+            output->leftMotor = 0;
+            output->rightMotor = 0;
+        }
+
+        outputs["MOTOR"] = output;
 		}
 	}
 }
